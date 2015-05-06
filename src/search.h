@@ -2,7 +2,7 @@
 #define SEARCH_H_
 
 #include <string>
-using std::string;
+using namespace std;
 
 bool naiveStringMatch(string &t, string &p);
 

@@ -1,6 +1,6 @@
 CC = g++
 PROG = legrep
-CFLAGS = -Wall
+CFLAGS = -Wall -std=c++11
 SRCS = *.cpp
 BIN_DIR = ../bin
 
