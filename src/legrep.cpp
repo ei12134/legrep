@@ -1,11 +1,39 @@
 #include "legrep.h"
 
+void results()
+{
+	if (matches > 0)
+		cout << "\n";
+	switch(matchMode){
+		case finiteAutomata:
+		cout << "[Finite automata string-matching algorithm";
+		break;
+
+		case naive:
+		cout << "[Naive string-matching algorithm";
+		break;
+
+		default:
+		break;
+	}
+	if (matches == 0)
+		cout << " didn't find any matches.]\n";
+	else
+		cout << " found " << matches << (matches == 1? " match.]" : " matches.]") << "\n";
+}
+
 void readFile(const char* filePath, string pattern)
 {
 	fstream file;
 	string line, text;
 	bool print;
 	
+	if (matchMode == finiteAutomata){
+		// Create transition table
+		table = computeTransition(pattern);
+		// table.print();
+	}
+
 	file.open(filePath);
 	if (file.is_open()) {
 		while (file.good()) {
@@ -23,14 +51,31 @@ void readFile(const char* filePath, string pattern)
 				transform(text.begin(), text.end(), text.begin(), ::tolower);
 			
 			// search call
-			print = naiveStringMatch(text, pattern);	
+			switch(matchMode){
+				case finiteAutomata:
+				print = finiteAutomatonMatch(table, text, pattern);
+				break;
+
+				case naive:
+				print = naiveMatch(text, pattern);
+				break;
+
+				default:
+				break;
+			}
 
 			// print the line
-			if (invert_match != print)
-			 	cout << line << "\n";
+			if (invert_match != print){
+				cout << line << "\n";
+			}
+
+			// independently increment matches
+			if (print)
+				matches++;
 		}
 	}
 	file.close();
+	results();
 }
 
 char* getCmdOption(char** begin, char** end, const string& option)
@@ -61,11 +106,13 @@ void usage(bool status)
 		cout << "Example: grep -i 'hello world' menu.h main.c\n\n";
 
 		cout << "Regexp selection and interpretation:\n";
+		cout << "  -n, --naive-match         naive matching algorithm\n";
+		cout << "  -m, --finite-automata     finite automata state machine algorithm (default)\n";
 		cout << "  -i, --ignore-case         ignore case distinctions\n\n";
 
 		cout << "Miscellaneous:\n";
 		cout << "  -v, --invert-match        select non-matching lines\n";
-		cout << "    --help                display this help text and exit\n\n";
+		cout << "  -h, --help                display this help text and exit\n\n";
 
 		cout << "Context control:\n";
 		cout << "  -B, --before-context=NUM  print NUM lines of leading context\n";
@@ -81,17 +128,28 @@ int main(int argc, char** argv)
 		invert_match = false;
 		string pattern = argv[argc-2];
 		char* filePath = argv[argc-1];
-		cout << "Searching for " << pattern << " in " << filePath << "...\n";
+		// cout << "Searching for " << pattern << " in " << filePath << "...\n\n";
 
 		// Search for options
-		if(cmdOptionExists(argv, argv+argc, "-i") || cmdOptionExists(argv, argv+argc, "--ignore-case"))
-		{
+		if(cmdOptionExists(argv, argv+argc, "-h") || cmdOptionExists(argv, argv+argc, "--help")) {
+			usage(true);
+			return 0;
+		}
+
+		if(cmdOptionExists(argv, argv+argc, "-n") || cmdOptionExists(argv, argv+argc, "--naive-match")) {
+			matchMode = naive;
+		}
+
+		if(cmdOptionExists(argv, argv+argc, "-m") || cmdOptionExists(argv, argv+argc, "--finite-automata")) {
+			matchMode = finiteAutomata;
+		}
+
+		if(cmdOptionExists(argv, argv+argc, "-i") || cmdOptionExists(argv, argv+argc, "--ignore-case")) {
 			ignore_case = true;
 			transform(pattern.begin(), pattern.end(), pattern.begin(), ::tolower);
 		}
 
-		if(cmdOptionExists(argv, argv+argc, "-v") || cmdOptionExists(argv, argv+argc, "--invert-match"))
-		{
+		if(cmdOptionExists(argv, argv+argc, "-v") || cmdOptionExists(argv, argv+argc, "--invert-match")) {
 			invert_match = true;
 		}
 
@@ -104,9 +162,12 @@ int main(int argc, char** argv)
 		
 		readFile(filePath,pattern);
 	}
-	else {
-		usage(false);
+	else if(cmdOptionExists(argv, argv+argc, "--help") || cmdOptionExists(argv, argv+argc, "--ignore-case")) {
+		usage(true);
+		return 0;
 	}
+	else
+		usage(false);
 
 	return 0;
 }
