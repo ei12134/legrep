@@ -1,0 +1,9 @@
+digraph "/home/user/Documents/Source/legrep/src" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_b72e6d1fca7af7d8d5749287545974ea {
+    graph [ bgcolor="#ddddee", pencolor="black", label="legrep" fontname="Helvetica", fontsize="10", URL="dir_b72e6d1fca7af7d8d5749287545974ea.html"]
+  dir_83a054b23e5a680a16125c2aef745914 [shape=box, label="src", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_83a054b23e5a680a16125c2aef745914.html"];
+  }
+}

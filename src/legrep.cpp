@@ -2,8 +2,6 @@
 
 void results()
 {
-	if (matches > 0)
-		cout << "\n";
 	switch(matchMode){
 		case finiteAutomata:
 		cout << "[Finite automata string-matching algorithm";
@@ -97,13 +95,13 @@ void usage(bool status)
 {
 	if (!status){
 		cout << "Usage: lerep [OPTION]... PATTERN [FILE]...\n";
-		cout << "Try \'legrep --help\' for more information.\n\n";
+		cout << "Try \'legrep --help\' for more information.\n";
 	}
 	else {
-		cout << "Usage: grep [OPTION]... PATTERN [FILE]...\n";
+		cout << "Usage: legrep [OPTION]... PATTERN [FILE]...\n";
 		cout << "Search for PATTERN in each FILE or standard input.\n";
 		cout << "PATTERN is, by default, a basic regular expression (BRE).\n";
-		cout << "Example: grep -i 'hello world' menu.h main.c\n\n";
+		cout << "Example: legrep -i 'hello world' menu.h main.c\n\n";
 
 		cout << "Regexp selection and interpretation:\n";
 		cout << "  -n, --naive-match         naive matching algorithm\n";
@@ -162,7 +160,7 @@ int main(int argc, char** argv)
 		
 		readFile(filePath,pattern);
 	}
-	else if(cmdOptionExists(argv, argv+argc, "--help") || cmdOptionExists(argv, argv+argc, "--ignore-case")) {
+	else if(cmdOptionExists(argv, argv+argc, "-h") || cmdOptionExists(argv, argv+argc, "--help")) {
 		usage(true);
 		return 0;
 	}
