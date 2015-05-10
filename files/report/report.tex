@@ -1,0 +1,95 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[latin1]{inputenc}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage[babel=true]{microtype}
+\usepackage[portuguese]{babel}
+\usepackage[pdftex]{hyperref}
+\usepackage{hyphenat}
+\usepackage{latexsym}
+
+\begin{document}
+
+\begin{titlepage}
+\title{Concepção e Análise de Algoritmos\\[4.7cm] \huge \textbf{LeGrep}\\[4.7cm]\normalsize  Turma 2 - Grupo C\\[0.5cm]}
+\author{José Peixoto \\Pedro Moura \and 200603103\\201306843 \and ei12134@fe.up.pt \\ up201306843@fe.up.pt\\[4.7cm]}
+\maketitle
+\thispagestyle{empty} % titlepage must not be numbered
+\end{titlepage}
+
+\newpage
+\tableofcontents
+\newpage
+
+\begin{abstract}
+No âmbito da unidade curricular de Concepção e Análise de Algoritmos, foi-nos proposto o desenvolvimento de uma aplicação que emulasse as funcionalidades do utilitário da linha de comandos \texttt{grep} (\textbf{g}lobally search a \textbf{r}egular \textbf{e}xpression and \textbf{p}rint), explorando o conhecimento acerca de algoritmos para pesquisa em strings.
+\end{abstract}
+
+\section{Formalização do problema}
+
+\subsection{Dados de entrada}
+
+\subsection{Limites e condições de aplicação}
+
+\subsection{Situações de contorno}
+
+\subsection{Resultados esperados}
+
+\section{Descrição da solução}
+
+\subsection{Algoritmos de pesquisa exacta em strings}
+
+Na pesquisa de uma correspondência exacta de um dado padrão $P$ num texto $T$, recorre-se a três algoritmos diferentes, escolhidos de forma opcional pelo utilizador:
+
+\subsubsection{Naive}
+Para um padrão de tamanho $m$ e texto de tamanho $n$, encontra todos os deslocamentos $s$ válidos, verificando desde o início do padrão a condição $P[1 .. m] = T[s + 1 .. m]$ para cada um dos $n - m + 1$ valores possíveis de $s$. Este procedimento implica, no pior dos casos, uma complexidade temporal de $\Theta((n-m+1)m)$. Torna-se bastante ineficiente para padrões com tamanho grande, uma vez que se faz uma verificação de equivalência do tamanho do padrão a cada novo deslocamento.
+
+\subsubsection{Baseado em autómato finito}
+Cada carácter do texto é verificado apenas uma vez. A análise ao texto é feita em tempo constante $|T|$, porque se recorre à modelação de um autómato finito com um conjunto de estados $Q$ de tamanho $|P|$. A função de transição $\delta$ possibilita a atribuição de novos estados $q$ a cada novo carácter $a$ lido do texto.
+
+\begin{equation}
+\delta(q,a) = \sigma(P_qa)
+\end{equation}
+
+ No ciclo principal verifica-se a cada novo carácter lido do texto se se atingiu o estado de aceitação e por conseguinte, uma correspondência exacta do padrão no texto.
+
+ A construção do autómato é uma primeira fase de processamento e envolve a determinação do alfabeto $\Sigma$ do padrão. Na determinação da função de transição recorre-se a uma função auxiliar para o sufixo $\sigma(x)$ que retorna, para um dado conjunto de caracteres do alfabeto, $\Sigma^*$ o maior comprimento (estado) que seja prefixo do padrão.
+
+\begin{equation}
+\sigma(x) = max\{k : P_k \sqsupset x\}
+\end{equation}
+
+\subsubsection{Knuth-Morris-Pratt}
+
+\section{Lista de casos de utilização}
+
+\begin{itemize}
+
+\item Multi-plataforma, testado em sistemas Linux e Windows.
+
+\end{itemize}
+
+\section{Relato das principais dificuldades encontradas no desenvolvimento do trabalho}
+
+\section{Indicação do esforço dedicado por cada elemento do grupo}
+
+\subsection{José Peixoto}
+\begin{itemize}
+\item Tratamento dos dados de entrada.
+\item Mostra dos comandos de ajuda.
+\item Concepção dos algoritmos ``naive'' e baseado em autómato finito.
+\item Autor do relatório.
+\end{itemize}
+
+\subsection{Pedro Moura}
+\begin{itemize}
+\item Concepção do algoritmo Knuth-Morris-Pratt.
+\end{itemize}
+
+{\let\thefootnote\relax\footnote{N.B. Este relatório não foi escrito ao abrigo do novo Acordo Ortográfico.}}
+
+\begin{thebibliography}{9}
+\bibitem{Thomas}Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, \emph{Introduction to algorithms Third Edition}, Cambridge, MA [etc.] : The MIT Press, cop. 2009.
+\end{thebibliography}
+
+\end{document}
