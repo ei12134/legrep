@@ -5,7 +5,7 @@
 #include "ide_listener.h"
 #include "cute_runner.h"
 
-void knuth_morris_pratt() {
+void kmp() {
 	std::string alpha = "The quick brown fox jumps over the lazy dog";
 	std::string p1 = "The";
 	std::string p2 = " The apsdghidamkbrowpago";
@@ -71,7 +71,7 @@ void knuth_morris_pratt() {
 	ASSERT_EQUAL(knuthMorrisPratt(nonAscii, p28), true);
 }
 
-void naive() {
+void n() {
 	std::string alpha = "The quick brown fox jumps over the lazy dog";
 	std::string p1 = "The";
 	std::string p2 = " The apsdghidamkbrowpago";
@@ -80,13 +80,13 @@ void naive() {
 	std::string p5 = "y dog";
 	std::string p6 = "z dog";
 	std::string p7 = "quick brown ";
-	ASSERT_EQUAL(naiveMatch(alpha, p1), true);
-	ASSERT_EQUAL(naiveMatch(alpha, p2), false);
-	ASSERT_EQUAL(naiveMatch(alpha, p3), true);
-	ASSERT_EQUAL(naiveMatch(alpha, p4), false);
-	ASSERT_EQUAL(naiveMatch(alpha, p5), true);
-	ASSERT_EQUAL(naiveMatch(alpha, p6), false);
-	ASSERT_EQUAL(naiveMatch(alpha, p7), true);
+	ASSERT_EQUAL(naive(alpha, p1), true);
+	ASSERT_EQUAL(naive(alpha, p2), false);
+	ASSERT_EQUAL(naive(alpha, p3), true);
+	ASSERT_EQUAL(naive(alpha, p4), false);
+	ASSERT_EQUAL(naive(alpha, p5), true);
+	ASSERT_EQUAL(naive(alpha, p6), false);
+	ASSERT_EQUAL(naive(alpha, p7), true);
 
 	std::string numbers = "01234567890 1337 3141592653589793";
 	std::string p8 = "01234567890";
@@ -96,13 +96,13 @@ void naive() {
 	std::string p12 = "3";
 	std::string p13 = "999";
 	std::string p14 = "793";
-	ASSERT_EQUAL(naiveMatch(numbers, p8), true);
-	ASSERT_EQUAL(naiveMatch(numbers, p9), false);
-	ASSERT_EQUAL(naiveMatch(numbers, p10), true);
-	ASSERT_EQUAL(naiveMatch(numbers, p11), false);
-	ASSERT_EQUAL(naiveMatch(numbers, p12), true);
-	ASSERT_EQUAL(naiveMatch(numbers, p13), false);
-	ASSERT_EQUAL(naiveMatch(numbers, p14), true);
+	ASSERT_EQUAL(naive(numbers, p8), true);
+	ASSERT_EQUAL(naive(numbers, p9), false);
+	ASSERT_EQUAL(naive(numbers, p10), true);
+	ASSERT_EQUAL(naive(numbers, p11), false);
+	ASSERT_EQUAL(naive(numbers, p12), true);
+	ASSERT_EQUAL(naive(numbers, p13), false);
+	ASSERT_EQUAL(naive(numbers, p14), true);
 
 	std::string symbols = "\? [] /()=!#&|$#!#  '-<>>|";
 	std::string p15 = "\? [] /()=!#&|$#!#  '-<>>|";
@@ -112,13 +112,13 @@ void naive() {
 	std::string p19 = "\? ";
 	std::string p20 = "\\";
 	std::string p21 = ")=!#&";
-	ASSERT_EQUAL(naiveMatch(symbols, p15), true);
-	ASSERT_EQUAL(naiveMatch(symbols, p16), false);
-	ASSERT_EQUAL(naiveMatch(symbols, p17), true);
-	ASSERT_EQUAL(naiveMatch(symbols, p18), false);
-	ASSERT_EQUAL(naiveMatch(symbols, p19), true);
-	ASSERT_EQUAL(naiveMatch(symbols, p20), false);
-	ASSERT_EQUAL(naiveMatch(symbols, p21), true);
+	ASSERT_EQUAL(naive(symbols, p15), true);
+	ASSERT_EQUAL(naive(symbols, p16), false);
+	ASSERT_EQUAL(naive(symbols, p17), true);
+	ASSERT_EQUAL(naive(symbols, p18), false);
+	ASSERT_EQUAL(naive(symbols, p19), true);
+	ASSERT_EQUAL(naive(symbols, p20), false);
+	ASSERT_EQUAL(naive(symbols, p21), true);
 
 	std::string nonAscii = "prcação água, não sôr3";
 	std::string p22 = "não";
@@ -128,16 +128,16 @@ void naive() {
 	std::string p26 = "prcação água, não sôr3";
 	std::string p27 = "prcação água, não sôt";
 	std::string p28 = " água, ";
-	ASSERT_EQUAL(naiveMatch(nonAscii, p22), true);
-	ASSERT_EQUAL(naiveMatch(nonAscii, p23), false);
-	ASSERT_EQUAL(naiveMatch(nonAscii, p24), true);
-	ASSERT_EQUAL(naiveMatch(nonAscii, p25), true);
-	ASSERT_EQUAL(naiveMatch(nonAscii, p26), true);
-	ASSERT_EQUAL(naiveMatch(nonAscii, p27), false);
-	ASSERT_EQUAL(naiveMatch(nonAscii, p28), true);
+	ASSERT_EQUAL(naive(nonAscii, p22), true);
+	ASSERT_EQUAL(naive(nonAscii, p23), false);
+	ASSERT_EQUAL(naive(nonAscii, p24), true);
+	ASSERT_EQUAL(naive(nonAscii, p25), true);
+	ASSERT_EQUAL(naive(nonAscii, p26), true);
+	ASSERT_EQUAL(naive(nonAscii, p27), false);
+	ASSERT_EQUAL(naive(nonAscii, p28), true);
 }
 
-void automata() {
+void a() {
 	std::string alpha = "The quick brown fox jumps over the lazy dog";
 	std::string p1 = "The";
 	std::string p2 = " The apsdghidamkbrowpago";
@@ -146,13 +146,13 @@ void automata() {
 	std::string p5 = "y dog";
 	std::string p6 = "z dog";
 	std::string p7 = "quick brown ";
-	ASSERT_EQUAL(finiteAutomatonMatch(computeTransition(p1), alpha, p1), true);
-	ASSERT_EQUAL(finiteAutomatonMatch(computeTransition(p2), alpha, p2), false);
-	ASSERT_EQUAL(finiteAutomatonMatch(computeTransition(p3), alpha, p3), true);
-	ASSERT_EQUAL(finiteAutomatonMatch(computeTransition(p4), alpha, p4), false);
-	ASSERT_EQUAL(finiteAutomatonMatch(computeTransition(p5), alpha, p5), true);
-	ASSERT_EQUAL(finiteAutomatonMatch(computeTransition(p6), alpha, p6), false);
-	ASSERT_EQUAL(finiteAutomatonMatch(computeTransition(p7), alpha, p7), true);
+	ASSERT_EQUAL(finiteAutomaton(computeTransition(p1), alpha, p1), true);
+	ASSERT_EQUAL(finiteAutomaton(computeTransition(p2), alpha, p2), false);
+	ASSERT_EQUAL(finiteAutomaton(computeTransition(p3), alpha, p3), true);
+	ASSERT_EQUAL(finiteAutomaton(computeTransition(p4), alpha, p4), false);
+	ASSERT_EQUAL(finiteAutomaton(computeTransition(p5), alpha, p5), true);
+	ASSERT_EQUAL(finiteAutomaton(computeTransition(p6), alpha, p6), false);
+	ASSERT_EQUAL(finiteAutomaton(computeTransition(p7), alpha, p7), true);
 
 	std::string numbers = "01234567890 1337 3141592653589793";
 	std::string p8 = "01234567890";
@@ -162,13 +162,13 @@ void automata() {
 	std::string p12 = "3";
 	std::string p13 = "999";
 	std::string p14 = "793";
-	ASSERT_EQUAL(finiteAutomatonMatch(computeTransition(p8), numbers, p8), true);
-	ASSERT_EQUAL(finiteAutomatonMatch(computeTransition(p9), numbers, p9), false);
-	ASSERT_EQUAL(finiteAutomatonMatch(computeTransition(p10), numbers, p10), true);
-	ASSERT_EQUAL(finiteAutomatonMatch(computeTransition(p11), numbers, p11), false);
-	ASSERT_EQUAL(finiteAutomatonMatch(computeTransition(p12), numbers, p12), true);
-	ASSERT_EQUAL(finiteAutomatonMatch(computeTransition(p13), numbers, p13), false);
-	ASSERT_EQUAL(finiteAutomatonMatch(computeTransition(p14), numbers, p14), true);
+	ASSERT_EQUAL(finiteAutomaton(computeTransition(p8), numbers, p8), true);
+	ASSERT_EQUAL(finiteAutomaton(computeTransition(p9), numbers, p9), false);
+	ASSERT_EQUAL(finiteAutomaton(computeTransition(p10), numbers, p10), true);
+	ASSERT_EQUAL(finiteAutomaton(computeTransition(p11), numbers, p11), false);
+	ASSERT_EQUAL(finiteAutomaton(computeTransition(p12), numbers, p12), true);
+	ASSERT_EQUAL(finiteAutomaton(computeTransition(p13), numbers, p13), false);
+	ASSERT_EQUAL(finiteAutomaton(computeTransition(p14), numbers, p14), true);
 
 	std::string symbols = "\? [] /()=!#&|$#!#  '-<>>|";
 	std::string p15 = "\? [] /()=!#&|$#!#  '-<>>|";
@@ -178,13 +178,13 @@ void automata() {
 	std::string p19 = "\? ";
 	std::string p20 = "\\";
 	std::string p21 = ")=!#&";
-	ASSERT_EQUAL(finiteAutomatonMatch(computeTransition(p15), symbols, p15), true);
-	ASSERT_EQUAL(finiteAutomatonMatch(computeTransition(p16), symbols, p16), false);
-	ASSERT_EQUAL(finiteAutomatonMatch(computeTransition(p17), symbols, p17), true);
-	ASSERT_EQUAL(finiteAutomatonMatch(computeTransition(p18), symbols, p18), false);
-	ASSERT_EQUAL(finiteAutomatonMatch(computeTransition(p19), symbols, p19), true);
-	ASSERT_EQUAL(finiteAutomatonMatch(computeTransition(p20), symbols, p20), false);
-	ASSERT_EQUAL(finiteAutomatonMatch(computeTransition(p21), symbols, p21), true);
+	ASSERT_EQUAL(finiteAutomaton(computeTransition(p15), symbols, p15), true);
+	ASSERT_EQUAL(finiteAutomaton(computeTransition(p16), symbols, p16), false);
+	ASSERT_EQUAL(finiteAutomaton(computeTransition(p17), symbols, p17), true);
+	ASSERT_EQUAL(finiteAutomaton(computeTransition(p18), symbols, p18), false);
+	ASSERT_EQUAL(finiteAutomaton(computeTransition(p19), symbols, p19), true);
+	ASSERT_EQUAL(finiteAutomaton(computeTransition(p20), symbols, p20), false);
+	ASSERT_EQUAL(finiteAutomaton(computeTransition(p21), symbols, p21), true);
 
 	std::string nonAscii = "prcação água, não sôr3";
 	std::string p22 = "não";
@@ -194,21 +194,21 @@ void automata() {
 	std::string p26 = "prcação água, não sôr3";
 	std::string p27 = "prcação água, não sôt";
 	std::string p28 = " água, ";
-	ASSERT_EQUAL(finiteAutomatonMatch(computeTransition(p22), nonAscii, p22), true);
-	ASSERT_EQUAL(finiteAutomatonMatch(computeTransition(p23), nonAscii, p23), false);
-	ASSERT_EQUAL(finiteAutomatonMatch(computeTransition(p24), nonAscii, p24), true);
-	ASSERT_EQUAL(finiteAutomatonMatch(computeTransition(p25), nonAscii, p25), true);
-	ASSERT_EQUAL(finiteAutomatonMatch(computeTransition(p26), nonAscii, p26), true);
-	ASSERT_EQUAL(finiteAutomatonMatch(computeTransition(p27), nonAscii, p27), false);
-	ASSERT_EQUAL(finiteAutomatonMatch(computeTransition(p28), nonAscii, p28), true);
+	ASSERT_EQUAL(finiteAutomaton(computeTransition(p22), nonAscii, p22), true);
+	ASSERT_EQUAL(finiteAutomaton(computeTransition(p23), nonAscii, p23), false);
+	ASSERT_EQUAL(finiteAutomaton(computeTransition(p24), nonAscii, p24), true);
+	ASSERT_EQUAL(finiteAutomaton(computeTransition(p25), nonAscii, p25), true);
+	ASSERT_EQUAL(finiteAutomaton(computeTransition(p26), nonAscii, p26), true);
+	ASSERT_EQUAL(finiteAutomaton(computeTransition(p27), nonAscii, p27), false);
+	ASSERT_EQUAL(finiteAutomaton(computeTransition(p28), nonAscii, p28), true);
 }
 
 void runSuite() {
 	cute::suite s;
 	//TODO add your test here
-	s.push_back(CUTE(knuth_morris_pratt));
-	s.push_back(CUTE(naive));
-	s.push_back(CUTE(automata));
+	s.push_back(CUTE(kmp));
+	s.push_back(CUTE(n));
+	s.push_back(CUTE(a));
 	cute::ide_listener lis;
 	cute::makeRunner(lis)(s, "leGrep");
 }

@@ -1,14 +1,18 @@
 #include "legrep.h"
 
-void results()
+void result()
 {
 	switch(matchMode){
-		case finiteAutomata:
+		case FINITE_AUTOMATA:
 		cout << "[Finite automata string-matching algorithm";
 		break;
 
-		case naive:
+		case NAIVE:
 		cout << "[Naive string-matching algorithm";
+		break;
+
+		case KNUTH_MORRIS_PRATT:
+		cout << "[Knuth Morris Pratt algorithm";
 		break;
 
 		default:
@@ -26,7 +30,7 @@ void readFile(const char* filePath, string pattern)
 	string line, text;
 	bool print;
 	
-	if (matchMode == finiteAutomata){
+	if (matchMode == FINITE_AUTOMATA){
 		// Create transition table
 		table = computeTransition(pattern);
 		// table.print();
@@ -40,22 +44,25 @@ void readFile(const char* filePath, string pattern)
 			text.clear();
 			getline(file, line);
 
-			// line = "hoje amanha";
 			print = false;
 			text = line;
 
 			// grep the line
-			if (ignore_case)
+			if (ignoreCase)
 				transform(text.begin(), text.end(), text.begin(), ::tolower);
 			
 			// search call
 			switch(matchMode){
-				case finiteAutomata:
-				print = finiteAutomatonMatch(table, text, pattern);
+				case FINITE_AUTOMATA:
+				print = finiteAutomaton(table, text, pattern);
 				break;
 
-				case naive:
-				print = naiveMatch(text, pattern);
+				case NAIVE:
+				print = naive(text, pattern);
+				break;
+
+				case KNUTH_MORRIS_PRATT:
+				print = knuthMorrisPratt(text, pattern);
 				break;
 
 				default:
@@ -63,7 +70,7 @@ void readFile(const char* filePath, string pattern)
 			}
 
 			// print the line
-			if (invert_match != print){
+			if (invertMatch != print){
 				cout << line << "\n";
 			}
 
@@ -73,7 +80,7 @@ void readFile(const char* filePath, string pattern)
 		}
 	}
 	file.close();
-	results();
+	result();
 }
 
 char* getCmdOption(char** begin, char** end, const string& option)
@@ -106,6 +113,7 @@ void usage(bool status)
 		cout << "Regexp selection and interpretation:\n";
 		cout << "  -n, --naive-match         naive matching algorithm\n";
 		cout << "  -m, --finite-automata     finite automata state machine algorithm (default)\n";
+		cout << "  -k, --knuth-morris-pratt  Knuth Morris Pratt algorithm\n";
 		cout << "  -i, --ignore-case         ignore case distinctions\n\n";
 
 		cout << "Miscellaneous:\n";
@@ -122,11 +130,10 @@ void usage(bool status)
 int main(int argc, char** argv)
 {
 	if (argc >= 3) {
-		ignore_case = false;
-		invert_match = false;
+		ignoreCase = false;
+		invertMatch = false;
 		string pattern = argv[argc-2];
 		char* filePath = argv[argc-1];
-		// cout << "Searching for " << pattern << " in " << filePath << "...\n\n";
 
 		// Search for options
 		if(cmdOptionExists(argv, argv+argc, "-h") || cmdOptionExists(argv, argv+argc, "--help")) {
@@ -135,20 +142,24 @@ int main(int argc, char** argv)
 		}
 
 		if(cmdOptionExists(argv, argv+argc, "-n") || cmdOptionExists(argv, argv+argc, "--naive-match")) {
-			matchMode = naive;
+			matchMode = NAIVE;
 		}
 
-		if(cmdOptionExists(argv, argv+argc, "-m") || cmdOptionExists(argv, argv+argc, "--finite-automata")) {
-			matchMode = finiteAutomata;
+		else if(cmdOptionExists(argv, argv+argc, "-m") || cmdOptionExists(argv, argv+argc, "--finite-automata")) {
+			matchMode = FINITE_AUTOMATA;
+		}
+
+		else if(cmdOptionExists(argv, argv+argc, "-k") || cmdOptionExists(argv, argv+argc, "--knuth-morris-pratt")) {
+			matchMode = KNUTH_MORRIS_PRATT;
 		}
 
 		if(cmdOptionExists(argv, argv+argc, "-i") || cmdOptionExists(argv, argv+argc, "--ignore-case")) {
-			ignore_case = true;
+			ignoreCase = true;
 			transform(pattern.begin(), pattern.end(), pattern.begin(), ::tolower);
 		}
 
 		if(cmdOptionExists(argv, argv+argc, "-v") || cmdOptionExists(argv, argv+argc, "--invert-match")) {
-			invert_match = true;
+			invertMatch = true;
 		}
 
 		// char * beforePtr = getCmdOption(argv, argv + argc, "-B");

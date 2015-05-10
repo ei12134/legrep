@@ -12,13 +12,16 @@ using namespace std;
 
 /** @file */
 
+/// transition table
+static Table table;
+
 /**
  * Finds if a pattern is present on a given text using the naive string-match algorithm
  * @param text input where to find the pattern
  * @param pattern string to match in the text
  * @return true if finds a match or false otherwise
  */
-bool naiveMatch(string& text, string& pattern);
+bool naive(string& text, string& pattern);
 
 /**
  * Finds if a pattern is present on a given text using the Knuth-Morris-Pratt string-match algorithm
@@ -50,7 +53,7 @@ Table computeTransition(string& pattern);
  * @param pattern string to match in the text
  * @return true if finds a match or false otherwise
  */
-bool finiteAutomatonMatch(Table table, string& text, string& pattern);
+bool finiteAutomaton(Table table, string& text, string& pattern);
 
 
 

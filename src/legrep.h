@@ -11,19 +11,18 @@
 #include "table.h"
 using namespace std;
 
-static const int finiteAutomata = 0;
-static const int naive = 1;
 
-static int matchMode = finiteAutomata;
+enum Modes { FINITE_AUTOMATA, NAIVE, KNUTH_MORRIS_PRATT };
+
+static int matchMode = FINITE_AUTOMATA;
 static int matches = 0;
 
-static bool ignore_case;
-static bool invert_match;
-// static int before_context;
-// static int after_context;
+static bool ignoreCase;
+static bool invertMatch;
+// static int beforeContext;
+// static int afterContext;
 
-static Table table;
-
+void result();
 char* getCmdOption(char** begin, char** end, const string& option);
 bool cmdOptionExists(char** begin, char** end, const string& option);
 void readFile(const char* filePath);

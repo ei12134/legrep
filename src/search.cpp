@@ -1,7 +1,7 @@
 #include "table.h"
 #include "search.h"
 
-bool naiveMatch(string& text, string& pattern) {
+bool naive(string& text, string& pattern) {
 	int ts = text.size(); // |T|
 	int ps = pattern.size(); // |P|
 
@@ -59,7 +59,7 @@ bool knuthMorrisPratt(string& text, string& pattern) {
 		//matches.push_back(0);
 		//return matches;
 	}
-	for (int i = 1; i <= pattern.size(); i++) {
+	for (int i = 1; i <= (int)pattern.size(); i++) {
 		int pos = PI[i - 1];
 		while (pos != -1 && pattern[pos] != pattern[i - 1])
 			pos = PI[pos];
@@ -68,12 +68,12 @@ bool knuthMorrisPratt(string& text, string& pattern) {
 
 	int sp = 0;
 	int kp = 0;
-	while (sp < text.size()) {
-		while (kp != -1 && (kp == pattern.size() || pattern[kp] != text[sp]))
+	while (sp < (int)text.size()) {
+		while (kp != -1 && (kp == (int)pattern.size() || pattern[kp] != text[sp]))
 			kp = PI[kp];
 		kp++;
 		sp++;
-		if (kp == pattern.size())
+		if (kp == (int)pattern.size())
 			return true;
 			//matches.push_back(sp - pattern.size());
 	}
@@ -115,7 +115,7 @@ Table computeTransition(string& pattern) {
 	return t;
 }
 
-bool finiteAutomatonMatch(Table table, string& text, string& pattern) {
+bool finiteAutomaton(Table table, string& text, string& pattern) {
 	int ts = text.size();
 	int ps = pattern.size();
 	int state = 0;
