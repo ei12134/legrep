@@ -21,6 +21,15 @@ using namespace std;
 bool naiveMatch(string& text, string& pattern);
 
 /**
+ * Finds if a pattern is present on a given text using the Knuth-Morris-Pratt string-match algorithm
+ * @param text input where to find the pattern
+ * @param pattern string to match in the text
+ * @return true if finds a match or false otherwise
+ */
+bool knuthMorrisPratt(string& text, string& pattern);
+
+
+/**
  * Determines the alphabet from a given string
  * @param string from which to determine the alphabet
  * @return alphabet containing non-repeated characters from the input string
@@ -42,5 +51,7 @@ Table computeTransition(string& pattern);
  * @return true if finds a match or false otherwise
  */
 bool finiteAutomatonMatch(Table table, string& text, string& pattern);
+
+
 
 #endif // SEARCH_H_
