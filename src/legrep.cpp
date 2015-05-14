@@ -1,36 +1,34 @@
 #include "legrep.h"
 
-void result()
-{
-	switch(matchMode){
-		case FINITE_AUTOMATA:
+void result() {
+	switch (matchMode) {
+	case FINITE_AUTOMATA:
 		cout << "[Finite automata string-matching algorithm";
 		break;
 
-		case NAIVE:
+	case NAIVE:
 		cout << "[Naive string-matching algorithm";
 		break;
 
-		case KNUTH_MORRIS_PRATT:
+	case KNUTH_MORRIS_PRATT:
 		cout << "[Knuth Morris Pratt algorithm";
 		break;
 
-		default:
+	default:
 		break;
 	}
 	if (matches == 0)
 		cout << " didn't find any matches.]\n";
 	else
-		cout << " found " << matches << (matches == 1? " match.]" : " matches.]") << "\n";
+		cout << " found " << matches << (matches == 1 ? " match.]" : " matches.]") << "\n";
 }
 
-void readFile(const char* filePath, string pattern)
-{
+void readFile(const char* filePath, string pattern) {
 	fstream file;
 	string line, text;
 	bool print;
-	
-	if (matchMode == FINITE_AUTOMATA){
+
+	if (matchMode == FINITE_AUTOMATA) {
 		// Create transition table
 		table = computeTransition(pattern);
 		// table.print();
@@ -50,27 +48,27 @@ void readFile(const char* filePath, string pattern)
 			// grep the line
 			if (ignoreCase)
 				transform(text.begin(), text.end(), text.begin(), ::tolower);
-			
+
 			// search call
-			switch(matchMode){
-				case FINITE_AUTOMATA:
+			switch (matchMode) {
+			case FINITE_AUTOMATA:
 				print = finiteAutomaton(table, text, pattern);
 				break;
 
-				case NAIVE:
+			case NAIVE:
 				print = naive(text, pattern);
 				break;
 
-				case KNUTH_MORRIS_PRATT:
+			case KNUTH_MORRIS_PRATT:
 				print = knuthMorrisPratt(text, pattern);
 				break;
 
-				default:
+			default:
 				break;
 			}
 
 			// print the line
-			if (invertMatch != print){
+			if (invertMatch != print) {
 				cout << line << "\n";
 			}
 
@@ -83,28 +81,23 @@ void readFile(const char* filePath, string pattern)
 	result();
 }
 
-char* getCmdOption(char** begin, char** end, const string& option)
-{
+char* getCmdOption(char** begin, char** end, const string& option) {
 	char ** itr = find(begin, end, option);
-	if (itr != end && ++itr != end)
-	{
+	if (itr != end && ++itr != end) {
 		return *itr;
 	}
 	return nullptr;
 }
 
-bool cmdOptionExists(char** begin, char** end, const string& option)
-{
+bool cmdOptionExists(char** begin, char** end, const string& option) {
 	return find(begin, end, option) != end;
 }
 
-void usage(bool status)
-{
-	if (!status){
+void usage(bool status) {
+	if (!status) {
 		cout << "Usage: lerep [OPTION]... PATTERN [FILE]...\n";
 		cout << "Try \'legrep --help\' for more information.\n";
-	}
-	else {
+	} else {
 		cout << "Usage: legrep [OPTION]... PATTERN [FILE]...\n";
 		cout << "Search for PATTERN in each FILE or standard input.\n";
 		cout << "PATTERN is, by default, a basic regular expression (BRE).\n";
@@ -127,38 +120,37 @@ void usage(bool status)
 	}
 }
 
-int main(int argc, char** argv)
-{
+int main(int argc, char** argv) {
 	if (argc >= 3) {
 		ignoreCase = false;
 		invertMatch = false;
-		string pattern = argv[argc-2];
-		char* filePath = argv[argc-1];
+		string pattern = argv[argc - 2];
+		char* filePath = argv[argc - 1];
 
 		// Search for options
-		if(cmdOptionExists(argv, argv+argc, "-h") || cmdOptionExists(argv, argv+argc, "--help")) {
+		if (cmdOptionExists(argv, argv + argc, "-h") || cmdOptionExists(argv, argv + argc, "--help")) {
 			usage(true);
 			return 0;
 		}
 
-		if(cmdOptionExists(argv, argv+argc, "-n") || cmdOptionExists(argv, argv+argc, "--naive-match")) {
+		if (cmdOptionExists(argv, argv + argc, "-n") || cmdOptionExists(argv, argv + argc, "--naive-match")) {
 			matchMode = NAIVE;
 		}
 
-		else if(cmdOptionExists(argv, argv+argc, "-m") || cmdOptionExists(argv, argv+argc, "--finite-automata")) {
+		else if (cmdOptionExists(argv, argv + argc, "-m") || cmdOptionExists(argv, argv + argc, "--finite-automata")) {
 			matchMode = FINITE_AUTOMATA;
 		}
 
-		else if(cmdOptionExists(argv, argv+argc, "-k") || cmdOptionExists(argv, argv+argc, "--knuth-morris-pratt")) {
+		else if (cmdOptionExists(argv, argv + argc, "-k") || cmdOptionExists(argv, argv + argc, "--knuth-morris-pratt")) {
 			matchMode = KNUTH_MORRIS_PRATT;
 		}
 
-		if(cmdOptionExists(argv, argv+argc, "-i") || cmdOptionExists(argv, argv+argc, "--ignore-case")) {
+		if (cmdOptionExists(argv, argv + argc, "-i") || cmdOptionExists(argv, argv + argc, "--ignore-case")) {
 			ignoreCase = true;
 			transform(pattern.begin(), pattern.end(), pattern.begin(), ::tolower);
 		}
 
-		if(cmdOptionExists(argv, argv+argc, "-v") || cmdOptionExists(argv, argv+argc, "--invert-match")) {
+		if (cmdOptionExists(argv, argv + argc, "-v") || cmdOptionExists(argv, argv + argc, "--invert-match")) {
 			invertMatch = true;
 		}
 
@@ -168,14 +160,12 @@ int main(int argc, char** argv)
 		// 	// read before line count
 		// 	before_context = ...;
 		// }
-		
-		readFile(filePath,pattern);
-	}
-	else if(cmdOptionExists(argv, argv+argc, "-h") || cmdOptionExists(argv, argv+argc, "--help")) {
+
+		readFile(filePath, pattern);
+	} else if (cmdOptionExists(argv, argv + argc, "-h") || cmdOptionExists(argv, argv + argc, "--help")) {
 		usage(true);
 		return 0;
-	}
-	else
+	} else
 		usage(false);
 
 	return 0;

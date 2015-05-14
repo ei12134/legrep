@@ -14,72 +14,33 @@ bool naive(string& text, string& pattern) {
 }
 
 bool knuthMorrisPratt(string& text, string& pattern) {
-//	int n = text.size();
-//	int m = pattern.size();
-//
-//	// compute prefix function
-//	vector<unsigned int> PI(m + 1, 0);
-//	int k = 0;
-//	int q;
-//	for (q = 1; q < m; q++) {
-//		while (k > 0 && pattern.at(k + 1) != pattern.at(q))
-//			k = PI[k];
-//		if (pattern.at(k + 1) == pattern.at(q))
-//			k++;
-//		PI[q] = k;
-//	}
-//	// -----------------------
-//	int i = 1;
-//	q = 1;
-//	k = 1;
-//	while (n - k >= n) {
-//		while (q <= n && text.at(i) == pattern.at(q)) {
-//			i++;
-//			q++;
-//		}
-//		if (q > n)
-//			return true;
-//		if (PI[q - 1] > 0){
-//			k = i - PI[q - 1];
-//		} else {
-//			if (i == k)
-//				i++;
-//			k = i;
-//		}
-//		if (q > 1)
-//			q = PI[q - 1] + 1;
-//	}
-//	return false;
+	// em pseudo codigo index de array vao de 1 a size()
+	vector<int> pi = compute_prefix_function(pattern);
+	// index 0 vai ser -1 e 1 -> 0 ... pois no algoritmo de baixo fazemos + 1
 
-	vector<int> PI(pattern.size() + 1, -1);
-	//vector<int> matches;
-
-	if (pattern.size() == 0) {
-		return true;
-		//matches.push_back(0);
-		//return matches;
-	}
-	for (int i = 1; i <= (int)pattern.size(); i++) {
-		int pos = PI[i - 1];
-		while (pos != -1 && pattern[pos] != pattern[i - 1])
-			pos = PI[pos];
-		PI[i] = pos + 1;
-	}
-
-	int sp = 0;
-	int kp = 0;
-	while (sp < (int)text.size()) {
-		while (kp != -1 && (kp == (int)pattern.size() || pattern[kp] != text[sp]))
-			kp = PI[kp];
-		kp++;
-		sp++;
-		if (kp == (int)pattern.size())
+	int k = -1;
+	for (unsigned int q = 0; q < text.size(); q++) {
+		while (k > -1 && pattern[k + 1] != text[q])
+			k = pi[k];
+		if (text[q] == pattern[k + 1])
+			k++;
+		if (k == ((int)pattern.size() - 1))
 			return true;
-			//matches.push_back(sp - pattern.size());
 	}
-
 	return false;
-	//return matches;
+}
+
+vector<int> compute_prefix_function(string& pattern){
+	vector<int> pi(pattern.size(), -1);
+	int k = -1;
+	for (unsigned int q = 1; q < pattern.size(); q++) {
+		while (k > -1 && pattern[k + 1] != pattern[q])
+			k = pi[k];
+		if (pattern[k + 1] == pattern[q])
+			k++;
+		pi[q] = k;
+	}
+	return pi;
 }
 
 string getAlphabet(string& s) {

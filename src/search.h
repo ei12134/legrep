@@ -31,6 +31,12 @@ bool naive(string& text, string& pattern);
  */
 bool knuthMorrisPratt(string& text, string& pattern);
 
+/**
+ * gets prefix too the Knuth-Morris-Pratt string-match algorithm
+ * @param pattern string
+ * @return vector of index
+ */
+vector<int> compute_prefix_function(string& pattern);
 
 /**
  * Determines the alphabet from a given string
