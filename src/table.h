@@ -54,7 +54,7 @@ struct eqEntryF {
 };
 
 /**
- *  unordered_set equality hash function
+ *  unordered_set compute hash function
  */
 struct hEntryF {
 	/**

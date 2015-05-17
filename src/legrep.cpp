@@ -1,6 +1,56 @@
 #include "legrep.h"
 
-void result() {
+void setColor(const int fgColor, bool fgIntensity) {
+#if defined(_WIN32) || defined(_WIN64)
+	SetConsoleTextAttribute(hConsoleOutput, fgColor | (fgIntensity << 3));
+#else
+	cout << "\033[" << fgIntensity << ";" << 30 + fgColor << "m";
+#endif
+}
+
+void resetColor() {
+#if defined(_WIN32) || defined(_WIN64)
+	SetConsoleTextAttribute(hConsoleOutput, FOREGROUND_GREEN | FOREGROUND_INTENSITY | 0 | 0 | 0);
+#else
+	cout << "\033[0m";
+#endif
+}
+
+void result(string& filePath, string& pattern) {
+	fstream file;
+	string line;
+	int lineNumber = 1;
+	
+	file.open(filePath.c_str());
+
+	for (auto itr = lines.begin(); itr != lines.end() && !file.eof( ); itr++) {
+		int targetLine = (*itr).first;
+
+		for (int i = lineNumber; i <= targetLine && file.good(); i++, lineNumber++){
+			line.clear();
+			getline(file, line);	
+		}
+
+		if ((*itr).second == 0)
+			cout << line;
+		else if ((*itr).second == -1){
+			setColor(BLUE,true);
+			cout << "--";
+			resetColor();
+		}
+
+		else {
+			cout << line.substr(0,(*itr).second);
+			setColor(RED,true);
+			cout << line.substr((*itr).second, pattern.size());
+			resetColor();
+			cout << line.substr((*itr).second + pattern.size());
+		}
+		if (itr != lines.end())
+			cout << "\n";
+	}
+	file.close();
+
 	switch (matchMode) {
 	case FINITE_AUTOMATA:
 		cout << "[Finite automata string-matching algorithm";
@@ -23,10 +73,11 @@ void result() {
 		cout << " found " << matches << (matches == 1 ? " match.]" : " matches.]") << "\n";
 }
 
-void readFile(const char* filePath, string pattern) {
+void readFile(string& filePath, string& pattern) {
 	fstream file;
 	string line, text;
-	bool print;
+	int index;
+	int lineNumber = 1;
 	hashTable table;
 
 	if (matchMode == FINITE_AUTOMATA) {
@@ -34,7 +85,7 @@ void readFile(const char* filePath, string pattern) {
 		table = computeStateTransitionTable(pattern);
 	}
 
-	file.open(filePath);
+	file.open(filePath.c_str());
 	if (file.is_open()) {
 		while (file.good()) {
 			// read a line
@@ -42,7 +93,7 @@ void readFile(const char* filePath, string pattern) {
 			text.clear();
 			getline(file, line);
 
-			print = false;
+			index = 0;
 			text = line;
 
 			// grep the line
@@ -52,33 +103,52 @@ void readFile(const char* filePath, string pattern) {
 			// search call
 			switch (matchMode) {
 			case FINITE_AUTOMATA:
-				print = finiteAutomaton(table, text, pattern);
+				index = finiteAutomaton(table, text, pattern);
 				break;
 
 			case NAIVE:
-				print = naive(text, pattern);
+				index = naive(text, pattern);
 				break;
 
 			case KNUTH_MORRIS_PRATT:
-				print = knuthMorrisPratt(text, pattern);
+				index = knuthMorrisPratt(text, pattern);
 				break;
-
 			default:
 				break;
 			}
 
 			// print the line
-			if (invertMatch != print) {
-				cout << line << "\n";
+			if (index > 0 && !invertMatch) {
+				auto it = lines.find(pair<int,int>(lineNumber,0));
+				if (it != lines.end())
+					lines.erase(it);
+				lines.insert(pair<int,int>(lineNumber,index));
+
+				// add lines before context
+				int lbc = lineNumber - 1;
+
+				for (int i = 0; i < beforeContext && lbc > 1; i++, lbc--)
+					lines.insert(pair<int,int>(lbc,0));
+				
+				if (matches != 0 && (beforeContext != 0 || afterContext != 0) && lbc > 1)
+					lines.insert(pair<int,int>(lbc,-1));
+
+				// add lines after context
+				int lac = lineNumber + 1;
+				for (int i = 0; i < afterContext; i++, lac++)
+					lines.insert(pair<int,int>(lac,0));
 			}
+			else if (invertMatch && (index == -1))
+				lines.insert(pair<int,int>(lineNumber,0));
 
 			// independently increment matches
-			if (print)
+			if (index > 0)
 				matches++;
+			lineNumber++;
 		}
 	}
 	file.close();
-	result();
+	result(filePath, pattern);
 }
 
 char* getCmdOption(char** begin, char** end, const string& option) {
@@ -122,10 +192,14 @@ void usage(bool status) {
 
 int main(int argc, char** argv) {
 	if (argc >= 3) {
+		#if defined(_WIN32) || defined (_WIN64)
+			hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
+		#endif
+
 		ignoreCase = false;
 		invertMatch = false;
 		string pattern = argv[argc - 2];
-		char* filePath = argv[argc - 1];
+		string file = argv[argc - 1];
 
 		// Search for options
 		if (cmdOptionExists(argv, argv + argc, "-h") || cmdOptionExists(argv, argv + argc, "--help")) {
@@ -154,14 +228,21 @@ int main(int argc, char** argv) {
 			invertMatch = true;
 		}
 
-		// char * beforePtr = getCmdOption(argv, argv + argc, "-B");
-		// if (beforePtr != nullptr)
-		// {
-		// 	// read before line count
-		// 	before_context = ...;
-		// }
+		char * beforePtr = getCmdOption(argv, argv + argc, "-B");
+		if (beforePtr != nullptr)
+		{
+			// read before match lines count
+			beforeContext = atoi(beforePtr);
+		}
 
-		readFile(filePath, pattern);
+		char * afterPtr = getCmdOption(argv, argv + argc, "-A");
+		if (afterPtr != nullptr)
+		{
+			// read after match lines
+			afterContext = atoi(afterPtr);
+		}
+
+		readFile(file, pattern);
 	} else if (cmdOptionExists(argv, argv + argc, "-h") || cmdOptionExists(argv, argv + argc, "--help")) {
 		usage(true);
 		return 0;

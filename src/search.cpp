@@ -1,46 +1,16 @@
 #include "table.h"
 #include "search.h"
 
-bool naive(string& text, string& pattern) {
+int naive(string& text, string& pattern) {
 	int ts = text.size(); // |T|
 	int ps = pattern.size(); // |P|
 
 	// Temporal complexity O((|T|-|P|+1).|T|) or O(|T||P|)
 	for (int i = 0; i <= (ts - ps); i++) {
 		if (text.substr(i, ps) == pattern) // hidden for loop
-			return true;
+			return i;
 	}
-	return false;
-}
-
-bool knuthMorrisPratt(string& text, string& pattern) {
-	// em pseudo codigo index de array vao de 1 a size()
-	vector<int> pi = computePrefixFunction(pattern);
-	// index 0 vai ser -1 e 1 -> 0 ... pois no algoritmo de baixo fazemos + 1
-
-	int k = -1;
-	for (unsigned int q = 0; q < text.size(); q++) {
-		while (k > -1 && pattern[k + 1] != text[q])
-			k = pi[k];
-		if (text[q] == pattern[k + 1])
-			k++;
-		if (k == ((int)pattern.size() - 1))
-			return true;
-	}
-	return false;
-}
-
-vector<int> computePrefixFunction(string& pattern){
-	vector<int> pi(pattern.size(), -1);
-	int k = -1;
-	for (unsigned int q = 1; q < pattern.size(); q++) {
-		while (k > -1 && pattern[k + 1] != pattern[q])
-			k = pi[k];
-		if (pattern[k + 1] == pattern[q])
-			k++;
-		pi[q] = k;
-	}
-	return pi;
+	return -1;
 }
 
 string getAlphabet(string& s) {
@@ -76,7 +46,7 @@ hashTable computeStateTransitionTable(string& pattern) {
 	return table;
 }
 
-bool finiteAutomaton(hashTable table, string& text, string& pattern) {
+int finiteAutomaton(hashTable table, string& text, string& pattern) {
 	int ts = text.size();
 	int ps = pattern.size();
 	int state = 0;
@@ -89,8 +59,38 @@ bool finiteAutomaton(hashTable table, string& text, string& pattern) {
 		else
 			state = next->getNextState();
 		if (state == ps)
-			return true;
+			return i - ps + 1;
 	}
 
-	return false;
+	return -1;
+}
+
+vector<int> computePrefixFunction(string& pattern){
+	vector<int> pi(pattern.size(), -1);
+	int k = -1;
+	for (unsigned int q = 1; q < pattern.size(); q++) {
+		while (k > -1 && pattern[k + 1] != pattern[q])
+			k = pi[k];
+		if (pattern[k + 1] == pattern[q])
+			k++;
+		pi[q] = k;
+	}
+	return pi;
+}
+
+int knuthMorrisPratt(string& text, string& pattern) {
+	// em pseudo codigo index de array vao de 1 a size()
+	vector<int> pi = computePrefixFunction(pattern);
+	// index 0 vai ser -1 e 1 -> 0 ... pois no algoritmo de baixo fazemos + 1
+
+	int k = -1;
+	for (unsigned int q = 0; q < text.size(); q++) {
+		while (k > -1 && pattern[k + 1] != text[q])
+			k = pi[k];
+		if (text[q] == pattern[k + 1])
+			k++;
+		if (k == ((int)pattern.size() - 1))
+			return q - pattern.size() + 1;
+	}
+	return -1;
 }

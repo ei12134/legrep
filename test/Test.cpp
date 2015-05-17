@@ -14,13 +14,13 @@ void kmp() {
 	std::string p5 = "y dog";
 	std::string p6 = "z dog";
 	std::string p7 = "quick brown ";
-	ASSERT_EQUAL(knuthMorrisPratt(alpha, p1), true);
-	ASSERT_EQUAL(knuthMorrisPratt(alpha, p2), false);
-	ASSERT_EQUAL(knuthMorrisPratt(alpha, p3), true);
-	ASSERT_EQUAL(knuthMorrisPratt(alpha, p4), false);
-	ASSERT_EQUAL(knuthMorrisPratt(alpha, p5), true);
-	ASSERT_EQUAL(knuthMorrisPratt(alpha, p6), false);
-	ASSERT_EQUAL(knuthMorrisPratt(alpha, p7), true);
+	ASSERT_EQUAL(knuthMorrisPratt(alpha, p1), 0);
+	ASSERT_EQUAL(knuthMorrisPratt(alpha, p2), -1);
+	ASSERT_EQUAL(knuthMorrisPratt(alpha, p3), 15);
+	ASSERT_EQUAL(knuthMorrisPratt(alpha, p4), -1);
+	ASSERT_EQUAL(knuthMorrisPratt(alpha, p5), 38);
+	ASSERT_EQUAL(knuthMorrisPratt(alpha, p6), -1);
+	ASSERT_EQUAL(knuthMorrisPratt(alpha, p7), 4);
 
 	std::string numbers = "01234567890 1337 3141592653589793";
 	std::string p8 = "01234567890";
@@ -30,13 +30,13 @@ void kmp() {
 	std::string p12 = "3";
 	std::string p13 = "999";
 	std::string p14 = "793";
-	ASSERT_EQUAL(knuthMorrisPratt(numbers, p8), true);
-	ASSERT_EQUAL(knuthMorrisPratt(numbers, p9), false);
-	ASSERT_EQUAL(knuthMorrisPratt(numbers, p10), true);
-	ASSERT_EQUAL(knuthMorrisPratt(numbers, p11), false);
-	ASSERT_EQUAL(knuthMorrisPratt(numbers, p12), true);
-	ASSERT_EQUAL(knuthMorrisPratt(numbers, p13), false);
-	ASSERT_EQUAL(knuthMorrisPratt(numbers, p14), true);
+	ASSERT_EQUAL(knuthMorrisPratt(numbers, p8), 0);
+	ASSERT_EQUAL(knuthMorrisPratt(numbers, p9), -1);
+	ASSERT_EQUAL(knuthMorrisPratt(numbers, p10), 11);
+	ASSERT_EQUAL(knuthMorrisPratt(numbers, p11), -1);
+	ASSERT_EQUAL(knuthMorrisPratt(numbers, p12), 3);
+	ASSERT_EQUAL(knuthMorrisPratt(numbers, p13), -1);
+	ASSERT_EQUAL(knuthMorrisPratt(numbers, p14), 30);
 
 	std::string symbols = "\? [] /()=!#&|$#!#  '-<>>|";
 	std::string p15 = "\? [] /()=!#&|$#!#  '-<>>|";
@@ -46,13 +46,13 @@ void kmp() {
 	std::string p19 = "\? ";
 	std::string p20 = "\\";
 	std::string p21 = ")=!#&";
-	ASSERT_EQUAL(knuthMorrisPratt(symbols, p15), true);
-	ASSERT_EQUAL(knuthMorrisPratt(symbols, p16), false);
-	ASSERT_EQUAL(knuthMorrisPratt(symbols, p17), true);
-	ASSERT_EQUAL(knuthMorrisPratt(symbols, p18), false);
-	ASSERT_EQUAL(knuthMorrisPratt(symbols, p19), true);
-	ASSERT_EQUAL(knuthMorrisPratt(symbols, p20), false);
-	ASSERT_EQUAL(knuthMorrisPratt(symbols, p21), true);
+	ASSERT_EQUAL(knuthMorrisPratt(symbols, p15), 0);
+	ASSERT_EQUAL(knuthMorrisPratt(symbols, p16), -1);
+	ASSERT_EQUAL(knuthMorrisPratt(symbols, p17), 13);
+	ASSERT_EQUAL(knuthMorrisPratt(symbols, p18), -1);
+	ASSERT_EQUAL(knuthMorrisPratt(symbols, p19), 0);
+	ASSERT_EQUAL(knuthMorrisPratt(symbols, p20), -1);
+	ASSERT_EQUAL(knuthMorrisPratt(symbols, p21), 8);
 
 	std::string nonAscii = "prcação água, não sôr3";
 	std::string p22 = "não";
@@ -62,13 +62,13 @@ void kmp() {
 	std::string p26 = "prcação água, não sôr3";
 	std::string p27 = "prcação água, não sôt";
 	std::string p28 = " água, ";
-	ASSERT_EQUAL(knuthMorrisPratt(nonAscii, p22), true);
-	ASSERT_EQUAL(knuthMorrisPratt(nonAscii, p23), false);
-	ASSERT_EQUAL(knuthMorrisPratt(nonAscii, p24), true);
-	ASSERT_EQUAL(knuthMorrisPratt(nonAscii, p25), true);
-	ASSERT_EQUAL(knuthMorrisPratt(nonAscii, p26), true);
-	ASSERT_EQUAL(knuthMorrisPratt(nonAscii, p27), false);
-	ASSERT_EQUAL(knuthMorrisPratt(nonAscii, p28), true);
+	ASSERT_EQUAL(knuthMorrisPratt(nonAscii, p22), 14);
+	ASSERT_EQUAL(knuthMorrisPratt(nonAscii, p23), -1);
+	ASSERT_EQUAL(knuthMorrisPratt(nonAscii, p24), 18);
+	ASSERT_EQUAL(knuthMorrisPratt(nonAscii, p25), 0);
+	ASSERT_EQUAL(knuthMorrisPratt(nonAscii, p26), 0);
+	ASSERT_EQUAL(knuthMorrisPratt(nonAscii, p27), -1);
+	ASSERT_EQUAL(knuthMorrisPratt(nonAscii, p28), 8);
 }
 
 void n() {
@@ -80,13 +80,13 @@ void n() {
 	std::string p5 = "y dog";
 	std::string p6 = "z dog";
 	std::string p7 = "quick brown ";
-	ASSERT_EQUAL(naive(alpha, p1), true);
-	ASSERT_EQUAL(naive(alpha, p2), false);
-	ASSERT_EQUAL(naive(alpha, p3), true);
-	ASSERT_EQUAL(naive(alpha, p4), false);
-	ASSERT_EQUAL(naive(alpha, p5), true);
-	ASSERT_EQUAL(naive(alpha, p6), false);
-	ASSERT_EQUAL(naive(alpha, p7), true);
+	ASSERT_EQUAL(naive(alpha, p1), 0);
+	ASSERT_EQUAL(naive(alpha, p2), -1);
+	ASSERT_EQUAL(naive(alpha, p3), 15);
+	ASSERT_EQUAL(naive(alpha, p4), -1);
+	ASSERT_EQUAL(naive(alpha, p5), 38);
+	ASSERT_EQUAL(naive(alpha, p6), -1);
+	ASSERT_EQUAL(naive(alpha, p7), 4);
 
 	std::string numbers = "01234567890 1337 3141592653589793";
 	std::string p8 = "01234567890";
@@ -96,29 +96,29 @@ void n() {
 	std::string p12 = "3";
 	std::string p13 = "999";
 	std::string p14 = "793";
-	ASSERT_EQUAL(naive(numbers, p8), true);
-	ASSERT_EQUAL(naive(numbers, p9), false);
-	ASSERT_EQUAL(naive(numbers, p10), true);
-	ASSERT_EQUAL(naive(numbers, p11), false);
-	ASSERT_EQUAL(naive(numbers, p12), true);
-	ASSERT_EQUAL(naive(numbers, p13), false);
-	ASSERT_EQUAL(naive(numbers, p14), true);
+	ASSERT_EQUAL(naive(numbers, p8), 0);
+	ASSERT_EQUAL(naive(numbers, p9), -1);
+	ASSERT_EQUAL(naive(numbers, p10), 11);
+	ASSERT_EQUAL(naive(numbers, p11), -1);
+	ASSERT_EQUAL(naive(numbers, p12), 3);
+	ASSERT_EQUAL(naive(numbers, p13), -1);
+	ASSERT_EQUAL(naive(numbers, p14), 30);
 
-	std::string symbols = "\? [] /()=!#&|$#!#  '-<>>|";
-	std::string p15 = "\? [] /()=!#&|$#!#  '-<>>|";
-	std::string p16 = "\? [] /()=!#&|$#!#  '-<>>| ";
-	std::string p17 = "|";
-	std::string p18 = "||";
-	std::string p19 = "\? ";
-	std::string p20 = "\\";
-	std::string p21 = ")=!#&";
-	ASSERT_EQUAL(naive(symbols, p15), true);
-	ASSERT_EQUAL(naive(symbols, p16), false);
-	ASSERT_EQUAL(naive(symbols, p17), true);
-	ASSERT_EQUAL(naive(symbols, p18), false);
-	ASSERT_EQUAL(naive(symbols, p19), true);
-	ASSERT_EQUAL(naive(symbols, p20), false);
-	ASSERT_EQUAL(naive(symbols, p21), true);
+//	std::string symbols = "\? [] /()=!#&|$#!#  '-<>>|";
+//	std::string p15 = "\? [] /()=!#&|$#!#  '-<>>|";
+//	std::string p16 = "\? [] /()=!#&|$#!#  '-<>>| ";
+//	std::string p17 = "|";
+//	std::string p18 = "||";
+//	std::string p19 = "\? ";
+//	std::string p20 = "\\";
+//	std::string p21 = ")=!#&";
+//	ASSERT_EQUAL(naive(symbols, p15), 0);
+//	ASSERT_EQUAL(naive(symbols, p16), -1);
+//	ASSERT_EQUAL(naive(symbols, p17), 13);
+//	ASSERT_EQUAL(naive(symbols, p18), -1);
+//	ASSERT_EQUAL(naive(symbols, p19), 0);
+//	ASSERT_EQUAL(naive(symbols, p20), -1);
+//	ASSERT_EQUAL(naive(symbols, p21), 8);
 
 	std::string nonAscii = "prcação água, não sôr3";
 	std::string p22 = "não";
@@ -128,13 +128,13 @@ void n() {
 	std::string p26 = "prcação água, não sôr3";
 	std::string p27 = "prcação água, não sôt";
 	std::string p28 = " água, ";
-	ASSERT_EQUAL(naive(nonAscii, p22), true);
-	ASSERT_EQUAL(naive(nonAscii, p23), false);
-	ASSERT_EQUAL(naive(nonAscii, p24), true);
-	ASSERT_EQUAL(naive(nonAscii, p25), true);
-	ASSERT_EQUAL(naive(nonAscii, p26), true);
-	ASSERT_EQUAL(naive(nonAscii, p27), false);
-	ASSERT_EQUAL(naive(nonAscii, p28), true);
+	ASSERT_EQUAL(naive(nonAscii, p22), 14);
+	ASSERT_EQUAL(naive(nonAscii, p23), -1);
+	ASSERT_EQUAL(naive(nonAscii, p24), 18);
+	ASSERT_EQUAL(naive(nonAscii, p25), 0);
+	ASSERT_EQUAL(naive(nonAscii, p26), 0);
+	ASSERT_EQUAL(naive(nonAscii, p27), -1);
+	ASSERT_EQUAL(naive(nonAscii, p28), 8);
 }
 
 void a() {
@@ -146,13 +146,20 @@ void a() {
 	std::string p5 = "y dog";
 	std::string p6 = "z dog";
 	std::string p7 = "quick brown ";
-	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p1), alpha, p1), true);
-	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p2), alpha, p2), false);
-	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p3), alpha, p3), true);
-	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p4), alpha, p4), false);
-	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p5), alpha, p5), true);
-	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p6), alpha, p6), false);
-	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p7), alpha, p7), true);
+	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p1), alpha, p1),
+			true);
+	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p2), alpha, p2),
+			-1);
+	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p3), alpha, p3),
+			true);
+	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p4), alpha, p4),
+			-1);
+	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p5), alpha, p5),
+			true);
+	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p6), alpha, p6),
+			-1);
+	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p7), alpha, p7),
+			true);
 
 	std::string numbers = "01234567890 1337 3141592653589793";
 	std::string p8 = "01234567890";
@@ -162,13 +169,25 @@ void a() {
 	std::string p12 = "3";
 	std::string p13 = "999";
 	std::string p14 = "793";
-	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p8), numbers, p8), true);
-	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p9), numbers, p9), false);
-	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p10), numbers, p10), true);
-	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p11), numbers, p11), false);
-	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p12), numbers, p12), true);
-	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p13), numbers, p13), false);
-	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p14), numbers, p14), true);
+	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p8), numbers, p8),
+			true);
+	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p9), numbers, p9),
+			-1);
+	ASSERT_EQUAL(
+			finiteAutomaton(computeStateTransitionTable(p10), numbers, p10),
+			true);
+	ASSERT_EQUAL(
+			finiteAutomaton(computeStateTransitionTable(p11), numbers, p11),
+			-1);
+	ASSERT_EQUAL(
+			finiteAutomaton(computeStateTransitionTable(p12), numbers, p12),
+			true);
+	ASSERT_EQUAL(
+			finiteAutomaton(computeStateTransitionTable(p13), numbers, p13),
+			-1);
+	ASSERT_EQUAL(
+			finiteAutomaton(computeStateTransitionTable(p14), numbers, p14),
+			true);
 
 	std::string symbols = "\? [] /()=!#&|$#!#  '-<>>|";
 	std::string p15 = "\? [] /()=!#&|$#!#  '-<>>|";
@@ -178,13 +197,27 @@ void a() {
 	std::string p19 = "\? ";
 	std::string p20 = "\\";
 	std::string p21 = ")=!#&";
-	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p15), symbols, p15), true);
-	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p16), symbols, p16), false);
-	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p17), symbols, p17), true);
-	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p18), symbols, p18), false);
-	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p19), symbols, p19), true);
-	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p20), symbols, p20), false);
-	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p21), symbols, p21), true);
+	ASSERT_EQUAL(
+			finiteAutomaton(computeStateTransitionTable(p15), symbols, p15),
+			true);
+	ASSERT_EQUAL(
+			finiteAutomaton(computeStateTransitionTable(p16), symbols, p16),
+			-1);
+	ASSERT_EQUAL(
+			finiteAutomaton(computeStateTransitionTable(p17), symbols, p17),
+			true);
+	ASSERT_EQUAL(
+			finiteAutomaton(computeStateTransitionTable(p18), symbols, p18),
+			-1);
+	ASSERT_EQUAL(
+			finiteAutomaton(computeStateTransitionTable(p19), symbols, p19),
+			true);
+	ASSERT_EQUAL(
+			finiteAutomaton(computeStateTransitionTable(p20), symbols, p20),
+			-1);
+	ASSERT_EQUAL(
+			finiteAutomaton(computeStateTransitionTable(p21), symbols, p21),
+			true);
 
 	std::string nonAscii = "prcação água, não sôr3";
 	std::string p22 = "não";
@@ -194,13 +227,27 @@ void a() {
 	std::string p26 = "prcação água, não sôr3";
 	std::string p27 = "prcação água, não sôt";
 	std::string p28 = " água, ";
-	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p22), nonAscii, p22), true);
-	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p23), nonAscii, p23), false);
-	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p24), nonAscii, p24), true);
-	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p25), nonAscii, p25), true);
-	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p26), nonAscii, p26), true);
-	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p27), nonAscii, p27), false);
-	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p28), nonAscii, p28), true);
+	ASSERT_EQUAL(
+			finiteAutomaton(computeStateTransitionTable(p22), nonAscii, p22),
+			true);
+	ASSERT_EQUAL(
+			finiteAutomaton(computeStateTransitionTable(p23), nonAscii, p23),
+			-1);
+	ASSERT_EQUAL(
+			finiteAutomaton(computeStateTransitionTable(p24), nonAscii, p24),
+			true);
+	ASSERT_EQUAL(
+			finiteAutomaton(computeStateTransitionTable(p25), nonAscii, p25),
+			true);
+	ASSERT_EQUAL(
+			finiteAutomaton(computeStateTransitionTable(p26), nonAscii, p26),
+			true);
+	ASSERT_EQUAL(
+			finiteAutomaton(computeStateTransitionTable(p27), nonAscii, p27),
+			-1);
+	ASSERT_EQUAL(
+			finiteAutomaton(computeStateTransitionTable(p28), nonAscii, p28),
+			true);
 }
 
 void runSuite() {
