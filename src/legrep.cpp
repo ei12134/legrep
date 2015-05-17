@@ -11,13 +11,12 @@ void setColor(const int fgColor, bool fgIntensity) {
 void resetColor() {
 #if defined(_WIN32) || defined(_WIN64)
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Attributes);
-	//SetConsoleTextAttribute(hConsoleOutput, FOREGROUND_GREEN | FOREGROUND_INTENSITY | 0 | 0 | 0);
 #else
 	cout << "\033[0m";
 #endif
 }
 
-void result(string& filePath, string& pattern) {
+void result(string& filePath, string& pattern, float seconds) {
 	fstream file;
 	string line;
 	int lineNumber = 1;
@@ -71,7 +70,7 @@ void result(string& filePath, string& pattern) {
 	if (matches == 0)
 		cout << " didn't find any matches.]\n";
 	else
-		cout << " found " << matches << (matches == 1 ? " match.]" : " matches.]") << "\n";
+		cout << " found " << matches << (matches == 1 ? " match" : " matches") << " in " << seconds << " seconds]\n";
 }
 
 void readFile(string& filePath, string& pattern) {
@@ -80,6 +79,8 @@ void readFile(string& filePath, string& pattern) {
 	int index;
 	int lineNumber = 1;
 	hashTable table;
+	clock_t t;
+	t = clock();
 
 	if (matchMode == FINITE_AUTOMATA) {
 		// Create transition table
@@ -127,11 +128,10 @@ void readFile(string& filePath, string& pattern) {
 
 				// add lines before context
 				int lbc = lineNumber - 1;
-
 				for (int i = 0; i < beforeContext && lbc > 1; i++, lbc--)
 					lines.insert(pair<int,int>(lbc,0));
 				
-				if (matches != 0 && (beforeContext != 0 || afterContext != 0) && lbc > 1)
+				if (matches != 0 && (beforeContext != 0) && lbc > 1)
 					lines.insert(pair<int,int>(lbc,-1));
 
 				// add lines after context
@@ -148,8 +148,10 @@ void readFile(string& filePath, string& pattern) {
 			lineNumber++;
 		}
 	}
+	t = clock() - t;
+
 	file.close();
-	result(filePath, pattern);
+	result(filePath, pattern, (float)t/CLOCKS_PER_SEC);
 }
 
 char* getCmdOption(char** begin, char** end, const string& option) {
@@ -244,6 +246,13 @@ int main(int argc, char** argv) {
 		{
 			// read after match lines
 			afterContext = atoi(afterPtr);
+		}
+		char * contextPtr = getCmdOption(argv, argv + argc, "-C");
+		if (contextPtr != nullptr)
+		{
+			// read before and after match lines
+			beforeContext = atoi(contextPtr);
+			afterContext = beforeContext;
 		}
 
 		readFile(file, pattern);

@@ -8,6 +8,7 @@
 #include <sstream>
 #include <string>
 #include <set>
+#include <time.h>
 
 #include "search.h"
 #include "table.h"
@@ -40,7 +41,7 @@ WORD Attributes;
 
 enum Modes { FINITE_AUTOMATA, NAIVE, KNUTH_MORRIS_PRATT };
 
-static int matchMode = FINITE_AUTOMATA;
+static int matchMode = KNUTH_MORRIS_PRATT;
 static int matches = 0;
 
 static bool ignoreCase;
@@ -58,7 +59,7 @@ static set<pair<int,int>> lines;
 
 void setColor(const int fgColor, bool fgIntensity);
 void resetColor();
-void result(string& filePath, string& pattern);
+void result(string& filePath, string& pattern, float seconds);
 void readFile(string& filePath, string& pattern);
 char* getCmdOption(char** begin, char** end, const string& option);
 bool cmdOptionExists(char** begin, char** end, const string& option);
