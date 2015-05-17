@@ -10,7 +10,8 @@ void setColor(const int fgColor, bool fgIntensity) {
 
 void resetColor() {
 #if defined(_WIN32) || defined(_WIN64)
-	SetConsoleTextAttribute(hConsoleOutput, FOREGROUND_GREEN | FOREGROUND_INTENSITY | 0 | 0 | 0);
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Attributes);
+	//SetConsoleTextAttribute(hConsoleOutput, FOREGROUND_GREEN | FOREGROUND_INTENSITY | 0 | 0 | 0);
 #else
 	cout << "\033[0m";
 #endif
@@ -194,6 +195,9 @@ int main(int argc, char** argv) {
 	if (argc >= 3) {
 		#if defined(_WIN32) || defined (_WIN64)
 			hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
+			CONSOLE_SCREEN_BUFFER_INFO Info;
+			GetConsoleScreenBufferInfo(hConsoleOutput, &Info);
+			Attributes = Info.wAttributes;
 		#endif
 
 		ignoreCase = false;

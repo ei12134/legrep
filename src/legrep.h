@@ -25,6 +25,7 @@ using namespace std;
 #define MAGENTA BLUE | RED
 #define GRAY BLUE | GREEN | RED
 HANDLE hConsoleOutput;
+WORD Attributes;
 
 #else // Other OS's
 #define BLACK 0
