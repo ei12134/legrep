@@ -12,9 +12,6 @@ using namespace std;
 
 /** @file */
 
-/// transition table
-static Table table;
-
 /**
  * Finds if a pattern is present on a given text using the naive string-match algorithm
  * @param text input where to find the pattern
@@ -32,11 +29,11 @@ bool naive(string& text, string& pattern);
 bool knuthMorrisPratt(string& text, string& pattern);
 
 /**
- * gets prefix too the Knuth-Morris-Pratt string-match algorithm
+ * generates prefix function used in the Knuth-Morris-Pratt string-match algorithm
  * @param pattern string
- * @return vector of index
+ * @return vector of indexes
  */
-vector<int> compute_prefix_function(string& pattern);
+vector<int> computePrefixFunction(string& pattern);
 
 /**
  * Determines the alphabet from a given string
@@ -50,17 +47,15 @@ string getAlphabet(string& s);
  * @param pattern string input from which the transition table is created
  * @return Table type object containing all accepted transitions
  */
-Table computeTransition(string& pattern);
+hashTable computeStateTransitionTable(string& pattern);
 
 /**
  * Finds if a pattern is present on a given text using the finite automata string-match algorithm
  * @param table previously processed state machine table
  * @param text input where to find the pattern
  * @param pattern string to match in the text
- * @return true if finds a match or false otherwise
+ tabH* @return true if finds a match or false otherwise
  */
-bool finiteAutomaton(Table table, string& text, string& pattern);
-
-
+bool finiteAutomaton(hashTable table, string& text, string& pattern);
 
 #endif // SEARCH_H_

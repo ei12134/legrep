@@ -1,16 +1,13 @@
 #ifndef TABLE_H_
 #define TABLE_H_
 
-#include <iostream>
 #include <string>
 #include <vector>
-using namespace std;
-
-static const int stateZero = 0;
+#include <unordered_set>
 
 /**
  * Entry Class
- * stores a state machine table entry
+ * stores a state transition table entry
  */
 class Entry {
 private:
@@ -23,7 +20,7 @@ public:
 	Entry(int currentState, char character, int nextState);
 
 	/**
-	 * Gets the current machine state
+	 * Gets the current state
 	 * @return currentState
 	 */
 	int getCurrentState() const;
@@ -35,44 +32,44 @@ public:
 	char getCharacter() const;
 
 	/**
-	 * Gets the next valid state
+	 * Gets the next state
 	 * @return nextState
 	 */
 	int getNextState() const;
 };
 
 /**
- * Table Class
- * stores a machine possible state's table
+ *  unordered_set equality check function
  */
-class Table {
-private:
-	vector<Entry> table;
-public:
+struct eqEntryF {
 	/**
-	 * Adds a new entry to the table
-	 * @param e entry to add
+	 *  @param e1 as a state transition table entry
+	 *  @param e2 as a state transition table entry
+	 *  @return true if both are equal false otherwise
 	 */
-	void addEntry(Entry e);
-
-	/**
-	 * Gets the state after the transition
-	 * @param currentState is the actual state
-	 * @param character is the new character input
-	 * @return new state
-	 */
-	int transition(int currentState, char character) const;
-
-	/**
-	 * Gets the table
-	 * @return table containing all the entries
-	 */
-	vector<Entry> getTable() const;
-
-	/**
-	 * Prints the table
-	 */
-	void print() const;
+	bool operator()(const Entry &e1, const Entry &e2) const {
+		return (e1.getCurrentState() == e2.getCurrentState()
+				&& e1.getCharacter() == e2.getCharacter());
+	}
 };
+
+/**
+ *  unordered_set equality hash function
+ */
+struct hEntryF {
+	/**
+	 *  @param e is an entry input used to compute a unique hash
+	 *  @return unique hash table index
+	 */
+	int operator()(const Entry &e) const {
+		int ch = e.getCharacter();
+		int cs = e.getCurrentState();
+		//int ns = e.getNextState();
+		return ch * 37 * cs * 47;
+	}
+};
+
+/// state transition table
+typedef std::unordered_set<Entry, hEntryF, eqEntryF> hashTable;
 
 #endif // TABLE_H_

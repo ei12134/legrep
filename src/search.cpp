@@ -15,7 +15,7 @@ bool naive(string& text, string& pattern) {
 
 bool knuthMorrisPratt(string& text, string& pattern) {
 	// em pseudo codigo index de array vao de 1 a size()
-	vector<int> pi = compute_prefix_function(pattern);
+	vector<int> pi = computePrefixFunction(pattern);
 	// index 0 vai ser -1 e 1 -> 0 ... pois no algoritmo de baixo fazemos + 1
 
 	int k = -1;
@@ -30,7 +30,7 @@ bool knuthMorrisPratt(string& text, string& pattern) {
 	return false;
 }
 
-vector<int> compute_prefix_function(string& pattern){
+vector<int> computePrefixFunction(string& pattern){
 	vector<int> pi(pattern.size(), -1);
 	int k = -1;
 	for (unsigned int q = 1; q < pattern.size(); q++) {
@@ -52,11 +52,11 @@ string getAlphabet(string& s) {
 	return alphabet;
 }
 
-Table computeTransition(string& pattern) {
-	Table t;
+hashTable computeStateTransitionTable(string& pattern) {
 	string alphabet = getAlphabet(pattern);
 	int as = alphabet.size(); // |E|
 	int ps = pattern.size(); // |P|
+	hashTable table;
 
 	// Temporal complexity O(|P|.|P|.|P|.|E|)
 	for (int state = 0; state < ps; state++) {
@@ -70,20 +70,24 @@ Table computeTransition(string& pattern) {
 			}
 
 			Entry e = Entry(state, alphabet[i], k);
-			t.addEntry(e);
+			table.insert(e);
 		}
 	}
-	return t;
+	return table;
 }
 
-bool finiteAutomaton(Table table, string& text, string& pattern) {
+bool finiteAutomaton(hashTable table, string& text, string& pattern) {
 	int ts = text.size();
 	int ps = pattern.size();
 	int state = 0;
 
 	// Temporal complexity O(|T|)
 	for (int i = 0; i < ts; i++) {
-		state = table.transition(state, text[i]);
+		auto next = table.find(Entry(state,text[i],0));
+		if (next == table.end())
+			state = 0;
+		else
+			state = next->getNextState();
 		if (state == ps)
 			return true;
 	}

@@ -61,33 +61,30 @@
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;table.h&quot;</span></div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">using namespace </span><a class="code" href="namespacestd.html">std</a>;</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">static</span> <a class="code" href="classTable.html">Table</a> table;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keywordtype">bool</span> <a class="code" href="search_8h.html#a83773659bba51c47c8d10f40fe550ce8">naive</a>(<span class="keywordtype">string</span>&amp; text, <span class="keywordtype">string</span>&amp; pattern);</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keywordtype">bool</span> <a class="code" href="search_8h.html#ae07a81c9b72611b8a29d620362db0ecb">knuthMorrisPratt</a>(<span class="keywordtype">string</span>&amp; text, <span class="keywordtype">string</span>&amp; pattern);</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keywordtype">string</span> <a class="code" href="search_8h.html#ab6071be344ea00668d4f353095210f9f">getAlphabet</a>(<span class="keywordtype">string</span>&amp; s);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<a class="code" href="classTable.html">Table</a> <a class="code" href="search_8h.html#a9b8c0aa93033354f10d77d82b04765a8">computeTransition</a>(<span class="keywordtype">string</span>&amp; pattern);</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="keywordtype">bool</span> <a class="code" href="search_8h.html#aebcc7fbd389a202d0fd36bf8cdbbc458">finiteAutomaton</a>(<a class="code" href="classTable.html">Table</a> table, <span class="keywordtype">string</span>&amp; text, <span class="keywordtype">string</span>&amp; pattern);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="preprocessor">#endif // SEARCH_H_</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keywordtype">bool</span> <a class="code" href="search_8h.html#a83773659bba51c47c8d10f40fe550ce8">naive</a>(<span class="keywordtype">string</span>&amp; text, <span class="keywordtype">string</span>&amp; pattern);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keywordtype">bool</span> <a class="code" href="search_8h.html#ae07a81c9b72611b8a29d620362db0ecb">knuthMorrisPratt</a>(<span class="keywordtype">string</span>&amp; text, <span class="keywordtype">string</span>&amp; pattern);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;vector&lt;int&gt; <a class="code" href="search_8h.html#a08178361a5dcfc78c0becb233ae9f30c">computePrefixFunction</a>(<span class="keywordtype">string</span>&amp; pattern);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keywordtype">string</span> <a class="code" href="search_8h.html#ab6071be344ea00668d4f353095210f9f">getAlphabet</a>(<span class="keywordtype">string</span>&amp; s);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;hashTable <a class="code" href="search_8h.html#a6b0e12105f03f750b02e2bc30ccb07e2">computeStateTransitionTable</a>(<span class="keywordtype">string</span>&amp; pattern);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="keywordtype">bool</span> <a class="code" href="search_8h.html#a503670e7d5573601db0a32b813b014bb">finiteAutomaton</a>(hashTable table, <span class="keywordtype">string</span>&amp; text, <span class="keywordtype">string</span>&amp; pattern);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor">#endif // SEARCH_H_</span></div>
+<div class="ttc" id="search_8h_html_a08178361a5dcfc78c0becb233ae9f30c"><div class="ttname"><a href="search_8h.html#a08178361a5dcfc78c0becb233ae9f30c">computePrefixFunction</a></div><div class="ttdeci">vector&lt; int &gt; computePrefixFunction(string &amp;pattern)</div><div class="ttdef"><b>Definition:</b> search.cpp:33</div></div>
+<div class="ttc" id="search_8h_html_a503670e7d5573601db0a32b813b014bb"><div class="ttname"><a href="search_8h.html#a503670e7d5573601db0a32b813b014bb">finiteAutomaton</a></div><div class="ttdeci">bool finiteAutomaton(hashTable table, string &amp;text, string &amp;pattern)</div><div class="ttdef"><b>Definition:</b> search.cpp:79</div></div>
 <div class="ttc" id="namespacestd_html"><div class="ttname"><a href="namespacestd.html">std</a></div></div>
-<div class="ttc" id="search_8h_html_ab6071be344ea00668d4f353095210f9f"><div class="ttname"><a href="search_8h.html#ab6071be344ea00668d4f353095210f9f">getAlphabet</a></div><div class="ttdeci">string getAlphabet(string &amp;s)</div><div class="ttdef"><b>Definition:</b> search.cpp:85</div></div>
-<div class="ttc" id="search_8h_html_aebcc7fbd389a202d0fd36bf8cdbbc458"><div class="ttname"><a href="search_8h.html#aebcc7fbd389a202d0fd36bf8cdbbc458">finiteAutomaton</a></div><div class="ttdeci">bool finiteAutomaton(Table table, string &amp;text, string &amp;pattern)</div><div class="ttdef"><b>Definition:</b> search.cpp:118</div></div>
+<div class="ttc" id="search_8h_html_ab6071be344ea00668d4f353095210f9f"><div class="ttname"><a href="search_8h.html#ab6071be344ea00668d4f353095210f9f">getAlphabet</a></div><div class="ttdeci">string getAlphabet(string &amp;s)</div><div class="ttdef"><b>Definition:</b> search.cpp:46</div></div>
+<div class="ttc" id="search_8h_html_a6b0e12105f03f750b02e2bc30ccb07e2"><div class="ttname"><a href="search_8h.html#a6b0e12105f03f750b02e2bc30ccb07e2">computeStateTransitionTable</a></div><div class="ttdeci">hashTable computeStateTransitionTable(string &amp;pattern)</div><div class="ttdef"><b>Definition:</b> search.cpp:55</div></div>
 <div class="ttc" id="search_8h_html_ae07a81c9b72611b8a29d620362db0ecb"><div class="ttname"><a href="search_8h.html#ae07a81c9b72611b8a29d620362db0ecb">knuthMorrisPratt</a></div><div class="ttdeci">bool knuthMorrisPratt(string &amp;text, string &amp;pattern)</div><div class="ttdef"><b>Definition:</b> search.cpp:16</div></div>
 <div class="ttc" id="search_8h_html_a83773659bba51c47c8d10f40fe550ce8"><div class="ttname"><a href="search_8h.html#a83773659bba51c47c8d10f40fe550ce8">naive</a></div><div class="ttdeci">bool naive(string &amp;text, string &amp;pattern)</div><div class="ttdef"><b>Definition:</b> search.cpp:4</div></div>
-<div class="ttc" id="classTable_html"><div class="ttname"><a href="classTable.html">Table</a></div><div class="ttdef"><b>Definition:</b> table.h:48</div></div>
-<div class="ttc" id="search_8h_html_a9b8c0aa93033354f10d77d82b04765a8"><div class="ttname"><a href="search_8h.html#a9b8c0aa93033354f10d77d82b04765a8">computeTransition</a></div><div class="ttdeci">Table computeTransition(string &amp;pattern)</div><div class="ttdef"><b>Definition:</b> search.cpp:94</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun May 10 2015 18:53:29 for legrep by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun May 17 2015 17:42:42 for legrep by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.8
 </small></address>

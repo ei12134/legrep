@@ -80,20 +80,45 @@ Functions</h2></td></tr>
 <tr class="separator:a83773659bba51c47c8d10f40fe550ce8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae07a81c9b72611b8a29d620362db0ecb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="search_8h.html#ae07a81c9b72611b8a29d620362db0ecb">knuthMorrisPratt</a> (string &amp;text, string &amp;pattern)</td></tr>
 <tr class="separator:ae07a81c9b72611b8a29d620362db0ecb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08178361a5dcfc78c0becb233ae9f30c"><td class="memItemLeft" align="right" valign="top">vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="search_8h.html#a08178361a5dcfc78c0becb233ae9f30c">computePrefixFunction</a> (string &amp;pattern)</td></tr>
+<tr class="separator:a08178361a5dcfc78c0becb233ae9f30c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab6071be344ea00668d4f353095210f9f"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="search_8h.html#ab6071be344ea00668d4f353095210f9f">getAlphabet</a> (string &amp;s)</td></tr>
 <tr class="separator:ab6071be344ea00668d4f353095210f9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9b8c0aa93033354f10d77d82b04765a8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classTable.html">Table</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="search_8h.html#a9b8c0aa93033354f10d77d82b04765a8">computeTransition</a> (string &amp;pattern)</td></tr>
-<tr class="separator:a9b8c0aa93033354f10d77d82b04765a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aebcc7fbd389a202d0fd36bf8cdbbc458"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="search_8h.html#aebcc7fbd389a202d0fd36bf8cdbbc458">finiteAutomaton</a> (<a class="el" href="classTable.html">Table</a> table, string &amp;text, string &amp;pattern)</td></tr>
-<tr class="separator:aebcc7fbd389a202d0fd36bf8cdbbc458"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b0e12105f03f750b02e2bc30ccb07e2"><td class="memItemLeft" align="right" valign="top">hashTable&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="search_8h.html#a6b0e12105f03f750b02e2bc30ccb07e2">computeStateTransitionTable</a> (string &amp;pattern)</td></tr>
+<tr class="separator:a6b0e12105f03f750b02e2bc30ccb07e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a503670e7d5573601db0a32b813b014bb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="search_8h.html#a503670e7d5573601db0a32b813b014bb">finiteAutomaton</a> (hashTable table, string &amp;text, string &amp;pattern)</td></tr>
+<tr class="separator:a503670e7d5573601db0a32b813b014bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="a9b8c0aa93033354f10d77d82b04765a8"></a>
+<a class="anchor" id="a08178361a5dcfc78c0becb233ae9f30c"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classTable.html">Table</a> computeTransition </td>
+          <td class="memname">vector&lt;int&gt; computePrefixFunction </td>
+          <td>(</td>
+          <td class="paramtype">string &amp;&#160;</td>
+          <td class="paramname"><em>pattern</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>generates prefix function used in the Knuth-Morris-Pratt string-match algorithm </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pattern</td><td>string </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>vector of indexes </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a6b0e12105f03f750b02e2bc30ccb07e2"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">hashTable computeStateTransitionTable </td>
           <td>(</td>
           <td class="paramtype">string &amp;&#160;</td>
           <td class="paramname"><em>pattern</em></td><td>)</td>
@@ -107,18 +132,18 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classTable.html">Table</a> type object containing all accepted transitions </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Table type object containing all accepted transitions </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="aebcc7fbd389a202d0fd36bf8cdbbc458"></a>
+<a class="anchor" id="a503670e7d5573601db0a32b813b014bb"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">bool finiteAutomaton </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classTable.html">Table</a>&#160;</td>
+          <td class="paramtype">hashTable&#160;</td>
           <td class="paramname"><em>table</em>, </td>
         </tr>
         <tr>
@@ -144,7 +169,7 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">table</td><td>previously processed state machine table </td></tr>
     <tr><td class="paramname">text</td><td>input where to find the pattern </td></tr>
-    <tr><td class="paramname">pattern</td><td>string to match in the text </td></tr>
+    <tr><td class="paramname">pattern</td><td>string to match in the text tabH* </td></tr>
   </table>
   </dd>
 </dl>
@@ -246,7 +271,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun May 10 2015 18:53:29 for legrep by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun May 17 2015 17:42:42 for legrep by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.8
 </small></address>

@@ -146,13 +146,13 @@ void a() {
 	std::string p5 = "y dog";
 	std::string p6 = "z dog";
 	std::string p7 = "quick brown ";
-	ASSERT_EQUAL(finiteAutomaton(computeTransition(p1), alpha, p1), true);
-	ASSERT_EQUAL(finiteAutomaton(computeTransition(p2), alpha, p2), false);
-	ASSERT_EQUAL(finiteAutomaton(computeTransition(p3), alpha, p3), true);
-	ASSERT_EQUAL(finiteAutomaton(computeTransition(p4), alpha, p4), false);
-	ASSERT_EQUAL(finiteAutomaton(computeTransition(p5), alpha, p5), true);
-	ASSERT_EQUAL(finiteAutomaton(computeTransition(p6), alpha, p6), false);
-	ASSERT_EQUAL(finiteAutomaton(computeTransition(p7), alpha, p7), true);
+	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p1), alpha, p1), true);
+	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p2), alpha, p2), false);
+	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p3), alpha, p3), true);
+	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p4), alpha, p4), false);
+	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p5), alpha, p5), true);
+	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p6), alpha, p6), false);
+	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p7), alpha, p7), true);
 
 	std::string numbers = "01234567890 1337 3141592653589793";
 	std::string p8 = "01234567890";
@@ -162,13 +162,13 @@ void a() {
 	std::string p12 = "3";
 	std::string p13 = "999";
 	std::string p14 = "793";
-	ASSERT_EQUAL(finiteAutomaton(computeTransition(p8), numbers, p8), true);
-	ASSERT_EQUAL(finiteAutomaton(computeTransition(p9), numbers, p9), false);
-	ASSERT_EQUAL(finiteAutomaton(computeTransition(p10), numbers, p10), true);
-	ASSERT_EQUAL(finiteAutomaton(computeTransition(p11), numbers, p11), false);
-	ASSERT_EQUAL(finiteAutomaton(computeTransition(p12), numbers, p12), true);
-	ASSERT_EQUAL(finiteAutomaton(computeTransition(p13), numbers, p13), false);
-	ASSERT_EQUAL(finiteAutomaton(computeTransition(p14), numbers, p14), true);
+	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p8), numbers, p8), true);
+	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p9), numbers, p9), false);
+	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p10), numbers, p10), true);
+	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p11), numbers, p11), false);
+	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p12), numbers, p12), true);
+	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p13), numbers, p13), false);
+	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p14), numbers, p14), true);
 
 	std::string symbols = "\? [] /()=!#&|$#!#  '-<>>|";
 	std::string p15 = "\? [] /()=!#&|$#!#  '-<>>|";
@@ -178,13 +178,13 @@ void a() {
 	std::string p19 = "\? ";
 	std::string p20 = "\\";
 	std::string p21 = ")=!#&";
-	ASSERT_EQUAL(finiteAutomaton(computeTransition(p15), symbols, p15), true);
-	ASSERT_EQUAL(finiteAutomaton(computeTransition(p16), symbols, p16), false);
-	ASSERT_EQUAL(finiteAutomaton(computeTransition(p17), symbols, p17), true);
-	ASSERT_EQUAL(finiteAutomaton(computeTransition(p18), symbols, p18), false);
-	ASSERT_EQUAL(finiteAutomaton(computeTransition(p19), symbols, p19), true);
-	ASSERT_EQUAL(finiteAutomaton(computeTransition(p20), symbols, p20), false);
-	ASSERT_EQUAL(finiteAutomaton(computeTransition(p21), symbols, p21), true);
+	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p15), symbols, p15), true);
+	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p16), symbols, p16), false);
+	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p17), symbols, p17), true);
+	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p18), symbols, p18), false);
+	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p19), symbols, p19), true);
+	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p20), symbols, p20), false);
+	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p21), symbols, p21), true);
 
 	std::string nonAscii = "prcação água, não sôr3";
 	std::string p22 = "não";
@@ -194,13 +194,13 @@ void a() {
 	std::string p26 = "prcação água, não sôr3";
 	std::string p27 = "prcação água, não sôt";
 	std::string p28 = " água, ";
-	ASSERT_EQUAL(finiteAutomaton(computeTransition(p22), nonAscii, p22), true);
-	ASSERT_EQUAL(finiteAutomaton(computeTransition(p23), nonAscii, p23), false);
-	ASSERT_EQUAL(finiteAutomaton(computeTransition(p24), nonAscii, p24), true);
-	ASSERT_EQUAL(finiteAutomaton(computeTransition(p25), nonAscii, p25), true);
-	ASSERT_EQUAL(finiteAutomaton(computeTransition(p26), nonAscii, p26), true);
-	ASSERT_EQUAL(finiteAutomaton(computeTransition(p27), nonAscii, p27), false);
-	ASSERT_EQUAL(finiteAutomaton(computeTransition(p28), nonAscii, p28), true);
+	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p22), nonAscii, p22), true);
+	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p23), nonAscii, p23), false);
+	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p24), nonAscii, p24), true);
+	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p25), nonAscii, p25), true);
+	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p26), nonAscii, p26), true);
+	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p27), nonAscii, p27), false);
+	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p28), nonAscii, p28), true);
 }
 
 void runSuite() {

@@ -27,11 +27,11 @@ void readFile(const char* filePath, string pattern) {
 	fstream file;
 	string line, text;
 	bool print;
+	hashTable table;
 
 	if (matchMode == FINITE_AUTOMATA) {
 		// Create transition table
-		table = computeTransition(pattern);
-		// table.print();
+		table = computeStateTransitionTable(pattern);
 	}
 
 	file.open(filePath);
