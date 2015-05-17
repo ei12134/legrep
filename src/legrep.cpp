@@ -53,15 +53,15 @@ void result(string& filePath, string& pattern, float seconds) {
 
 	switch (matchMode) {
 	case FINITE_AUTOMATA:
-		cout << "[Finite automata string-matching algorithm";
+		cout << "[Finite automata algorithm";
 		break;
 
 	case NAIVE:
-		cout << "[Naive string-matching algorithm";
+		cout << "[Naive algorithm";
 		break;
 
 	case KNUTH_MORRIS_PRATT:
-		cout << "[Knuth Morris Pratt algorithm";
+		cout << "[Knuth-Morris-Pratt algorithm";
 		break;
 
 	default:
@@ -78,13 +78,15 @@ void readFile(string& filePath, string& pattern) {
 	string line, text;
 	int index;
 	int lineNumber = 1;
-	hashTable table;
+	vector<int> pi;
 	clock_t t;
 	t = clock();
 
 	if (matchMode == FINITE_AUTOMATA) {
-		// Create transition table
 		table = computeStateTransitionTable(pattern);
+	}
+	else if (matchMode == KNUTH_MORRIS_PRATT) {
+		pi = computePrefixFunction(pattern);
 	}
 
 	file.open(filePath.c_str());
@@ -105,7 +107,7 @@ void readFile(string& filePath, string& pattern) {
 			// search call
 			switch (matchMode) {
 			case FINITE_AUTOMATA:
-				index = finiteAutomaton(table, text, pattern);
+				index = finiteAutomaton(text, pattern);
 				break;
 
 			case NAIVE:
@@ -113,7 +115,7 @@ void readFile(string& filePath, string& pattern) {
 				break;
 
 			case KNUTH_MORRIS_PRATT:
-				index = knuthMorrisPratt(text, pattern);
+				index = knuthMorrisPratt(text, pattern, pi);
 				break;
 			default:
 				break;

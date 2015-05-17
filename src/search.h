@@ -10,6 +10,10 @@
 #include "table.h"
 using namespace std;
 
+static const int notFound = -1;
+static hashTable table;
+static vector<int> pi;
+
 /** @file */
 
 /**
@@ -18,21 +22,21 @@ using namespace std;
  * @param pattern string to match in the text
  * @return index of the text for the first pattern character if finds a match zero otherwise
  */
-int naive(string& text, string& pattern);
+int naive(const string& text, const string& pattern);
 
 /**
  * Determines the alphabet from a given string
  * @param s is a string from which to determine the alphabet
  * @return alphabet containing non-repeated characters from the input string
  */
-string getAlphabet(string& s);
+string getAlphabet(const string& s);
 
 /**
  * Computes the transition table for a given pattern
  * @param pattern string input from which the transition table is created
  * @return Table type object containing all accepted transitions
  */
-hashTable computeStateTransitionTable(string& pattern);
+hashTable computeStateTransitionTable(const string& pattern);
 
 /**
  * Finds if a pattern is present on a given text using the finite automata string-match algorithm
@@ -41,14 +45,14 @@ hashTable computeStateTransitionTable(string& pattern);
  * @param pattern string to match in the text
  * @return index of the text for the first pattern character if finds a match zero otherwise
  */
-int finiteAutomaton(hashTable table, string& text, string& pattern);
+int finiteAutomaton(const string& text, const string& pattern);
 
 /**
  * generates prefix function used in the Knuth-Morris-Pratt string-match algorithm
  * @param pattern string
  * @return vector of indexes
  */
-vector<int> computePrefixFunction(string& pattern);
+vector<int> computePrefixFunction(const string& pattern);
 
 /**
  * Finds if a pattern is present on a given text using the Knuth-Morris-Pratt string-match algorithm
@@ -56,6 +60,6 @@ vector<int> computePrefixFunction(string& pattern);
  * @param pattern string to match in the text
  * @return index of the text for the first pattern character if finds a match zero otherwise
  */
-int knuthMorrisPratt(string& text, string& pattern);
+int knuthMorrisPratt(const string& text, const string& pattern, const vector<int>& pi);
 
 #endif // SEARCH_H_
