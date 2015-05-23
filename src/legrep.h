@@ -49,13 +49,15 @@ static bool invertMatch;
 static int beforeContext = 0;
 static int afterContext = 0;
 
-
-// std::ostream & operator <(const Pair<int,int> &p1, const Pair<int,int> &p2){
-// 	return p1.first < p2.first;
-// }
-
 /// lines to print
-static set<pair<int,int>> lines;
+
+struct compare {
+    bool operator() (const pair<int,vector<int> > p1, const pair<int, vector<int> > p2) const{
+        return p1.first < p2.first;
+    }
+};
+
+static set<pair<int, vector<int> >,compare> lines;
 
 void setColor(const int fgColor, bool fgIntensity);
 void resetColor();

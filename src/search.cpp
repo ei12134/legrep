@@ -1,16 +1,17 @@
 #include "table.h"
 #include "search.h"
 
-int naive(const string& text, const string& pattern) {
+vector<int> naive(const string& text, const string& pattern) {
+	vector<int> indexes;
 	int ts = text.size(); // |T|
 	int ps = pattern.size(); // |P|
 
 	// Time complexity O((|T|-|P|+1).|T|) or O(|T||P|)
 	for (int i = 0; i <= (ts - ps); i++) {
 		if (text.substr(i, ps) == pattern) // hidden for loop
-			return i;
+			indexes.push_back(i);
 	}
-	return notFound;
+	return indexes;
 }
 
 string getAlphabet(const string& s) {
@@ -46,7 +47,8 @@ hashTable computeStateTransitionTable(const string& pattern) {
 	return t;
 }
 
-int finiteAutomaton(const string& text, const string& pattern) {
+vector<int> finiteAutomaton(const string& text, const string& pattern) {
+	vector<int> indexes;
 	int ts = text.size();
 	int ps = pattern.size();
 	int state = 0;
@@ -59,10 +61,10 @@ int finiteAutomaton(const string& text, const string& pattern) {
 		else
 			state = next->getNextState();
 		if (state == ps)
-			return i - ps + 1;
+			indexes.push_back(i - ps + 1);
 	}
 
-	return notFound;
+	return indexes;
 }
 
 vector<int> computePrefixFunction(const string& pattern){
@@ -80,7 +82,8 @@ vector<int> computePrefixFunction(const string& pattern){
 	return pi;
 }
 
-int knuthMorrisPratt(const string& text, const string& pattern, const vector<int>& pi) {	
+vector<int> knuthMorrisPratt(const string& text, const string& pattern, const vector<int>& pi) {	
+	vector<int> indexes;
 	int ts = text.size();
 	int k = -1;
 
@@ -90,7 +93,7 @@ int knuthMorrisPratt(const string& text, const string& pattern, const vector<int
 		if (text[q] == pattern[k + 1])
 			k++;
 		if (k == ((int)pattern.size() - 1))
-			return q - pattern.size() + 1;
+			indexes.push_back(q - pattern.size() + 1);
 	}
-	return notFound;
+	return indexes;
 }

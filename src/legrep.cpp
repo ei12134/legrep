@@ -31,20 +31,28 @@ void result(string& filePath, string& pattern, float seconds) {
 			getline(file, line);	
 		}
 
-		if ((*itr).second == 0)
+		if ((*itr).second.size() == 0)
 			cout << line;
-		else if ((*itr).second == -1){
+		else if ((*itr).second.size() == 1 && (*itr).second[0] == -1){
 			setColor(BLUE,true);
 			cout << "--";
 			resetColor();
 		}
 
 		else {
-			cout << line.substr(0,(*itr).second);
-			setColor(RED,true);
-			cout << line.substr((*itr).second, pattern.size());
-			resetColor();
-			cout << line.substr((*itr).second + pattern.size());
+			vector<int> indexes = (*itr).second;
+			int startPos = 0;
+
+			for (int i = 0; i < (int)indexes.size(); i++){
+				cout << line.substr(startPos,indexes[i]-startPos);
+				setColor(RED,true);
+				cout << line.substr(indexes[i], pattern.size());
+				resetColor();
+				if (i < (int)indexes.size() - 1)
+					startPos = indexes[i] + pattern.size();
+				else 
+					cout << line.substr(indexes[i] + pattern.size());	
+			}	
 		}
 		if (itr != lines.end())
 			cout << "\n";
@@ -63,7 +71,7 @@ void result(string& filePath, string& pattern, float seconds) {
 	case KNUTH_MORRIS_PRATT:
 		cout << "[Knuth-Morris-Pratt algorithm";
 		break;
-
+		
 	default:
 		break;
 	}
@@ -76,8 +84,8 @@ void result(string& filePath, string& pattern, float seconds) {
 void readFile(string& filePath, string& pattern) {
 	fstream file;
 	string line, text;
-	int index;
 	int lineNumber = 1;
+	vector<int> empty;
 	vector<int> pi;
 	clock_t t;
 	t = clock();
@@ -97,7 +105,7 @@ void readFile(string& filePath, string& pattern) {
 			text.clear();
 			getline(file, line);
 
-			index = 0;
+			vector<int> indexes;
 			text = line;
 
 			// grep the line
@@ -107,45 +115,45 @@ void readFile(string& filePath, string& pattern) {
 			// search call
 			switch (matchMode) {
 			case FINITE_AUTOMATA:
-				index = finiteAutomaton(text, pattern);
+				indexes = finiteAutomaton(text, pattern);
 				break;
 
 			case NAIVE:
-				index = naive(text, pattern);
+				indexes = naive(text, pattern);
 				break;
 
 			case KNUTH_MORRIS_PRATT:
-				index = knuthMorrisPratt(text, pattern, pi);
+				indexes = knuthMorrisPratt(text, pattern, pi);
 				break;
 			default:
 				break;
 			}
 
 			// print the line
-			if (index > 0 && !invertMatch) {
-				auto it = lines.find(pair<int,int>(lineNumber,0));
+			if (indexes.size() > 0 && !invertMatch) {	
+				auto it = lines.find(pair<int, vector<int> >(lineNumber, empty));
 				if (it != lines.end())
 					lines.erase(it);
-				lines.insert(pair<int,int>(lineNumber,index));
+				lines.insert(pair<int,vector<int> >(lineNumber,indexes));
 
 				// add lines before context
 				int lbc = lineNumber - 1;
-				for (int i = 0; i < beforeContext && lbc > 1; i++, lbc--)
-					lines.insert(pair<int,int>(lbc,0));
+				for (int i = 0; i < beforeContext && lbc > 0; i++, lbc--)
+					lines.insert(pair<int,vector<int> >(lbc,empty));
 				
 				if (matches != 0 && (beforeContext != 0) && lbc > 1)
-					lines.insert(pair<int,int>(lbc,-1));
+					lines.insert(pair<int,vector<int> >(lbc,vector<int>(1,-1)));
 
 				// add lines after context
 				int lac = lineNumber + 1;
 				for (int i = 0; i < afterContext; i++, lac++)
-					lines.insert(pair<int,int>(lac,0));
+					lines.insert(pair<int,vector<int> >(lac, empty));
 			}
-			else if (invertMatch && (index == -1))
-				lines.insert(pair<int,int>(lineNumber,0));
+			else if (invertMatch && (indexes.size() == 0))
+				lines.insert(pair<int,vector<int> >(lineNumber,empty));
 
 			// independently increment matches
-			if (index > 0)
+			if (indexes.size() > 0)
 				matches++;
 			lineNumber++;
 		}

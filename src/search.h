@@ -10,7 +10,6 @@
 #include "table.h"
 using namespace std;
 
-static const int notFound = -1;
 static hashTable table;
 static vector<int> pi;
 
@@ -20,9 +19,9 @@ static vector<int> pi;
  * Finds if a pattern is present on a given text using the naive string-match algorithm
  * @param text input where to find the pattern
  * @param pattern string to match in the text
- * @return index of the text for the first pattern character if finds a match zero otherwise
+ * @return indexes for each of the first character in the text matching the pattern
  */
-int naive(const string& text, const string& pattern);
+vector<int> naive(const string& text, const string& pattern);
 
 /**
  * Determines the alphabet from a given string
@@ -43,9 +42,9 @@ hashTable computeStateTransitionTable(const string& pattern);
  * @param table previously processed state machine table
  * @param text input where to find the pattern
  * @param pattern string to match in the text
- * @return index of the text for the first pattern character if finds a match zero otherwise
+ * @return indexes for each of the first character in the text matching the pattern
  */
-int finiteAutomaton(const string& text, const string& pattern);
+vector<int>  finiteAutomaton(const string& text, const string& pattern);
 
 /**
  * generates prefix function used in the Knuth-Morris-Pratt string-match algorithm
@@ -58,8 +57,8 @@ vector<int> computePrefixFunction(const string& pattern);
  * Finds if a pattern is present on a given text using the Knuth-Morris-Pratt string-match algorithm
  * @param text input where to find the pattern
  * @param pattern string to match in the text
- * @return index of the text for the first pattern character if finds a match zero otherwise
+ * @return indexes for each of the first character in the text matching the pattern
  */
-int knuthMorrisPratt(const string& text, const string& pattern, const vector<int>& pi);
+vector<int>  knuthMorrisPratt(const string& text, const string& pattern, const vector<int>& pi);
 
 #endif // SEARCH_H_
