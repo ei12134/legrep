@@ -16,7 +16,7 @@ void resetColor() {
 #endif
 }
 
-void result(string& filePath, string& pattern, float seconds) {
+void result(string& filePath, string& pattern) {
 	fstream file;
 	string line;
 	int lineNumber = 1;
@@ -58,27 +58,6 @@ void result(string& filePath, string& pattern, float seconds) {
 			cout << "\n";
 	}
 	file.close();
-
-	switch (matchMode) {
-	case FINITE_AUTOMATA:
-		cout << "[Finite automata algorithm";
-		break;
-
-	case NAIVE:
-		cout << "[Naive algorithm";
-		break;
-
-	case KNUTH_MORRIS_PRATT:
-		cout << "[Knuth-Morris-Pratt algorithm";
-		break;
-		
-	default:
-		break;
-	}
-	if (matches == 0)
-		cout << " didn't find any matches.]\n";
-	else
-		cout << " found " << matches << (matches == 1 ? " match" : " matches") << " in " << seconds << " seconds]\n";
 }
 
 void readFile(string& filePath, string& pattern) {
@@ -87,8 +66,6 @@ void readFile(string& filePath, string& pattern) {
 	int lineNumber = 1;
 	vector<int> empty;
 	vector<int> pi;
-	clock_t t;
-	t = clock();
 
 	if (matchMode == FINITE_AUTOMATA) {
 		table = computeStateTransitionTable(pattern);
@@ -158,10 +135,9 @@ void readFile(string& filePath, string& pattern) {
 			lineNumber++;
 		}
 	}
-	t = clock() - t;
 
 	file.close();
-	result(filePath, pattern, (float)t/CLOCKS_PER_SEC);
+	result(filePath, pattern);
 }
 
 char* getCmdOption(char** begin, char** end, const string& option) {

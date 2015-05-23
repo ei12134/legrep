@@ -56,40 +56,37 @@
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;unordered_set&gt;</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="classEntry.html">   12</a></span>&#160;<span class="keyword">class </span><a class="code" href="classEntry.html">Entry</a> {</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="classEntry.html">   12</a></span>&#160; <span class="keyword">class </span><a class="code" href="classEntry.html">Entry</a> {</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; <span class="keyword">private</span>:</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keywordtype">int</span> currentState;</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keywordtype">char</span> character;</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keywordtype">int</span> nextState;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; <span class="keyword">public</span>:</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <a class="code" href="classEntry.html#a376467b139a82eccd336de0b91645ab1">Entry</a>(<span class="keywordtype">int</span> currentState, <span class="keywordtype">char</span> character, <span class="keywordtype">int</span> nextState);</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classEntry.html#a26b90a2c09d3abe448667bada326d625">getCurrentState</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;     <span class="keywordtype">int</span> <a class="code" href="classEntry.html#a26b90a2c09d3abe448667bada326d625">getCurrentState</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keywordtype">char</span> <a class="code" href="classEntry.html#ade14cba8882310e00bbfd2376bf7771f">getCharacter</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;     <span class="keywordtype">char</span> <a class="code" href="classEntry.html#ade14cba8882310e00bbfd2376bf7771f">getCharacter</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classEntry.html#a99b03eed6df96e12115c64cb8263c778">getNextState</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;};</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;     <span class="keywordtype">int</span> <a class="code" href="classEntry.html#a99b03eed6df96e12115c64cb8263c778">getNextState</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    };</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="structeqEntryF.html">   44</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structeqEntryF.html">eqEntryF</a> {</div>
-<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="structeqEntryF.html#a57672e1c8f79540b9b0c5e25449962a6">   50</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="structeqEntryF.html#a57672e1c8f79540b9b0c5e25449962a6">operator()</a>(<span class="keyword">const</span> <a class="code" href="classEntry.html">Entry</a> &amp;e1, <span class="keyword">const</span> <a class="code" href="classEntry.html">Entry</a> &amp;e2)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="structeqEntryF.html">   44</a></span>&#160; <span class="keyword">struct </span><a class="code" href="structeqEntryF.html">eqEntryF</a> {</div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="structeqEntryF.html#a57672e1c8f79540b9b0c5e25449962a6">   50</a></span>&#160;     <span class="keywordtype">bool</span> <a class="code" href="structeqEntryF.html#a57672e1c8f79540b9b0c5e25449962a6">operator()</a>(<span class="keyword">const</span> <a class="code" href="classEntry.html">Entry</a> &amp;e1, <span class="keyword">const</span> <a class="code" href="classEntry.html">Entry</a> &amp;e2)<span class="keyword"> const </span>{</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="keywordflow">return</span> (e1.<a class="code" href="classEntry.html#a26b90a2c09d3abe448667bada326d625">getCurrentState</a>() == e2.<a class="code" href="classEntry.html#a26b90a2c09d3abe448667bada326d625">getCurrentState</a>()</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                &amp;&amp; e1.<a class="code" href="classEntry.html#ade14cba8882310e00bbfd2376bf7771f">getCharacter</a>() == e2.<a class="code" href="classEntry.html#ade14cba8882310e00bbfd2376bf7771f">getCharacter</a>());</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    }</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;};</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            &amp;&amp; e1.<a class="code" href="classEntry.html#ade14cba8882310e00bbfd2376bf7771f">getCharacter</a>() == e2.<a class="code" href="classEntry.html#ade14cba8882310e00bbfd2376bf7771f">getCharacter</a>());</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;     }</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    };</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="structhEntryF.html">   59</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structhEntryF.html">hEntryF</a> {</div>
-<div class="line"><a name="l00064"></a><span class="lineno"><a class="line" href="structhEntryF.html#ab90c559ba546514e0623a0005162f12b">   64</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="structhEntryF.html#ab90c559ba546514e0623a0005162f12b">operator()</a>(<span class="keyword">const</span> <a class="code" href="classEntry.html">Entry</a> &amp;e)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keywordtype">int</span> ch = e.<a class="code" href="classEntry.html#ade14cba8882310e00bbfd2376bf7771f">getCharacter</a>();</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="keywordtype">int</span> cs = e.<a class="code" href="classEntry.html#a26b90a2c09d3abe448667bada326d625">getCurrentState</a>();</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <span class="comment">//int ns = e.getNextState();</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <span class="keywordflow">return</span> ch * 37 * cs * 47;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    }</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;};</div>
+<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="structhEntryF.html">   59</a></span>&#160; <span class="keyword">struct </span><a class="code" href="structhEntryF.html">hEntryF</a> {</div>
+<div class="line"><a name="l00064"></a><span class="lineno"><a class="line" href="structhEntryF.html#ab90c559ba546514e0623a0005162f12b">   64</a></span>&#160;     <span class="keywordtype">int</span> <a class="code" href="structhEntryF.html#ab90c559ba546514e0623a0005162f12b">operator()</a>(<span class="keyword">const</span> <a class="code" href="classEntry.html">Entry</a> &amp;e)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keywordflow">return</span> e.<a class="code" href="classEntry.html#ade14cba8882310e00bbfd2376bf7771f">getCharacter</a>() * 2654435761 + e.<a class="code" href="classEntry.html#a26b90a2c09d3abe448667bada326d625">getCurrentState</a>();</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;     }</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    };</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keyword">typedef</span> std::unordered_set&lt;Entry, hEntryF, eqEntryF&gt; hashTable;</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="keyword">typedef</span> std::unordered_set&lt;Entry, hEntryF, eqEntryF&gt; hashTable;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="preprocessor">#endif // TABLE_H_</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="preprocessor">#endif // TABLE_H_</span></div>
 <div class="ttc" id="structeqEntryF_html_a57672e1c8f79540b9b0c5e25449962a6"><div class="ttname"><a href="structeqEntryF.html#a57672e1c8f79540b9b0c5e25449962a6">eqEntryF::operator()</a></div><div class="ttdeci">bool operator()(const Entry &amp;e1, const Entry &amp;e2) const </div><div class="ttdef"><b>Definition:</b> table.h:50</div></div>
 <div class="ttc" id="classEntry_html"><div class="ttname"><a href="classEntry.html">Entry</a></div><div class="ttdef"><b>Definition:</b> table.h:12</div></div>
 <div class="ttc" id="classEntry_html_a376467b139a82eccd336de0b91645ab1"><div class="ttname"><a href="classEntry.html#a376467b139a82eccd336de0b91645ab1">Entry::Entry</a></div><div class="ttdeci">Entry(int currentState, char character, int nextState)</div><div class="ttdef"><b>Definition:</b> table.cpp:3</div></div>
@@ -102,7 +99,7 @@
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun May 17 2015 17:42:42 for legrep by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat May 23 2015 18:28:53 for legrep by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.8
 </small></address>

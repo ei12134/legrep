@@ -5,257 +5,443 @@
 #include "ide_listener.h"
 #include "cute_runner.h"
 
-void kmp() {
-	std::string alpha = "The quick brown fox jumps over the lazy dog";
-	std::string p1 = "The";
-	std::string p2 = " The apsdghidamkbrowpago";
-	std::string p3 = " fox j";
-	std::string p4 = "ovr t";
-	std::string p5 = "y dog";
-	std::string p6 = "z dog";
-	std::string p7 = "quick brown ";
-	ASSERT_EQUAL(knuthMorrisPratt(alpha, p1), 0);
-	ASSERT_EQUAL(knuthMorrisPratt(alpha, p2), -1);
-	ASSERT_EQUAL(knuthMorrisPratt(alpha, p3), 15);
-	ASSERT_EQUAL(knuthMorrisPratt(alpha, p4), -1);
-	ASSERT_EQUAL(knuthMorrisPratt(alpha, p5), 38);
-	ASSERT_EQUAL(knuthMorrisPratt(alpha, p6), -1);
-	ASSERT_EQUAL(knuthMorrisPratt(alpha, p7), 4);
+void naiveAlpha() {
+	std::string text = "The quick brown fox jumps over the lazy dog";
+	std::string p1 = "The q";
+	std::string p2 = "g";
+	std::string p3 = "he";
+	std::string p4 = "o";
+	vector<int> result;
 
-	std::string numbers = "01234567890 1337 3141592653589793";
-	std::string p8 = "01234567890";
-	std::string p9 = "012345678901";
-	std::string p10 = " 1337";
-	std::string p11 = "3144";
-	std::string p12 = "3";
-	std::string p13 = "999";
-	std::string p14 = "793";
-	ASSERT_EQUAL(knuthMorrisPratt(numbers, p8), 0);
-	ASSERT_EQUAL(knuthMorrisPratt(numbers, p9), -1);
-	ASSERT_EQUAL(knuthMorrisPratt(numbers, p10), 11);
-	ASSERT_EQUAL(knuthMorrisPratt(numbers, p11), -1);
-	ASSERT_EQUAL(knuthMorrisPratt(numbers, p12), 3);
-	ASSERT_EQUAL(knuthMorrisPratt(numbers, p13), -1);
-	ASSERT_EQUAL(knuthMorrisPratt(numbers, p14), 30);
+	// Single match beginning & end
+	result = naive(text, p1);
+	ASSERT_EQUAL(result.size(), 1);
+	ASSERT_EQUAL(result[0], 0);
 
-	std::string symbols = "\? [] /()=!#&|$#!#  '-<>>|";
-	std::string p15 = "\? [] /()=!#&|$#!#  '-<>>|";
-	std::string p16 = "\? [] /()=!#&|$#!#  '-<>>| ";
-	std::string p17 = "|";
-	std::string p18 = "||";
-	std::string p19 = "\? ";
-	std::string p20 = "\\";
-	std::string p21 = ")=!#&";
-	ASSERT_EQUAL(knuthMorrisPratt(symbols, p15), 0);
-	ASSERT_EQUAL(knuthMorrisPratt(symbols, p16), -1);
-	ASSERT_EQUAL(knuthMorrisPratt(symbols, p17), 13);
-	ASSERT_EQUAL(knuthMorrisPratt(symbols, p18), -1);
-	ASSERT_EQUAL(knuthMorrisPratt(symbols, p19), 0);
-	ASSERT_EQUAL(knuthMorrisPratt(symbols, p20), -1);
-	ASSERT_EQUAL(knuthMorrisPratt(symbols, p21), 8);
+	result = naive(text, p2);
+	ASSERT_EQUAL(result.size(), 1);
+	ASSERT_EQUAL(result[0], text.size() - 1);
 
-	std::string nonAscii = "prcação água, não sôr3";
-	std::string p22 = "não";
-	std::string p23 = "noãasçºdlfkçfkºasdkfokrot";
-	std::string p24 = "sôr";
-	std::string p25 = "prcação água, não sô";
-	std::string p26 = "prcação água, não sôr3";
-	std::string p27 = "prcação água, não sôt";
-	std::string p28 = " água, ";
-	ASSERT_EQUAL(knuthMorrisPratt(nonAscii, p22), 14);
-	ASSERT_EQUAL(knuthMorrisPratt(nonAscii, p23), -1);
-	ASSERT_EQUAL(knuthMorrisPratt(nonAscii, p24), 18);
-	ASSERT_EQUAL(knuthMorrisPratt(nonAscii, p25), 0);
-	ASSERT_EQUAL(knuthMorrisPratt(nonAscii, p26), 0);
-	ASSERT_EQUAL(knuthMorrisPratt(nonAscii, p27), -1);
-	ASSERT_EQUAL(knuthMorrisPratt(nonAscii, p28), 8);
+	// Multiple matches
+	result = naive(text, p3);
+	ASSERT_EQUAL(result.size(), 2);
+	ASSERT_EQUAL(result[0], 1);
+	ASSERT_EQUAL(result[1], 32);
+
+	result = naive(text, p4);
+	ASSERT_EQUAL(result.size(), 4);
+	ASSERT_EQUAL(result[0], 12);
+	ASSERT_EQUAL(result[1], 17);
+	ASSERT_EQUAL(result[2], 26);
+	ASSERT_EQUAL(result[3], 41);
 }
 
-void n() {
-	std::string alpha = "The quick brown fox jumps over the lazy dog";
-	std::string p1 = "The";
-	std::string p2 = " The apsdghidamkbrowpago";
-	std::string p3 = " fox j";
-	std::string p4 = "ovr t";
-	std::string p5 = "y dog";
-	std::string p6 = "z dog";
-	std::string p7 = "quick brown ";
-	ASSERT_EQUAL(naive(alpha, p1), 0);
-	ASSERT_EQUAL(naive(alpha, p2), -1);
-	ASSERT_EQUAL(naive(alpha, p3), 15);
-	ASSERT_EQUAL(naive(alpha, p4), -1);
-	ASSERT_EQUAL(naive(alpha, p5), 38);
-	ASSERT_EQUAL(naive(alpha, p6), -1);
-	ASSERT_EQUAL(naive(alpha, p7), 4);
+void naiveNumeric() {
+	std::string text = "01234567890 1337 3141592653589793";
+	std::string p1 = "0123456789";
+	std::string p2 = "93";
+	std::string p3 = "89";
+	std::string p4 = "5";
+	vector<int> result;
 
-	std::string numbers = "01234567890 1337 3141592653589793";
-	std::string p8 = "01234567890";
-	std::string p9 = "012345678901";
-	std::string p10 = " 1337";
-	std::string p11 = "3144";
-	std::string p12 = "3";
-	std::string p13 = "999";
-	std::string p14 = "793";
-	ASSERT_EQUAL(naive(numbers, p8), 0);
-	ASSERT_EQUAL(naive(numbers, p9), -1);
-	ASSERT_EQUAL(naive(numbers, p10), 11);
-	ASSERT_EQUAL(naive(numbers, p11), -1);
-	ASSERT_EQUAL(naive(numbers, p12), 3);
-	ASSERT_EQUAL(naive(numbers, p13), -1);
-	ASSERT_EQUAL(naive(numbers, p14), 30);
+	// Single match beginning & end
+	result = naive(text, p1);
+	ASSERT_EQUAL(result.size(), 1);
+	ASSERT_EQUAL(result[0], 0);
 
-//	std::string symbols = "\? [] /()=!#&|$#!#  '-<>>|";
-//	std::string p15 = "\? [] /()=!#&|$#!#  '-<>>|";
-//	std::string p16 = "\? [] /()=!#&|$#!#  '-<>>| ";
-//	std::string p17 = "|";
-//	std::string p18 = "||";
-//	std::string p19 = "\? ";
-//	std::string p20 = "\\";
-//	std::string p21 = ")=!#&";
-//	ASSERT_EQUAL(naive(symbols, p15), 0);
-//	ASSERT_EQUAL(naive(symbols, p16), -1);
-//	ASSERT_EQUAL(naive(symbols, p17), 13);
-//	ASSERT_EQUAL(naive(symbols, p18), -1);
-//	ASSERT_EQUAL(naive(symbols, p19), 0);
-//	ASSERT_EQUAL(naive(symbols, p20), -1);
-//	ASSERT_EQUAL(naive(symbols, p21), 8);
+	result = naive(text, p2);
+	ASSERT_EQUAL(result.size(), 1);
+	ASSERT_EQUAL(result[0], text.size() - 2);
 
-	std::string nonAscii = "prcação água, não sôr3";
-	std::string p22 = "não";
-	std::string p23 = "noãasçºdlfkçfkºasdkfokrot";
-	std::string p24 = "sôr";
-	std::string p25 = "prcação água, não sô";
-	std::string p26 = "prcação água, não sôr3";
-	std::string p27 = "prcação água, não sôt";
-	std::string p28 = " água, ";
-	ASSERT_EQUAL(naive(nonAscii, p22), 14);
-	ASSERT_EQUAL(naive(nonAscii, p23), -1);
-	ASSERT_EQUAL(naive(nonAscii, p24), 18);
-	ASSERT_EQUAL(naive(nonAscii, p25), 0);
-	ASSERT_EQUAL(naive(nonAscii, p26), 0);
-	ASSERT_EQUAL(naive(nonAscii, p27), -1);
-	ASSERT_EQUAL(naive(nonAscii, p28), 8);
+	// Multiple matches
+	result = naive(text, p3);
+	ASSERT_EQUAL(result.size(), 2);
+	ASSERT_EQUAL(result[0], 8);
+	ASSERT_EQUAL(result[1], 28);
+
+	result = naive(text, p4);
+	ASSERT_EQUAL(result.size(), 4);
+	ASSERT_EQUAL(result[0], 5);
+	ASSERT_EQUAL(result[1], 21);
+	ASSERT_EQUAL(result[2], 25);
+	ASSERT_EQUAL(result[3], 27);
 }
 
-void a() {
-	std::string alpha = "The quick brown fox jumps over the lazy dog";
-	std::string p1 = "The";
-	std::string p2 = " The apsdghidamkbrowpago";
-	std::string p3 = " fox j";
-	std::string p4 = "ovr t";
-	std::string p5 = "y dog";
-	std::string p6 = "z dog";
-	std::string p7 = "quick brown ";
-	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p1), alpha, p1),
-			true);
-	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p2), alpha, p2),
-			-1);
-	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p3), alpha, p3),
-			true);
-	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p4), alpha, p4),
-			-1);
-	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p5), alpha, p5),
-			true);
-	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p6), alpha, p6),
-			-1);
-	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p7), alpha, p7),
-			true);
+void naiveSymbol() {
+	std::string text = "çãáà\? [] /()=!#&|$#!#  '-<>>|";
+	std::string p1 = "çã";
+	std::string p2 = ">|";
+	std::string p3 = ">";
+	std::string p4 = " ";
+	vector<int> result;
 
-	std::string numbers = "01234567890 1337 3141592653589793";
-	std::string p8 = "01234567890";
-	std::string p9 = "012345678901";
-	std::string p10 = " 1337";
-	std::string p11 = "3144";
-	std::string p12 = "3";
-	std::string p13 = "999";
-	std::string p14 = "793";
-	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p8), numbers, p8),
-			true);
-	ASSERT_EQUAL(finiteAutomaton(computeStateTransitionTable(p9), numbers, p9),
-			-1);
-	ASSERT_EQUAL(
-			finiteAutomaton(computeStateTransitionTable(p10), numbers, p10),
-			true);
-	ASSERT_EQUAL(
-			finiteAutomaton(computeStateTransitionTable(p11), numbers, p11),
-			-1);
-	ASSERT_EQUAL(
-			finiteAutomaton(computeStateTransitionTable(p12), numbers, p12),
-			true);
-	ASSERT_EQUAL(
-			finiteAutomaton(computeStateTransitionTable(p13), numbers, p13),
-			-1);
-	ASSERT_EQUAL(
-			finiteAutomaton(computeStateTransitionTable(p14), numbers, p14),
-			true);
+	// Single match beginning & end
+	result = naive(text, p1);
+	ASSERT_EQUAL(result.size(), 1);
+	ASSERT_EQUAL(result[0], 0);
 
-	std::string symbols = "\? [] /()=!#&|$#!#  '-<>>|";
-	std::string p15 = "\? [] /()=!#&|$#!#  '-<>>|";
-	std::string p16 = "\? [] /()=!#&|$#!#  '-<>>| ";
-	std::string p17 = "|";
-	std::string p18 = "||";
-	std::string p19 = "\? ";
-	std::string p20 = "\\";
-	std::string p21 = ")=!#&";
-	ASSERT_EQUAL(
-			finiteAutomaton(computeStateTransitionTable(p15), symbols, p15),
-			true);
-	ASSERT_EQUAL(
-			finiteAutomaton(computeStateTransitionTable(p16), symbols, p16),
-			-1);
-	ASSERT_EQUAL(
-			finiteAutomaton(computeStateTransitionTable(p17), symbols, p17),
-			true);
-	ASSERT_EQUAL(
-			finiteAutomaton(computeStateTransitionTable(p18), symbols, p18),
-			-1);
-	ASSERT_EQUAL(
-			finiteAutomaton(computeStateTransitionTable(p19), symbols, p19),
-			true);
-	ASSERT_EQUAL(
-			finiteAutomaton(computeStateTransitionTable(p20), symbols, p20),
-			-1);
-	ASSERT_EQUAL(
-			finiteAutomaton(computeStateTransitionTable(p21), symbols, p21),
-			true);
+	result = naive(text, p2);
+	ASSERT_EQUAL(result.size(), 1);
+	ASSERT_EQUAL(result[0], text.size() - 2);
 
-	std::string nonAscii = "prcação água, não sôr3";
-	std::string p22 = "não";
-	std::string p23 = "noãasçºdlfkçfkºasdkfokrot";
-	std::string p24 = "sôr";
-	std::string p25 = "prcação água, não sô";
-	std::string p26 = "prcação água, não sôr3";
-	std::string p27 = "prcação água, não sôt";
-	std::string p28 = " água, ";
-	ASSERT_EQUAL(
-			finiteAutomaton(computeStateTransitionTable(p22), nonAscii, p22),
-			true);
-	ASSERT_EQUAL(
-			finiteAutomaton(computeStateTransitionTable(p23), nonAscii, p23),
-			-1);
-	ASSERT_EQUAL(
-			finiteAutomaton(computeStateTransitionTable(p24), nonAscii, p24),
-			true);
-	ASSERT_EQUAL(
-			finiteAutomaton(computeStateTransitionTable(p25), nonAscii, p25),
-			true);
-	ASSERT_EQUAL(
-			finiteAutomaton(computeStateTransitionTable(p26), nonAscii, p26),
-			true);
-	ASSERT_EQUAL(
-			finiteAutomaton(computeStateTransitionTable(p27), nonAscii, p27),
-			-1);
-	ASSERT_EQUAL(
-			finiteAutomaton(computeStateTransitionTable(p28), nonAscii, p28),
-			true);
+	// Multiple matches
+	result = naive(text, p3);
+	ASSERT_EQUAL(result.size(), 2);
+	ASSERT_EQUAL(result[0], text.size() - 3);
+	ASSERT_EQUAL(result[1], text.size() - 2);
+
+	result = naive(text, p4);
+	ASSERT_EQUAL(result.size(), 4);
+	ASSERT_EQUAL(result[0], 9);
+	ASSERT_EQUAL(result[1], 12);
+	ASSERT_EQUAL(result[2], 25);
+	ASSERT_EQUAL(result[3], 26);
+}
+
+void naiveTime() {
+	const int numberSizeDoubleIncrements = 15;
+	const int repetitionsPerSize = 5;
+	string text =
+			"Murphy's Original Law "
+					"If there are two or more ways to do something, and one of those ways can result in a catastrophe, then someone will do it."
+					"Murphy's Law"
+					"If anything can go wrong -- it will."
+					"Murphy's First Corollary"
+					"Left to themselves, things tend to go from bad to worse."
+					"Murphy's Second Corollary"
+					"It is impossible to make anything foolproof because fools are so ingenious."
+					"Quantised Revision of Murphy's Law"
+					"Everything goes wrong all at once."
+					"Murphy's Constant"
+					"Matter will be damaged in direct proportion to its value."
+					"The Murphy Philosophy"
+					"Smile... tomorrow will be worse. ";
+	string pattern = "a";
+
+	cout << "\n\n*** NAIVE string matching ***\n\n";
+
+	clock_t startTime = clock();
+	for (int n = 0; n < numberSizeDoubleIncrements; n++, text += text) {
+		for (int i = 0; i < repetitionsPerSize; i++)
+			naive(text, pattern);
+
+		clock_t endTime = clock();
+		clock_t clockTicksTaken = endTime - startTime;
+		double timeInSeconds = clockTicksTaken / (double) CLOCKS_PER_SEC;
+		cout << "String matching for text size = "
+				<< text.size() + text.size() * n << "     \t"
+				<< "Total time in seconds = " << timeInSeconds << "     \t"
+				<< "Average time per search in seconds= "
+				<< timeInSeconds / repetitionsPerSize << endl;
+	}
+}
+
+void finiteAutomatonAlpha() {
+	std::string text = "The quick brown fox jumps over the lazy dog";
+	std::string p1 = "The q";
+	std::string p2 = "g";
+	std::string p3 = "he";
+	std::string p4 = "o";
+	vector<int> result;
+
+	// Single match beginning & end
+	table = computeStateTransitionTable(p1);
+	result = finiteAutomaton(text, p1);
+	ASSERT_EQUAL(result.size(), 1);
+	ASSERT_EQUAL(result[0], 0);
+
+	table = computeStateTransitionTable(p2);
+	result = finiteAutomaton(text, p2);
+	ASSERT_EQUAL(result.size(), 1);
+	ASSERT_EQUAL(result[0], text.size() - 1);
+
+	// Multiple matches
+	table = computeStateTransitionTable(p3);
+	result = finiteAutomaton(text, p3);
+	ASSERT_EQUAL(result.size(), 2);
+	ASSERT_EQUAL(result[0], 1);
+	ASSERT_EQUAL(result[1], 32);
+
+	table = computeStateTransitionTable(p4);
+	result = finiteAutomaton(text, p4);
+	ASSERT_EQUAL(result.size(), 4);
+	ASSERT_EQUAL(result[0], 12);
+	ASSERT_EQUAL(result[1], 17);
+	ASSERT_EQUAL(result[2], 26);
+	ASSERT_EQUAL(result[3], 41);
+}
+
+void finiteAutomatonNumeric() {
+	std::string text = "01234567890 1337 3141592653589793";
+	std::string p1 = "0123456789";
+	std::string p2 = "93";
+	std::string p3 = "89";
+	std::string p4 = "5";
+	vector<int> result;
+
+	// Single match beginning & end
+	table = computeStateTransitionTable(p1);
+	result = finiteAutomaton(text, p1);
+	ASSERT_EQUAL(result.size(), 1);
+	ASSERT_EQUAL(result[0], 0);
+
+	table = computeStateTransitionTable(p2);
+	result = finiteAutomaton(text, p2);
+	ASSERT_EQUAL(result.size(), 1);
+	ASSERT_EQUAL(result[0], text.size() - 2);
+
+	// Multiple matches
+	table = computeStateTransitionTable(p3);
+	result = finiteAutomaton(text, p3);
+	ASSERT_EQUAL(result.size(), 2);
+	ASSERT_EQUAL(result[0], 8);
+	ASSERT_EQUAL(result[1], 28);
+
+	table = computeStateTransitionTable(p4);
+	result = finiteAutomaton(text, p4);
+	ASSERT_EQUAL(result.size(), 4);
+	ASSERT_EQUAL(result[0], 5);
+	ASSERT_EQUAL(result[1], 21);
+	ASSERT_EQUAL(result[2], 25);
+	ASSERT_EQUAL(result[3], 27);
+}
+
+void finiteAutomatonSymbol() {
+	std::string text = "çãáà\? [] /()=!#&|$#!#  '-<>>|";
+	std::string p1 = "çã";
+	std::string p2 = ">|";
+	std::string p3 = ">";
+	std::string p4 = " ";
+	vector<int> result;
+
+	// Single match beginning & end
+	table = computeStateTransitionTable(p1);
+	result = finiteAutomaton(text, p1);
+	ASSERT_EQUAL(result.size(), 1);
+	ASSERT_EQUAL(result[0], 0);
+
+	table = computeStateTransitionTable(p2);
+	result = finiteAutomaton(text, p2);
+	ASSERT_EQUAL(result.size(), 1);
+	ASSERT_EQUAL(result[0], text.size() - 2);
+
+	// Multiple matches
+	table = computeStateTransitionTable(p3);
+	result = finiteAutomaton(text, p3);
+	ASSERT_EQUAL(result.size(), 2);
+	ASSERT_EQUAL(result[0], text.size() - 3);
+	ASSERT_EQUAL(result[1], text.size() - 2);
+
+	table = computeStateTransitionTable(p4);
+	result = finiteAutomaton(text, p4);
+	ASSERT_EQUAL(result.size(), 4);
+	ASSERT_EQUAL(result[0], 9);
+	ASSERT_EQUAL(result[1], 12);
+	ASSERT_EQUAL(result[2], 25);
+	ASSERT_EQUAL(result[3], 26);
+}
+
+void finiteAutomatonTime() {
+	const int numberSizeDoubleIncrements = 15;
+	const int repetitionsPerSize = 5;
+	string text =
+			"Murphy's Original Law "
+					"If there are two or more ways to do something, and one of those ways can result in a catastrophe, then someone will do it."
+					"Murphy's Law"
+					"If anything can go wrong -- it will."
+					"Murphy's First Corollary"
+					"Left to themselves, things tend to go from bad to worse."
+					"Murphy's Second Corollary"
+					"It is impossible to make anything foolproof because fools are so ingenious."
+					"Quantised Revision of Murphy's Law"
+					"Everything goes wrong all at once."
+					"Murphy's Constant"
+					"Matter will be damaged in direct proportion to its value."
+					"The Murphy Philosophy"
+					"Smile... tomorrow will be worse. ";
+	string pattern = "a";
+
+	cout << "\n\n*** FINITE AUTOMATON string matching ***\n\n";
+
+	clock_t startTime = clock();
+	table = computeStateTransitionTable(pattern);
+	for (int n = 0; n < numberSizeDoubleIncrements; n++, text += text) {
+		for (int i = 0; i < repetitionsPerSize; i++)
+			finiteAutomaton(text, pattern);
+
+		clock_t endTime = clock();
+		clock_t clockTicksTaken = endTime - startTime;
+		double timeInSeconds = clockTicksTaken / (double) CLOCKS_PER_SEC;
+		cout << "String matching for text size = "
+				<< text.size() + text.size() * n << "     \t"
+				<< "Total time in seconds = " << timeInSeconds << "     \t"
+				<< "Average time per search in seconds= "
+				<< timeInSeconds / repetitionsPerSize << endl;
+	}
+}
+
+void knuthMorrisPrattAlpha() {
+	std::string text = "The quick brown fox jumps over the lazy dog";
+	std::string p1 = "The q";
+	std::string p2 = "g";
+	std::string p3 = "he";
+	std::string p4 = "o";
+	vector<int> result;
+	vector<int> pi;
+
+	// Single match beginning & end
+	pi = computePrefixFunction(p1);
+	result = knuthMorrisPratt(text, p1, pi);
+	ASSERT_EQUAL(result.size(), 1);
+	ASSERT_EQUAL(result[0], 0);
+
+	pi = computePrefixFunction(p2);
+	result = knuthMorrisPratt(text, p2, pi);
+	ASSERT_EQUAL(result.size(), 1);
+	ASSERT_EQUAL(result[0], text.size() - 1);
+
+	// Multiple matches
+	pi = computePrefixFunction(p3);
+	result = knuthMorrisPratt(text, p3, pi);
+	ASSERT_EQUAL(result.size(), 2);
+	ASSERT_EQUAL(result[0], 1);
+	ASSERT_EQUAL(result[1], 32);
+
+	pi = computePrefixFunction(p4);
+	result = knuthMorrisPratt(text, p4, pi);
+	ASSERT_EQUAL(result.size(), 4);
+	ASSERT_EQUAL(result[0], 12);
+	ASSERT_EQUAL(result[1], 17);
+	ASSERT_EQUAL(result[2], 26);
+	ASSERT_EQUAL(result[3], 41);
+}
+
+void knuthMorrisPrattNumeric() {
+	std::string text = "01234567890 1337 3141592653589793";
+	std::string p1 = "0123456789";
+	std::string p2 = "93";
+	std::string p3 = "89";
+	std::string p4 = "5";
+	vector<int> result;
+	vector<int> pi;
+
+	// Single match beginning & end
+	pi = computePrefixFunction(p1);
+	result = knuthMorrisPratt(text, p1, pi);
+	ASSERT_EQUAL(result.size(), 1);
+	ASSERT_EQUAL(result[0], 0);
+
+	pi = computePrefixFunction(p2);
+	result = knuthMorrisPratt(text, p2, pi);
+	ASSERT_EQUAL(result.size(), 1);
+	ASSERT_EQUAL(result[0], text.size() - 2);
+
+	// Multiple matches
+	pi = computePrefixFunction(p3);
+	result = knuthMorrisPratt(text, p3, pi);
+	ASSERT_EQUAL(result.size(), 2);
+	ASSERT_EQUAL(result[0], 8);
+	ASSERT_EQUAL(result[1], 28);
+
+	pi = computePrefixFunction(p4);
+	result = knuthMorrisPratt(text, p4, pi);
+	ASSERT_EQUAL(result.size(), 4);
+	ASSERT_EQUAL(result[0], 5);
+	ASSERT_EQUAL(result[1], 21);
+	ASSERT_EQUAL(result[2], 25);
+	ASSERT_EQUAL(result[3], 27);
+}
+
+void knuthMorrisPrattSymbol() {
+	std::string text = "çãáà\? [] /()=!#&|$#!#  '-<>>|";
+	std::string p1 = "çã";
+	std::string p2 = ">|";
+	std::string p3 = ">";
+	std::string p4 = " ";
+	vector<int> result;
+	vector<int> pi;
+
+	// Single match beginning & end
+	pi = computePrefixFunction(p1);
+	result = knuthMorrisPratt(text, p1, pi);
+	ASSERT_EQUAL(result.size(), 1);
+	ASSERT_EQUAL(result[0], 0);
+
+	pi = computePrefixFunction(p2);
+	result = knuthMorrisPratt(text, p2, pi);
+	ASSERT_EQUAL(result.size(), 1);
+	ASSERT_EQUAL(result[0], text.size() - 2);
+
+	// Multiple matches
+	pi = computePrefixFunction(p3);
+	result = knuthMorrisPratt(text, p3, pi);
+	ASSERT_EQUAL(result.size(), 2);
+	ASSERT_EQUAL(result[0], text.size() - 3);
+	ASSERT_EQUAL(result[1], text.size() - 2);
+
+	pi = computePrefixFunction(p4);
+	result = knuthMorrisPratt(text, p4, pi);
+	ASSERT_EQUAL(result.size(), 4);
+	ASSERT_EQUAL(result[0], 9);
+	ASSERT_EQUAL(result[1], 12);
+	ASSERT_EQUAL(result[2], 25);
+	ASSERT_EQUAL(result[3], 26);
+}
+
+void knuthMorrisPrattTime() {
+	const int numberSizeDoubleIncrements = 15;
+	const int repetitionsPerSize = 5;
+	string text =
+			"Murphy's Original Law "
+					"If there are two or more ways to do something, and one of those ways can result in a catastrophe, then someone will do it."
+					"Murphy's Law"
+					"If anything can go wrong -- it will."
+					"Murphy's First Corollary"
+					"Left to themselves, things tend to go from bad to worse."
+					"Murphy's Second Corollary"
+					"It is impossible to make anything foolproof because fools are so ingenious."
+					"Quantised Revision of Murphy's Law"
+					"Everything goes wrong all at once."
+					"Murphy's Constant"
+					"Matter will be damaged in direct proportion to its value."
+					"The Murphy Philosophy"
+					"Smile... tomorrow will be worse. ";
+	string pattern = "a";
+
+	cout << "\n\n*** KNUTH MORRIS PRATT string matching ***\n\n";
+
+	clock_t startTime = clock();
+	vector<int> pi = computePrefixFunction(pattern);
+	for (int n = 0; n < numberSizeDoubleIncrements; n++, text += text) {
+		for (int i = 0; i < repetitionsPerSize; i++)
+			knuthMorrisPratt(text, pattern, pi);
+
+		clock_t endTime = clock();
+		clock_t clockTicksTaken = endTime - startTime;
+		double timeInSeconds = clockTicksTaken / (double) CLOCKS_PER_SEC;
+		cout << "String matching for text size = "
+				<< text.size() + text.size() * n << "     \t"
+				<< "Total time in seconds = " << timeInSeconds << "     \t"
+				<< "Average time per search in seconds= "
+				<< timeInSeconds / repetitionsPerSize << endl;
+	}
 }
 
 void runSuite() {
 	cute::suite s;
 	//TODO add your test here
-	s.push_back(CUTE(kmp));
-	s.push_back(CUTE(n));
-	s.push_back(CUTE(a));
+	s.push_back(CUTE(naiveAlpha));
+	s.push_back(CUTE(naiveNumeric));
+	s.push_back(CUTE(naiveSymbol));
+	s.push_back(CUTE(finiteAutomatonAlpha));
+	s.push_back(CUTE(finiteAutomatonNumeric));
+	s.push_back(CUTE(finiteAutomatonSymbol));
+	s.push_back(CUTE(knuthMorrisPrattAlpha));
+	s.push_back(CUTE(knuthMorrisPrattNumeric));
+	s.push_back(CUTE(knuthMorrisPrattSymbol));
+	s.push_back(CUTE(naiveTime));
+	s.push_back(CUTE(finiteAutomatonTime));
+	s.push_back(CUTE(knuthMorrisPrattTime));
 	cute::ide_listener lis;
 	cute::makeRunner(lis)(s, "leGrep");
 }

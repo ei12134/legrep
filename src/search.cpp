@@ -24,6 +24,7 @@ string getAlphabet(const string& s) {
 }
 
 hashTable computeStateTransitionTable(const string& pattern) {
+	table.clear();
 	string alphabet = getAlphabet(pattern);
 	int as = alphabet.size(); // |E|
 	int ps = pattern.size(); // |P|

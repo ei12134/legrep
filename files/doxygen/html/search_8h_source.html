@@ -61,30 +61,33 @@
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;table.h&quot;</span></div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">using namespace </span><a class="code" href="namespacestd.html">std</a>;</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keywordtype">bool</span> <a class="code" href="search_8h.html#a83773659bba51c47c8d10f40fe550ce8">naive</a>(<span class="keywordtype">string</span>&amp; text, <span class="keywordtype">string</span>&amp; pattern);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keywordtype">bool</span> <a class="code" href="search_8h.html#ae07a81c9b72611b8a29d620362db0ecb">knuthMorrisPratt</a>(<span class="keywordtype">string</span>&amp; text, <span class="keywordtype">string</span>&amp; pattern);</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;vector&lt;int&gt; <a class="code" href="search_8h.html#a08178361a5dcfc78c0becb233ae9f30c">computePrefixFunction</a>(<span class="keywordtype">string</span>&amp; pattern);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keywordtype">string</span> <a class="code" href="search_8h.html#ab6071be344ea00668d4f353095210f9f">getAlphabet</a>(<span class="keywordtype">string</span>&amp; s);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;hashTable <a class="code" href="search_8h.html#a6b0e12105f03f750b02e2bc30ccb07e2">computeStateTransitionTable</a>(<span class="keywordtype">string</span>&amp; pattern);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="keywordtype">bool</span> <a class="code" href="search_8h.html#a503670e7d5573601db0a32b813b014bb">finiteAutomaton</a>(hashTable table, <span class="keywordtype">string</span>&amp; text, <span class="keywordtype">string</span>&amp; pattern);</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor">#endif // SEARCH_H_</span></div>
-<div class="ttc" id="search_8h_html_a08178361a5dcfc78c0becb233ae9f30c"><div class="ttname"><a href="search_8h.html#a08178361a5dcfc78c0becb233ae9f30c">computePrefixFunction</a></div><div class="ttdeci">vector&lt; int &gt; computePrefixFunction(string &amp;pattern)</div><div class="ttdef"><b>Definition:</b> search.cpp:33</div></div>
-<div class="ttc" id="search_8h_html_a503670e7d5573601db0a32b813b014bb"><div class="ttname"><a href="search_8h.html#a503670e7d5573601db0a32b813b014bb">finiteAutomaton</a></div><div class="ttdeci">bool finiteAutomaton(hashTable table, string &amp;text, string &amp;pattern)</div><div class="ttdef"><b>Definition:</b> search.cpp:79</div></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">static</span> hashTable table;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">static</span> vector&lt;int&gt; pi;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;vector&lt;int&gt; <a class="code" href="search_8h.html#aa4e2586280650efca87d870acff4222c">naive</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; text, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; pattern);</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keywordtype">string</span> <a class="code" href="search_8h.html#a847f9a2a3671413f99246a1e6b389cb7">getAlphabet</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; s);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;hashTable <a class="code" href="search_8h.html#aa35d224980814c03225c025b748457fb">computeStateTransitionTable</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; pattern);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;vector&lt;int&gt;  <a class="code" href="search_8h.html#ad96c2ffa3fcf5a63333199555010b214">finiteAutomaton</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; text, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; pattern);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;vector&lt;int&gt; <a class="code" href="search_8h.html#a64c1b227aa98a21065890c9e2afcabe4">computePrefixFunction</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; pattern);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;vector&lt;int&gt;  <a class="code" href="search_8h.html#a29d322f7abe797befcfebf1e185844c2">knuthMorrisPratt</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; text, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; pattern, <span class="keyword">const</span> vector&lt;int&gt;&amp; pi);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor">#endif // SEARCH_H_</span></div>
+<div class="ttc" id="search_8h_html_aa4e2586280650efca87d870acff4222c"><div class="ttname"><a href="search_8h.html#aa4e2586280650efca87d870acff4222c">naive</a></div><div class="ttdeci">vector&lt; int &gt; naive(const string &amp;text, const string &amp;pattern)</div><div class="ttdef"><b>Definition:</b> search.cpp:4</div></div>
+<div class="ttc" id="search_8h_html_aa35d224980814c03225c025b748457fb"><div class="ttname"><a href="search_8h.html#aa35d224980814c03225c025b748457fb">computeStateTransitionTable</a></div><div class="ttdeci">hashTable computeStateTransitionTable(const string &amp;pattern)</div><div class="ttdef"><b>Definition:</b> search.cpp:26</div></div>
+<div class="ttc" id="search_8h_html_a847f9a2a3671413f99246a1e6b389cb7"><div class="ttname"><a href="search_8h.html#a847f9a2a3671413f99246a1e6b389cb7">getAlphabet</a></div><div class="ttdeci">string getAlphabet(const string &amp;s)</div><div class="ttdef"><b>Definition:</b> search.cpp:17</div></div>
 <div class="ttc" id="namespacestd_html"><div class="ttname"><a href="namespacestd.html">std</a></div></div>
-<div class="ttc" id="search_8h_html_ab6071be344ea00668d4f353095210f9f"><div class="ttname"><a href="search_8h.html#ab6071be344ea00668d4f353095210f9f">getAlphabet</a></div><div class="ttdeci">string getAlphabet(string &amp;s)</div><div class="ttdef"><b>Definition:</b> search.cpp:46</div></div>
-<div class="ttc" id="search_8h_html_a6b0e12105f03f750b02e2bc30ccb07e2"><div class="ttname"><a href="search_8h.html#a6b0e12105f03f750b02e2bc30ccb07e2">computeStateTransitionTable</a></div><div class="ttdeci">hashTable computeStateTransitionTable(string &amp;pattern)</div><div class="ttdef"><b>Definition:</b> search.cpp:55</div></div>
-<div class="ttc" id="search_8h_html_ae07a81c9b72611b8a29d620362db0ecb"><div class="ttname"><a href="search_8h.html#ae07a81c9b72611b8a29d620362db0ecb">knuthMorrisPratt</a></div><div class="ttdeci">bool knuthMorrisPratt(string &amp;text, string &amp;pattern)</div><div class="ttdef"><b>Definition:</b> search.cpp:16</div></div>
-<div class="ttc" id="search_8h_html_a83773659bba51c47c8d10f40fe550ce8"><div class="ttname"><a href="search_8h.html#a83773659bba51c47c8d10f40fe550ce8">naive</a></div><div class="ttdeci">bool naive(string &amp;text, string &amp;pattern)</div><div class="ttdef"><b>Definition:</b> search.cpp:4</div></div>
+<div class="ttc" id="search_8h_html_ad96c2ffa3fcf5a63333199555010b214"><div class="ttname"><a href="search_8h.html#ad96c2ffa3fcf5a63333199555010b214">finiteAutomaton</a></div><div class="ttdeci">vector&lt; int &gt; finiteAutomaton(const string &amp;text, const string &amp;pattern)</div><div class="ttdef"><b>Definition:</b> search.cpp:51</div></div>
+<div class="ttc" id="search_8h_html_a29d322f7abe797befcfebf1e185844c2"><div class="ttname"><a href="search_8h.html#a29d322f7abe797befcfebf1e185844c2">knuthMorrisPratt</a></div><div class="ttdeci">vector&lt; int &gt; knuthMorrisPratt(const string &amp;text, const string &amp;pattern, const vector&lt; int &gt; &amp;pi)</div><div class="ttdef"><b>Definition:</b> search.cpp:86</div></div>
+<div class="ttc" id="search_8h_html_a64c1b227aa98a21065890c9e2afcabe4"><div class="ttname"><a href="search_8h.html#a64c1b227aa98a21065890c9e2afcabe4">computePrefixFunction</a></div><div class="ttdeci">vector&lt; int &gt; computePrefixFunction(const string &amp;pattern)</div><div class="ttdef"><b>Definition:</b> search.cpp:71</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun May 17 2015 17:42:42 for legrep by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat May 23 2015 18:28:53 for legrep by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.8
 </small></address>
