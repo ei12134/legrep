@@ -6,8 +6,8 @@ vector<int> naive(const string& text, const string& pattern) {
 	int ts = text.size(); // |T|
 	int ps = pattern.size(); // |P|
 
-	// Time complexity O((|T|-|P|+1).|T|) or O(|T||P|)
-	for (int i = 0; i <= (ts - ps); i++) {
+	// Time complexity O(|T||P|)
+	for (int i = 0; i < ts; i++) {
 		if (text.substr(i, ps) == pattern) // hidden for loop
 			indexes.push_back(i);
 	}

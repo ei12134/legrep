@@ -11,6 +11,8 @@ void naiveAlpha() {
 	string p2 = "g";
 	string p3 = "he";
 	string p4 = "o";
+	string p5 = "";
+	string p6 = "zero";
 	vector<int> result;
 
 	// Single match beginning & end
@@ -34,6 +36,13 @@ void naiveAlpha() {
 	ASSERT_EQUAL(result[1], 17);
 	ASSERT_EQUAL(result[2], 26);
 	ASSERT_EQUAL(result[3], 41);
+
+	result = naive(text, p5);
+	ASSERT_EQUAL(result.size(), text.size());
+
+	// No matches
+	result = naive(text, p6);
+	ASSERT_EQUAL(result.size(), 0);
 }
 
 void naiveNumeric() {
@@ -142,6 +151,8 @@ void finiteAutomatonAlpha() {
 	string p2 = "g";
 	string p3 = "he";
 	string p4 = "o";
+	string p5 = "";
+	string p6 = "zero";
 	vector<int> result;
 	Table table;
 
@@ -170,6 +181,15 @@ void finiteAutomatonAlpha() {
 	ASSERT_EQUAL(result[1], 17);
 	ASSERT_EQUAL(result[2], 26);
 	ASSERT_EQUAL(result[3], 41);
+
+	table = computeStateTransitionTable(p5);
+	result = finiteAutomaton(text, p5, table);
+	ASSERT_EQUAL(result.size(), text.size());
+
+	// No matches
+	table = computeStateTransitionTable(p6);
+	result = finiteAutomaton(text, p6, table);
+	ASSERT_EQUAL(result.size(), 0);
 }
 
 void finiteAutomatonNumeric() {
@@ -289,6 +309,8 @@ void knuthMorrisPrattAlpha() {
 	string p2 = "g";
 	string p3 = "he";
 	string p4 = "o";
+	string p5 = "";
+	string p6 = "zero";
 	vector<int> result;
 	vector<int> pi;
 
@@ -317,6 +339,15 @@ void knuthMorrisPrattAlpha() {
 	ASSERT_EQUAL(result[1], 17);
 	ASSERT_EQUAL(result[2], 26);
 	ASSERT_EQUAL(result[3], 41);
+
+	pi = computePrefixFunction(p5);
+	result = knuthMorrisPratt(text, p5, pi);
+	ASSERT_EQUAL(result.size(), text.size());
+
+	// No matches
+	pi = computePrefixFunction(p6);
+	result = knuthMorrisPratt(text, p6, pi);
+	ASSERT_EQUAL(result.size(), 0);
 }
 
 void knuthMorrisPrattNumeric() {
@@ -435,11 +466,9 @@ void runSuite() {
 	s.push_back(CUTE(naiveAlpha));
 	s.push_back(CUTE(naiveNumeric));
 	s.push_back(CUTE(naiveSymbol));
-
 	s.push_back(CUTE(finiteAutomatonAlpha));
 	s.push_back(CUTE(finiteAutomatonNumeric));
 	s.push_back(CUTE(finiteAutomatonSymbol));
-
 	s.push_back(CUTE(knuthMorrisPrattAlpha));
 	s.push_back(CUTE(knuthMorrisPrattNumeric));
 	s.push_back(CUTE(knuthMorrisPrattSymbol));
@@ -447,6 +476,7 @@ void runSuite() {
 	s.push_back(CUTE(naiveTime));
 	s.push_back(CUTE(finiteAutomatonTime));
 	s.push_back(CUTE(knuthMorrisPrattTime));
+
 	cute::ide_listener lis;
 	cute::makeRunner(lis)(s, "leGrep");
 }
