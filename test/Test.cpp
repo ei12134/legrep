@@ -6,11 +6,11 @@
 #include "cute_runner.h"
 
 void naiveAlpha() {
-	std::string text = "The quick brown fox jumps over the lazy dog";
-	std::string p1 = "The q";
-	std::string p2 = "g";
-	std::string p3 = "he";
-	std::string p4 = "o";
+	string text = "The quick brown fox jumps over the lazy dog";
+	string p1 = "The q";
+	string p2 = "g";
+	string p3 = "he";
+	string p4 = "o";
 	vector<int> result;
 
 	// Single match beginning & end
@@ -37,11 +37,11 @@ void naiveAlpha() {
 }
 
 void naiveNumeric() {
-	std::string text = "01234567890 1337 3141592653589793";
-	std::string p1 = "0123456789";
-	std::string p2 = "93";
-	std::string p3 = "89";
-	std::string p4 = "5";
+	string text = "01234567890 1337 3141592653589793";
+	string p1 = "0123456789";
+	string p2 = "93";
+	string p3 = "89";
+	string p4 = "5";
 	vector<int> result;
 
 	// Single match beginning & end
@@ -68,11 +68,11 @@ void naiveNumeric() {
 }
 
 void naiveSymbol() {
-	std::string text = "çãáà\? [] /()=!#&|$#!#  '-<>>|";
-	std::string p1 = "çã";
-	std::string p2 = ">|";
-	std::string p3 = ">";
-	std::string p4 = " ";
+	string text = "çãáà\? [] /()=!#&|$#!#  '-<>>|";
+	string p1 = "çã";
+	string p2 = ">|";
+	string p3 = ">";
+	string p4 = " ";
 	vector<int> result;
 
 	// Single match beginning & end
@@ -99,7 +99,7 @@ void naiveSymbol() {
 }
 
 void naiveTime() {
-	const int numberSizeDoubleIncrements = 15;
+	const int textSizeIncrements = 7;
 	const int repetitionsPerSize = 5;
 	string text =
 			"Murphy's Original Law "
@@ -121,7 +121,7 @@ void naiveTime() {
 	cout << "\n\n*** NAIVE string matching ***\n\n";
 
 	clock_t startTime = clock();
-	for (int n = 0; n < numberSizeDoubleIncrements; n++, text += text) {
+	for (int n = 0; n < textSizeIncrements; n++, text += text + text + text + text) {
 		for (int i = 0; i < repetitionsPerSize; i++)
 			naive(text, pattern);
 
@@ -129,7 +129,7 @@ void naiveTime() {
 		clock_t clockTicksTaken = endTime - startTime;
 		double timeInSeconds = clockTicksTaken / (double) CLOCKS_PER_SEC;
 		cout << "String matching for text size = "
-				<< text.size() + text.size() * n << "     \t"
+				<< text.size() << "     \t"
 				<< "Total time in seconds = " << timeInSeconds << "     \t"
 				<< "Average time per search in seconds= "
 				<< timeInSeconds / repetitionsPerSize << endl;
@@ -137,33 +137,34 @@ void naiveTime() {
 }
 
 void finiteAutomatonAlpha() {
-	std::string text = "The quick brown fox jumps over the lazy dog";
-	std::string p1 = "The q";
-	std::string p2 = "g";
-	std::string p3 = "he";
-	std::string p4 = "o";
+	string text = "The quick brown fox jumps over the lazy dog";
+	string p1 = "The q";
+	string p2 = "g";
+	string p3 = "he";
+	string p4 = "o";
 	vector<int> result;
+	hashTable table;
 
 	// Single match beginning & end
 	table = computeStateTransitionTable(p1);
-	result = finiteAutomaton(text, p1);
+	result = finiteAutomaton(text, p1, table);
 	ASSERT_EQUAL(result.size(), 1);
 	ASSERT_EQUAL(result[0], 0);
 
 	table = computeStateTransitionTable(p2);
-	result = finiteAutomaton(text, p2);
+	result = finiteAutomaton(text, p2, table);
 	ASSERT_EQUAL(result.size(), 1);
 	ASSERT_EQUAL(result[0], text.size() - 1);
 
 	// Multiple matches
 	table = computeStateTransitionTable(p3);
-	result = finiteAutomaton(text, p3);
+	result = finiteAutomaton(text, p3, table);
 	ASSERT_EQUAL(result.size(), 2);
 	ASSERT_EQUAL(result[0], 1);
 	ASSERT_EQUAL(result[1], 32);
 
 	table = computeStateTransitionTable(p4);
-	result = finiteAutomaton(text, p4);
+	result = finiteAutomaton(text, p4, table);
 	ASSERT_EQUAL(result.size(), 4);
 	ASSERT_EQUAL(result[0], 12);
 	ASSERT_EQUAL(result[1], 17);
@@ -172,33 +173,34 @@ void finiteAutomatonAlpha() {
 }
 
 void finiteAutomatonNumeric() {
-	std::string text = "01234567890 1337 3141592653589793";
-	std::string p1 = "0123456789";
-	std::string p2 = "93";
-	std::string p3 = "89";
-	std::string p4 = "5";
+	string text = "01234567890 1337 3141592653589793";
+	string p1 = "0123456789";
+	string p2 = "93";
+	string p3 = "89";
+	string p4 = "5";
 	vector<int> result;
+	hashTable table;
 
 	// Single match beginning & end
 	table = computeStateTransitionTable(p1);
-	result = finiteAutomaton(text, p1);
+	result = finiteAutomaton(text, p1, table);
 	ASSERT_EQUAL(result.size(), 1);
 	ASSERT_EQUAL(result[0], 0);
 
 	table = computeStateTransitionTable(p2);
-	result = finiteAutomaton(text, p2);
+	result = finiteAutomaton(text, p2, table);
 	ASSERT_EQUAL(result.size(), 1);
 	ASSERT_EQUAL(result[0], text.size() - 2);
 
 	// Multiple matches
 	table = computeStateTransitionTable(p3);
-	result = finiteAutomaton(text, p3);
+	result = finiteAutomaton(text, p3, table);
 	ASSERT_EQUAL(result.size(), 2);
 	ASSERT_EQUAL(result[0], 8);
 	ASSERT_EQUAL(result[1], 28);
 
 	table = computeStateTransitionTable(p4);
-	result = finiteAutomaton(text, p4);
+	result = finiteAutomaton(text, p4, table);
 	ASSERT_EQUAL(result.size(), 4);
 	ASSERT_EQUAL(result[0], 5);
 	ASSERT_EQUAL(result[1], 21);
@@ -207,33 +209,34 @@ void finiteAutomatonNumeric() {
 }
 
 void finiteAutomatonSymbol() {
-	std::string text = "çãáà\? [] /()=!#&|$#!#  '-<>>|";
-	std::string p1 = "çã";
-	std::string p2 = ">|";
-	std::string p3 = ">";
-	std::string p4 = " ";
+	string text = "çãáà\? [] /()=!#&|$#!#  '-<>>|";
+	string p1 = "çã";
+	string p2 = ">|";
+	string p3 = ">";
+	string p4 = " ";
 	vector<int> result;
+	hashTable table;
 
 	// Single match beginning & end
 	table = computeStateTransitionTable(p1);
-	result = finiteAutomaton(text, p1);
+	result = finiteAutomaton(text, p1, table);
 	ASSERT_EQUAL(result.size(), 1);
 	ASSERT_EQUAL(result[0], 0);
 
 	table = computeStateTransitionTable(p2);
-	result = finiteAutomaton(text, p2);
+	result = finiteAutomaton(text, p2, table);
 	ASSERT_EQUAL(result.size(), 1);
 	ASSERT_EQUAL(result[0], text.size() - 2);
 
 	// Multiple matches
 	table = computeStateTransitionTable(p3);
-	result = finiteAutomaton(text, p3);
+	result = finiteAutomaton(text, p3, table);
 	ASSERT_EQUAL(result.size(), 2);
 	ASSERT_EQUAL(result[0], text.size() - 3);
 	ASSERT_EQUAL(result[1], text.size() - 2);
 
 	table = computeStateTransitionTable(p4);
-	result = finiteAutomaton(text, p4);
+	result = finiteAutomaton(text, p4, table);
 	ASSERT_EQUAL(result.size(), 4);
 	ASSERT_EQUAL(result[0], 9);
 	ASSERT_EQUAL(result[1], 12);
@@ -242,7 +245,7 @@ void finiteAutomatonSymbol() {
 }
 
 void finiteAutomatonTime() {
-	const int numberSizeDoubleIncrements = 15;
+	const int textSizeIncrements = 7;
 	const int repetitionsPerSize = 5;
 	string text =
 			"Murphy's Original Law "
@@ -264,16 +267,16 @@ void finiteAutomatonTime() {
 	cout << "\n\n*** FINITE AUTOMATON string matching ***\n\n";
 
 	clock_t startTime = clock();
-	table = computeStateTransitionTable(pattern);
-	for (int n = 0; n < numberSizeDoubleIncrements; n++, text += text) {
+	hashTable table = computeStateTransitionTable(pattern);
+	for (int n = 0; n < textSizeIncrements; n++, text += text + text + text + text) {
 		for (int i = 0; i < repetitionsPerSize; i++)
-			finiteAutomaton(text, pattern);
+			finiteAutomaton(text, pattern, table);
 
 		clock_t endTime = clock();
 		clock_t clockTicksTaken = endTime - startTime;
 		double timeInSeconds = clockTicksTaken / (double) CLOCKS_PER_SEC;
 		cout << "String matching for text size = "
-				<< text.size() + text.size() * n << "     \t"
+				<< text.size() << "     \t"
 				<< "Total time in seconds = " << timeInSeconds << "     \t"
 				<< "Average time per search in seconds= "
 				<< timeInSeconds / repetitionsPerSize << endl;
@@ -281,11 +284,11 @@ void finiteAutomatonTime() {
 }
 
 void knuthMorrisPrattAlpha() {
-	std::string text = "The quick brown fox jumps over the lazy dog";
-	std::string p1 = "The q";
-	std::string p2 = "g";
-	std::string p3 = "he";
-	std::string p4 = "o";
+	string text = "The quick brown fox jumps over the lazy dog";
+	string p1 = "The q";
+	string p2 = "g";
+	string p3 = "he";
+	string p4 = "o";
 	vector<int> result;
 	vector<int> pi;
 
@@ -317,11 +320,11 @@ void knuthMorrisPrattAlpha() {
 }
 
 void knuthMorrisPrattNumeric() {
-	std::string text = "01234567890 1337 3141592653589793";
-	std::string p1 = "0123456789";
-	std::string p2 = "93";
-	std::string p3 = "89";
-	std::string p4 = "5";
+	string text = "01234567890 1337 3141592653589793";
+	string p1 = "0123456789";
+	string p2 = "93";
+	string p3 = "89";
+	string p4 = "5";
 	vector<int> result;
 	vector<int> pi;
 
@@ -353,11 +356,11 @@ void knuthMorrisPrattNumeric() {
 }
 
 void knuthMorrisPrattSymbol() {
-	std::string text = "çãáà\? [] /()=!#&|$#!#  '-<>>|";
-	std::string p1 = "çã";
-	std::string p2 = ">|";
-	std::string p3 = ">";
-	std::string p4 = " ";
+	string text = "çãáà\? [] /()=!#&|$#!#  '-<>>|";
+	string p1 = "çã";
+	string p2 = ">|";
+	string p3 = ">";
+	string p4 = " ";
 	vector<int> result;
 	vector<int> pi;
 
@@ -389,7 +392,7 @@ void knuthMorrisPrattSymbol() {
 }
 
 void knuthMorrisPrattTime() {
-	const int numberSizeDoubleIncrements = 15;
+	const int textSizeIncrements = 7;
 	const int repetitionsPerSize = 5;
 	string text =
 			"Murphy's Original Law "
@@ -412,7 +415,7 @@ void knuthMorrisPrattTime() {
 
 	clock_t startTime = clock();
 	vector<int> pi = computePrefixFunction(pattern);
-	for (int n = 0; n < numberSizeDoubleIncrements; n++, text += text) {
+	for (int n = 0; n < textSizeIncrements; n++, text += text + text + text + text) {
 		for (int i = 0; i < repetitionsPerSize; i++)
 			knuthMorrisPratt(text, pattern, pi);
 
@@ -420,7 +423,7 @@ void knuthMorrisPrattTime() {
 		clock_t clockTicksTaken = endTime - startTime;
 		double timeInSeconds = clockTicksTaken / (double) CLOCKS_PER_SEC;
 		cout << "String matching for text size = "
-				<< text.size() + text.size() * n << "     \t"
+				<< text.size() << "     \t"
 				<< "Total time in seconds = " << timeInSeconds << "     \t"
 				<< "Average time per search in seconds= "
 				<< timeInSeconds / repetitionsPerSize << endl;
@@ -429,16 +432,18 @@ void knuthMorrisPrattTime() {
 
 void runSuite() {
 	cute::suite s;
-	//TODO add your test here
 	s.push_back(CUTE(naiveAlpha));
 	s.push_back(CUTE(naiveNumeric));
 	s.push_back(CUTE(naiveSymbol));
+
 	s.push_back(CUTE(finiteAutomatonAlpha));
 	s.push_back(CUTE(finiteAutomatonNumeric));
 	s.push_back(CUTE(finiteAutomatonSymbol));
+
 	s.push_back(CUTE(knuthMorrisPrattAlpha));
 	s.push_back(CUTE(knuthMorrisPrattNumeric));
 	s.push_back(CUTE(knuthMorrisPrattSymbol));
+
 	s.push_back(CUTE(naiveTime));
 	s.push_back(CUTE(finiteAutomatonTime));
 	s.push_back(CUTE(knuthMorrisPrattTime));

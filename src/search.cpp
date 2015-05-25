@@ -24,11 +24,10 @@ string getAlphabet(const string& s) {
 }
 
 hashTable computeStateTransitionTable(const string& pattern) {
-	table.clear();
 	string alphabet = getAlphabet(pattern);
 	int as = alphabet.size(); // |E|
 	int ps = pattern.size(); // |P|
-	hashTable t;
+	hashTable table;
 
 	// Time complexity O(|P|.|P|.|P|.|E|)
 	for (int state = 0; state < ps; state++) {
@@ -45,10 +44,10 @@ hashTable computeStateTransitionTable(const string& pattern) {
 			table.insert(e);
 		}
 	}
-	return t;
+	return table;
 }
 
-vector<int> finiteAutomaton(const string& text, const string& pattern) {
+vector<int> finiteAutomaton(const string& text, const string& pattern, const hashTable& table) {
 	vector<int> indexes;
 	int ts = text.size();
 	int ps = pattern.size();
@@ -61,8 +60,10 @@ vector<int> finiteAutomaton(const string& text, const string& pattern) {
 			state = 0;
 		else
 			state = next->getNextState();
-		if (state == ps)
+		if (state == ps){
 			indexes.push_back(i - ps + 1);
+			state = 0;
+		}
 	}
 
 	return indexes;

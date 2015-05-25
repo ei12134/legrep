@@ -66,6 +66,7 @@ void readFile(string& filePath, string& pattern) {
 	int lineNumber = 1;
 	vector<int> empty;
 	vector<int> pi;
+	hashTable table;
 
 	if (matchMode == FINITE_AUTOMATA) {
 		table = computeStateTransitionTable(pattern);
@@ -92,7 +93,7 @@ void readFile(string& filePath, string& pattern) {
 			// search call
 			switch (matchMode) {
 			case FINITE_AUTOMATA:
-				indexes = finiteAutomaton(text, pattern);
+				indexes = finiteAutomaton(text, pattern, table);
 				break;
 
 			case NAIVE:

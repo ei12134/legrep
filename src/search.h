@@ -10,9 +10,6 @@
 #include "table.h"
 using namespace std;
 
-static hashTable table;
-static vector<int> pi;
-
 /** @file */
 
 /**
@@ -44,7 +41,7 @@ hashTable computeStateTransitionTable(const string& pattern);
  * @param pattern string to match in the text
  * @return indexes for each of the first character in the text matching the pattern
  */
-vector<int>  finiteAutomaton(const string& text, const string& pattern);
+vector<int> finiteAutomaton(const string& text, const string& pattern, const hashTable& table);
 
 /**
  * generates prefix function used in the Knuth-Morris-Pratt string-match algorithm
