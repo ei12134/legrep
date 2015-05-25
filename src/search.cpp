@@ -31,11 +31,11 @@ Table computeStateTransitionTable(const string& pattern) {
 	vector<int> pi = computePrefixFunction(pattern);
 
 	// Time complexity O(|P|.|E|)
-	for (int state = 0; state < ps; state++) {
+	for (int state = -1; state < ps; state++) {
 		for (int i = 0; i < as; i++) {
 			int k;
 			if (alphabet[i] != pattern[state])
-				k = pi[state + 1];
+				k = pi[state + 1] + 1;
 			else
 				k = state + 1;
 

@@ -444,9 +444,9 @@ void runSuite() {
 	s.push_back(CUTE(knuthMorrisPrattNumeric));
 	s.push_back(CUTE(knuthMorrisPrattSymbol));
 
-//	s.push_back(CUTE(naiveTime));
+	s.push_back(CUTE(naiveTime));
 	s.push_back(CUTE(finiteAutomatonTime));
-//	s.push_back(CUTE(knuthMorrisPrattTime));
+	s.push_back(CUTE(knuthMorrisPrattTime));
 	cute::ide_listener lis;
 	cute::makeRunner(lis)(s, "leGrep");
 }

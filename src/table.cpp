@@ -32,15 +32,11 @@ void Table::insert(Entry e) {
 }
 
 int Table::find(int currentState, char character) const {
-	size_t i = currentState * alphabetSize;
-	size_t limit = i + alphabetSize;
-
-	while (i < limit) {
+	for (size_t i = currentState * alphabetSize;
+			i < transitions.size(); i++) {
 		if (transitions[i].getCurrentState() == currentState
 				&& transitions[i].getCharacter() == character)
 			return transitions[i].getNextState();
-		i++;
 	}
-
 	return 0;
 }
