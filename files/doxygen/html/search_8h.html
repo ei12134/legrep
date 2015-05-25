@@ -80,10 +80,10 @@ Functions</h2></td></tr>
 <tr class="separator:aa4e2586280650efca87d870acff4222c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a847f9a2a3671413f99246a1e6b389cb7"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="search_8h.html#a847f9a2a3671413f99246a1e6b389cb7">getAlphabet</a> (const string &amp;s)</td></tr>
 <tr class="separator:a847f9a2a3671413f99246a1e6b389cb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa35d224980814c03225c025b748457fb"><td class="memItemLeft" align="right" valign="top">hashTable&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="search_8h.html#aa35d224980814c03225c025b748457fb">computeStateTransitionTable</a> (const string &amp;pattern)</td></tr>
-<tr class="separator:aa35d224980814c03225c025b748457fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad96c2ffa3fcf5a63333199555010b214"><td class="memItemLeft" align="right" valign="top">vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="search_8h.html#ad96c2ffa3fcf5a63333199555010b214">finiteAutomaton</a> (const string &amp;text, const string &amp;pattern)</td></tr>
-<tr class="separator:ad96c2ffa3fcf5a63333199555010b214"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92014e6a347073f87e4999e2a8fecbdd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classTable.html">Table</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="search_8h.html#a92014e6a347073f87e4999e2a8fecbdd">computeStateTransitionTable</a> (const string &amp;pattern)</td></tr>
+<tr class="separator:a92014e6a347073f87e4999e2a8fecbdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8557d38ec3dbbfa537d9a663f3deefdf"><td class="memItemLeft" align="right" valign="top">vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="search_8h.html#a8557d38ec3dbbfa537d9a663f3deefdf">finiteAutomaton</a> (const string &amp;text, const string &amp;pattern, const <a class="el" href="classTable.html">Table</a> &amp;table)</td></tr>
+<tr class="separator:a8557d38ec3dbbfa537d9a663f3deefdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a64c1b227aa98a21065890c9e2afcabe4"><td class="memItemLeft" align="right" valign="top">vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="search_8h.html#a64c1b227aa98a21065890c9e2afcabe4">computePrefixFunction</a> (const string &amp;pattern)</td></tr>
 <tr class="separator:a64c1b227aa98a21065890c9e2afcabe4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a29d322f7abe797befcfebf1e185844c2"><td class="memItemLeft" align="right" valign="top">vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="search_8h.html#a29d322f7abe797befcfebf1e185844c2">knuthMorrisPratt</a> (const string &amp;text, const string &amp;pattern, const vector&lt; int &gt; &amp;pi)</td></tr>
@@ -113,12 +113,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aa35d224980814c03225c025b748457fb"></a>
+<a class="anchor" id="a92014e6a347073f87e4999e2a8fecbdd"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">hashTable computeStateTransitionTable </td>
+          <td class="memname"><a class="el" href="classTable.html">Table</a> computeStateTransitionTable </td>
           <td>(</td>
           <td class="paramtype">const string &amp;&#160;</td>
           <td class="paramname"><em>pattern</em></td><td>)</td>
@@ -132,11 +132,11 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Table type object containing all accepted transitions </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classTable.html">Table</a> type object containing all accepted transitions </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="ad96c2ffa3fcf5a63333199555010b214"></a>
+<a class="anchor" id="a8557d38ec3dbbfa537d9a663f3deefdf"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -150,7 +150,13 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const string &amp;&#160;</td>
-          <td class="paramname"><em>pattern</em>&#160;</td>
+          <td class="paramname"><em>pattern</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classTable.html">Table</a> &amp;&#160;</td>
+          <td class="paramname"><em>table</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -271,7 +277,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat May 23 2015 18:28:53 for legrep by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon May 25 2015 08:00:49 for legrep by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.8
 </small></address>

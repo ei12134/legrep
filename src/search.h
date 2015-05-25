@@ -32,7 +32,7 @@ string getAlphabet(const string& s);
  * @param pattern string input from which the transition table is created
  * @return Table type object containing all accepted transitions
  */
-hashTable computeStateTransitionTable(const string& pattern);
+Table computeStateTransitionTable(const string& pattern);
 
 /**
  * Finds if a pattern is present on a given text using the finite automata string-match algorithm
@@ -41,7 +41,7 @@ hashTable computeStateTransitionTable(const string& pattern);
  * @param pattern string to match in the text
  * @return indexes for each of the first character in the text matching the pattern
  */
-vector<int> finiteAutomaton(const string& text, const string& pattern, const hashTable& table);
+vector<int> finiteAutomaton(const string& text, const string& pattern, const Table& table);
 
 /**
  * generates prefix function used in the Knuth-Morris-Pratt string-match algorithm

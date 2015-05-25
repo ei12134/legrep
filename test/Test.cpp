@@ -121,15 +121,15 @@ void naiveTime() {
 	cout << "\n\n*** NAIVE string matching ***\n\n";
 
 	clock_t startTime = clock();
-	for (int n = 0; n < textSizeIncrements; n++, text += text + text + text + text) {
+	for (int n = 0; n < textSizeIncrements;
+			n++, text += text + text + text + text) {
 		for (int i = 0; i < repetitionsPerSize; i++)
 			naive(text, pattern);
 
 		clock_t endTime = clock();
 		clock_t clockTicksTaken = endTime - startTime;
 		double timeInSeconds = clockTicksTaken / (double) CLOCKS_PER_SEC;
-		cout << "String matching for text size = "
-				<< text.size() << "     \t"
+		cout << "String matching for text size = " << text.size() << "     \t"
 				<< "Total time in seconds = " << timeInSeconds << "     \t"
 				<< "Average time per search in seconds= "
 				<< timeInSeconds / repetitionsPerSize << endl;
@@ -143,7 +143,7 @@ void finiteAutomatonAlpha() {
 	string p3 = "he";
 	string p4 = "o";
 	vector<int> result;
-	hashTable table;
+	Table table;
 
 	// Single match beginning & end
 	table = computeStateTransitionTable(p1);
@@ -179,7 +179,7 @@ void finiteAutomatonNumeric() {
 	string p3 = "89";
 	string p4 = "5";
 	vector<int> result;
-	hashTable table;
+	Table table;
 
 	// Single match beginning & end
 	table = computeStateTransitionTable(p1);
@@ -215,7 +215,7 @@ void finiteAutomatonSymbol() {
 	string p3 = ">";
 	string p4 = " ";
 	vector<int> result;
-	hashTable table;
+	Table table;
 
 	// Single match beginning & end
 	table = computeStateTransitionTable(p1);
@@ -267,16 +267,16 @@ void finiteAutomatonTime() {
 	cout << "\n\n*** FINITE AUTOMATON string matching ***\n\n";
 
 	clock_t startTime = clock();
-	hashTable table = computeStateTransitionTable(pattern);
-	for (int n = 0; n < textSizeIncrements; n++, text += text + text + text + text) {
+	Table table = computeStateTransitionTable(pattern);
+	for (int n = 0; n < textSizeIncrements;
+			n++, text += text + text + text + text) {
 		for (int i = 0; i < repetitionsPerSize; i++)
 			finiteAutomaton(text, pattern, table);
 
 		clock_t endTime = clock();
 		clock_t clockTicksTaken = endTime - startTime;
 		double timeInSeconds = clockTicksTaken / (double) CLOCKS_PER_SEC;
-		cout << "String matching for text size = "
-				<< text.size() << "     \t"
+		cout << "String matching for text size = " << text.size() << "     \t"
 				<< "Total time in seconds = " << timeInSeconds << "     \t"
 				<< "Average time per search in seconds= "
 				<< timeInSeconds / repetitionsPerSize << endl;
@@ -415,15 +415,15 @@ void knuthMorrisPrattTime() {
 
 	clock_t startTime = clock();
 	vector<int> pi = computePrefixFunction(pattern);
-	for (int n = 0; n < textSizeIncrements; n++, text += text + text + text + text) {
+	for (int n = 0; n < textSizeIncrements;
+			n++, text += text + text + text + text) {
 		for (int i = 0; i < repetitionsPerSize; i++)
 			knuthMorrisPratt(text, pattern, pi);
 
 		clock_t endTime = clock();
 		clock_t clockTicksTaken = endTime - startTime;
 		double timeInSeconds = clockTicksTaken / (double) CLOCKS_PER_SEC;
-		cout << "String matching for text size = "
-				<< text.size() << "     \t"
+		cout << "String matching for text size = " << text.size() << "     \t"
 				<< "Total time in seconds = " << timeInSeconds << "     \t"
 				<< "Average time per search in seconds= "
 				<< timeInSeconds / repetitionsPerSize << endl;
@@ -444,9 +444,9 @@ void runSuite() {
 	s.push_back(CUTE(knuthMorrisPrattNumeric));
 	s.push_back(CUTE(knuthMorrisPrattSymbol));
 
-	s.push_back(CUTE(naiveTime));
+//	s.push_back(CUTE(naiveTime));
 	s.push_back(CUTE(finiteAutomatonTime));
-	s.push_back(CUTE(knuthMorrisPrattTime));
+//	s.push_back(CUTE(knuthMorrisPrattTime));
 	cute::ide_listener lis;
 	cute::makeRunner(lis)(s, "leGrep");
 }

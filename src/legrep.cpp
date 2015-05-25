@@ -66,7 +66,7 @@ void readFile(string& filePath, string& pattern) {
 	int lineNumber = 1;
 	vector<int> empty;
 	vector<int> pi;
-	hashTable table;
+	Table table;
 
 	if (matchMode == FINITE_AUTOMATA) {
 		table = computeStateTransitionTable(pattern);

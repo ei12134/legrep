@@ -23,22 +23,21 @@ string getAlphabet(const string& s) {
 	return alphabet;
 }
 
-hashTable computeStateTransitionTable(const string& pattern) {
+Table computeStateTransitionTable(const string& pattern) {
 	string alphabet = getAlphabet(pattern);
 	int as = alphabet.size(); // |E|
 	int ps = pattern.size(); // |P|
-	hashTable table;
+	Table table(alphabet.size(), pattern.size());
+	vector<int> pi = computePrefixFunction(pattern);
 
-	// Time complexity O(|P|.|P|.|P|.|E|)
+	// Time complexity O(|P|.|E|)
 	for (int state = 0; state < ps; state++) {
 		for (int i = 0; i < as; i++) {
-			int k = min(ps, state + 1);
-			string suffix = pattern.substr(0, state) + alphabet[i];
-
-			for (int z = 0; k > 0 && z < (int) suffix.size(); z++, k--) {
-				if (pattern.substr(0, suffix.substr(z).size()) == suffix.substr(z))
-					break;
-			}
+			int k;
+			if (alphabet[i] != pattern[state])
+				k = pi[state + 1];
+			else
+				k = state + 1;
 
 			Entry e = Entry(state, alphabet[i], k);
 			table.insert(e);
@@ -47,7 +46,8 @@ hashTable computeStateTransitionTable(const string& pattern) {
 	return table;
 }
 
-vector<int> finiteAutomaton(const string& text, const string& pattern, const hashTable& table) {
+vector<int> finiteAutomaton(const string& text, const string& pattern,
+		const Table& table) {
 	vector<int> indexes;
 	int ts = text.size();
 	int ps = pattern.size();
@@ -55,12 +55,8 @@ vector<int> finiteAutomaton(const string& text, const string& pattern, const has
 
 	// Time complexity O(|T|)
 	for (int i = 0; i < ts; i++) {
-		auto next = table.find(Entry(state,text[i],0));
-		if (next == table.end())
-			state = 0;
-		else
-			state = next->getNextState();
-		if (state == ps){
+		state = table.find(state, text[i]);
+		if (state == ps) {
 			indexes.push_back(i - ps + 1);
 			state = 0;
 		}
@@ -69,7 +65,7 @@ vector<int> finiteAutomaton(const string& text, const string& pattern, const has
 	return indexes;
 }
 
-vector<int> computePrefixFunction(const string& pattern){
+vector<int> computePrefixFunction(const string& pattern) {
 	int k = -1;
 	int ps = pattern.size();
 	vector<int> pi(pattern.size(), -1);
@@ -84,7 +80,8 @@ vector<int> computePrefixFunction(const string& pattern){
 	return pi;
 }
 
-vector<int> knuthMorrisPratt(const string& text, const string& pattern, const vector<int>& pi) {	
+vector<int> knuthMorrisPratt(const string& text, const string& pattern,
+		const vector<int>& pi) {
 	vector<int> indexes;
 	int ts = text.size();
 	int k = -1;
@@ -94,7 +91,7 @@ vector<int> knuthMorrisPratt(const string& text, const string& pattern, const ve
 			k = pi[k];
 		if (text[q] == pattern[k + 1])
 			k++;
-		if (k == ((int)pattern.size() - 1))
+		if (k == ((int) pattern.size() - 1))
 			indexes.push_back(q - pattern.size() + 1);
 	}
 	return indexes;

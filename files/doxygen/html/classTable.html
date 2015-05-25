@@ -56,16 +56,13 @@
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a049f2e06391781ae255c6698869c4ad1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTable.html#a049f2e06391781ae255c6698869c4ad1">Table</a> ()</td></tr>
 <tr class="separator:a049f2e06391781ae255c6698869c4ad1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a301440ddcd5f0f30f0af4a7067e9b731"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTable.html#a301440ddcd5f0f30f0af4a7067e9b731">Table</a> (string alphabet)</td></tr>
-<tr class="separator:a301440ddcd5f0f30f0af4a7067e9b731"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad5fe73eb1f0d0c761f8f4a75908d7912"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTable.html#ad5fe73eb1f0d0c761f8f4a75908d7912">addEntry</a> (<a class="el" href="classEntry.html">Entry</a> e)</td></tr>
-<tr class="separator:ad5fe73eb1f0d0c761f8f4a75908d7912"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2178c722276ede1f6f83b4a975523dcd"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTable.html#a2178c722276ede1f6f83b4a975523dcd">transition</a> (int currentState, char character) const </td></tr>
-<tr class="separator:a2178c722276ede1f6f83b4a975523dcd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac9c7a1e7586a4b39b0b14348f4bb5777"><td class="memItemLeft" align="right" valign="top">vector&lt; <a class="el" href="classEntry.html">Entry</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTable.html#ac9c7a1e7586a4b39b0b14348f4bb5777">getTable</a> () const </td></tr>
-<tr class="separator:ac9c7a1e7586a4b39b0b14348f4bb5777"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a756cf14674bec1f41ffbbb1f2d8efbbb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTable.html#a756cf14674bec1f41ffbbb1f2d8efbbb">print</a> () const </td></tr>
-<tr class="separator:a756cf14674bec1f41ffbbb1f2d8efbbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a442ce1e7d09218df70c8a32e40805b54"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a442ce1e7d09218df70c8a32e40805b54"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Table</b> (size_t alphabetSize, size_t patternSize)</td></tr>
+<tr class="separator:a442ce1e7d09218df70c8a32e40805b54"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac2d9adc0adc83b6940e2f9967e94c55e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTable.html#ac2d9adc0adc83b6940e2f9967e94c55e">insert</a> (<a class="el" href="classEntry.html">Entry</a> e)</td></tr>
+<tr class="separator:ac2d9adc0adc83b6940e2f9967e94c55e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6ef343babdf7344a349233f4bf98165"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTable.html#ab6ef343babdf7344a349233f4bf98165">find</a> (int currentState, char character) const </td></tr>
+<tr class="separator:ab6ef343babdf7344a349233f4bf98165"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="classTable.html">Table</a> Class stores a machine possible state's table </p>
@@ -82,93 +79,17 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>State transition table default constructor </p>
-
-</div>
-</div>
-<a class="anchor" id="a301440ddcd5f0f30f0af4a7067e9b731"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Table::Table </td>
-          <td>(</td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>alphabet</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>State transition table constructor </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">alphabet</td><td>string from the pattern </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>Default empty constructor </p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="ad5fe73eb1f0d0c761f8f4a75908d7912"></a>
+<a class="anchor" id="ab6ef343babdf7344a349233f4bf98165"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void Table::addEntry </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classEntry.html">Entry</a>&#160;</td>
-          <td class="paramname"><em>e</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Adds a new entry to the table </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">e</td><td>entry to add </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a class="anchor" id="ac9c7a1e7586a4b39b0b14348f4bb5777"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">vector&lt; <a class="el" href="classEntry.html">Entry</a> &gt; Table::getTable </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Gets the table </p><dl class="section return"><dt>Returns</dt><dd>table containing all the entries </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a756cf14674bec1f41ffbbb1f2d8efbbb"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Table::print </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Prints the table </p>
-
-</div>
-</div>
-<a class="anchor" id="a2178c722276ede1f6f83b4a975523dcd"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int Table::transition </td>
+          <td class="memname">int Table::find </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>currentState</em>, </td>
@@ -186,14 +107,36 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Gets the state after the transition </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Gets the new state after the transition </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">currentState</td><td>is the actual state </td></tr>
-    <tr><td class="paramname">character</td><td>is the new character input </td></tr>
+    <tr><td class="paramname">character</td><td>is the input character that triggers a transition </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>new state </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ac2d9adc0adc83b6940e2f9967e94c55e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Table::insert </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classEntry.html">Entry</a>&#160;</td>
+          <td class="paramname"><em>e</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Adds a new entry to the table </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">e</td><td>entry to add </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -204,7 +147,7 @@ Public Member Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun May 17 2015 16:45:35 for legrep by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon May 25 2015 08:00:49 for legrep by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.8
 </small></address>
