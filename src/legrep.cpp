@@ -16,7 +16,7 @@ void resetColor() {
 #endif
 }
 
-void result(string& filePath, string& pattern) {
+void result(const string& filePath, const string& pattern) {
 	fstream file;
 	string line;
 	int lineNumber = 1;
@@ -52,7 +52,7 @@ void result(string& filePath, string& pattern) {
 					startPos = indexes[i] + pattern.size();
 				else 
 					cout << line.substr(indexes[i] + pattern.size());	
-			}	
+			}
 		}
 		if (itr != lines.end())
 			cout << "\n";
@@ -60,20 +60,11 @@ void result(string& filePath, string& pattern) {
 	file.close();
 }
 
-void readFile(string& filePath, string& pattern) {
+void readFile(const string& filePath, const string& pattern) {
 	fstream file;
 	string line, text;
 	int lineNumber = 1;
 	vector<int> empty;
-	vector<int> pi;
-	Table table;
-
-	if (matchMode == FINITE_AUTOMATA) {
-		table = computeStateTransitionTable(pattern);
-	}
-	else if (matchMode == KNUTH_MORRIS_PRATT) {
-		pi = computePrefixFunction(pattern);
-	}
 
 	file.open(filePath.c_str());
 	if (file.is_open()) {
@@ -92,6 +83,10 @@ void readFile(string& filePath, string& pattern) {
 
 			// search call
 			switch (matchMode) {
+			case KNUTH_MORRIS_PRATT:
+				indexes = knuthMorrisPratt(text, pattern, pi);
+				break;
+
 			case FINITE_AUTOMATA:
 				indexes = finiteAutomaton(text, pattern, table);
 				break;
@@ -100,9 +95,6 @@ void readFile(string& filePath, string& pattern) {
 				indexes = naive(text, pattern);
 				break;
 
-			case KNUTH_MORRIS_PRATT:
-				indexes = knuthMorrisPratt(text, pattern, pi);
-				break;
 			default:
 				break;
 			}
@@ -200,18 +192,6 @@ int main(int argc, char** argv) {
 			return 0;
 		}
 
-		if (cmdOptionExists(argv, argv + argc, "-n") || cmdOptionExists(argv, argv + argc, "--naive-match")) {
-			matchMode = NAIVE;
-		}
-
-		else if (cmdOptionExists(argv, argv + argc, "-m") || cmdOptionExists(argv, argv + argc, "--finite-automata")) {
-			matchMode = FINITE_AUTOMATA;
-		}
-
-		else if (cmdOptionExists(argv, argv + argc, "-k") || cmdOptionExists(argv, argv + argc, "--knuth-morris-pratt")) {
-			matchMode = KNUTH_MORRIS_PRATT;
-		}
-
 		if (cmdOptionExists(argv, argv + argc, "-i") || cmdOptionExists(argv, argv + argc, "--ignore-case")) {
 			ignoreCase = true;
 			transform(pattern.begin(), pattern.end(), pattern.begin(), ::tolower);
@@ -240,6 +220,21 @@ int main(int argc, char** argv) {
 			// read before and after match lines
 			beforeContext = atoi(contextPtr);
 			afterContext = beforeContext;
+		}
+
+		// Set string matching mode
+		if (cmdOptionExists(argv, argv + argc, "-n") || cmdOptionExists(argv, argv + argc, "--naive-match")) {
+			matchMode = NAIVE;
+		}
+
+		else if (cmdOptionExists(argv, argv + argc, "-m") || cmdOptionExists(argv, argv + argc, "--finite-automata")) {
+			matchMode = FINITE_AUTOMATA;
+			table = computeStateTransitionTable(pattern);
+		}
+
+		else {
+			matchMode = KNUTH_MORRIS_PRATT;
+			pi = computePrefixFunction(pattern);
 		}
 
 		readFile(file, pattern);
