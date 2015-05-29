@@ -21,7 +21,7 @@ void result(const string& filePath, const string& pattern) {
 	
 	ifstream file(filePath.c_str(), ios::binary);
 
-	for (auto itr = lines.begin(); itr != lines.end() && !file.eof(); itr++) {
+	for (auto itr = lines.begin(); itr != lines.end() && !file.eof() ; itr++) {
 		streampos linePos = (*itr).first;
 		file.seekg(linePos);
 		line.clear();
@@ -34,7 +34,6 @@ void result(const string& filePath, const string& pattern) {
 			cout << "--";
 			resetColor();
 		}
-
 		else {
 			vector<int> indexes = (*itr).second;
 			int startPos = 0;
@@ -98,11 +97,13 @@ void readFile(const string& filePath, const string& pattern) {
 				break;
 			}
 
+			#if !defined(_WIN32) && !defined(_WIN64)
 			if (file.tellg() < ios::end)
 				continue;
+			#endif
 
 			// add lines after context
-			if (lac > 0){
+			if (lac > 0 && afterContext > 0){
 				lines.insert(pair<streampos,vector<int> >(linePos, empty));
 				lac--;
 			}
