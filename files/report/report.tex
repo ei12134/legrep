@@ -22,20 +22,46 @@
 \newpage
 
 \begin{abstract}
-No âmbito da unidade curricular de Concepção e Análise de Algoritmos, foi-nos proposto o desenvolvimento de uma aplicação que emulasse as funcionalidades do utilitário da linha de comandos \texttt{grep} (\textbf{g}lobally search a \textbf{r}egular \textbf{e}xpression and \textbf{p}rint), explorando o conhecimento acerca de algoritmos para pesquisa em strings.
+No âmbito da unidade curricular de Concepção e Análise de Algoritmos, foi-nos proposto o desenvolvimento de uma aplicação que emulasse as funcionalidades do utilitário da linha de comandos \texttt{grep} (\textbf{g}lobally search a \textbf{r}egular \textbf{e}xpression and \textbf{p}rint), explorando o conhecimento acerca de algoritmos para pesquisa exacta de strings.
 \end{abstract}
 
 \section{Formalização do problema}
 
 \subsection{Dados de entrada}
 
-\subsection{Limites e condições de aplicação}
+\begin{itemize}
+\item $P$ - padrão a procurar
+\item $FilePath$ - caminho do ficheiro onde se pretende procurar o padrão
+\item $T$ - cada linha de texto lida do ficheiro
+\end{itemize}
+
+\subsubsection*{Comandos opcionais de entrada}
+\begin{itemize}
+
+\item $-n$, uso do algoritmo $``naive'$ na pesquisa exacta
+\item $-m$, uso do algoritmo baseado em autómato finito
+\item $-k$, uso do algoritmo de Knuth-Morris-Pratt (pré-definido)
+\item $-i$, ignorar diferenças de capitalização entre caracteres
+\item $-v$, mostrar linhas sem correspondências
+\item $-h$, mostrar manual de ajuda
+\item $-B N$, imprimir $N$ linhas de contexto anterior
+\item $-A N$, imprimir $N$ linhas de contexto posterior
+\item $-C N$, imprimir $N$ linhas de contexto anterior e $N$ linhas de contexto posterior
+
+\end{itemize}
+
+\subsection{Limites de aplicação}
 
 \subsection{Situações de contorno}
 
 \subsection{Resultados esperados}
 
+
+
+$Output = B + T + A$
+
 \section{Descrição da solução}
+É feita uma procura de correspondência de um padrão numa cadeia de caracteres ´´string de texto' a cada linha lida de um dado ficheiro de texto.
 
 \subsection{Algoritmos de pesquisa exacta em strings}
 
@@ -60,6 +86,8 @@ Cada carácter do texto é verificado apenas uma vez. A análise ao texto é feita e
 \end{equation}
 
 \subsubsection{Knuth-Morris-Pratt}
+
+\subsubsection{Complexidade empírica}
 
 \section{Lista de casos de utilização}
 

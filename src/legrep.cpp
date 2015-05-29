@@ -152,13 +152,12 @@ void usage(bool status) {
 	} else {
 		cout << "Usage: legrep [OPTION]... PATTERN [FILE]...\n";
 		cout << "Search for PATTERN in each FILE or standard input.\n";
-		cout << "PATTERN is, by default, a basic regular expression (BRE).\n";
-		cout << "Example: legrep -i 'hello world' menu.h main.c\n\n";
+		cout << "Example: legrep -i 'hello world' file.txt\n\n";
 
-		cout << "Regexp selection and interpretation:\n";
+		cout << "PATTERN selection and interpretation:\n";
 		cout << "  -n, --naive-match         naive matching algorithm\n";
-		cout << "  -m, --finite-automata     finite automata state machine algorithm (default)\n";
-		cout << "  -k, --knuth-morris-pratt  Knuth Morris Pratt algorithm\n";
+		cout << "  -m, --finite-automata     finite automata state machine algorithm\n";
+		cout << "  -k, --knuth-morris-pratt  Knuth-Morris-Pratt algorithm (default)\n";
 		cout << "  -i, --ignore-case         ignore case distinctions\n\n";
 
 		cout << "Miscellaneous:\n";

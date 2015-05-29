@@ -40,6 +40,9 @@ WORD Attributes;
 
 enum Modes { FINITE_AUTOMATA, NAIVE, KNUTH_MORRIS_PRATT };
 
+vector<int> pi;
+Table table;
+
 static int matchMode = KNUTH_MORRIS_PRATT;
 static int matches = 0;
 
@@ -58,8 +61,8 @@ static set<pair<int, vector<int> >,compare> lines;
 
 void setColor(const int fgColor, bool fgIntensity);
 void resetColor();
-void result(string& filePath, string& pattern);
-void readFile(string& filePath, string& pattern);
+void result(const string& filePath, const string& pattern);
+void readFile(const string& filePath, const string& pattern);
 char* getCmdOption(char** begin, char** end, const string& option);
 bool cmdOptionExists(char** begin, char** end, const string& option);
 void usage(bool status);
