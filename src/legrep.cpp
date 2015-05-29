@@ -17,10 +17,9 @@ void resetColor() {
 }
 
 void result(const string& filePath, const string& pattern) {
-	fstream file;
 	string line;
 	
-	file.open(filePath.c_str());
+	ifstream file(filePath.c_str(), ios::binary);
 
 	for (auto itr = lines.begin(); itr != lines.end() && !file.eof(); itr++) {
 		streampos linePos = (*itr).first;
@@ -59,14 +58,13 @@ void result(const string& filePath, const string& pattern) {
 }
 
 void readFile(const string& filePath, const string& pattern) {
-	fstream file;
 	string line, text;
 	streampos linePos;
 	queue<streampos> linesBefore;
 	vector<int> empty;
 	int lac = 0;
 
-	file.open(filePath.c_str());
+	ifstream file(filePath.c_str(), ios::binary);
 	if (file.is_open()) {
 		while (file.good()) {
 			// read a line
