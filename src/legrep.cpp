@@ -16,50 +16,10 @@ void resetColor() {
 #endif
 }
 
-void result(const string& filePath, const string& pattern) {
-	string line;
-	
-	ifstream file(filePath.c_str(), ios::binary);
-
-	for (auto itr = lines.begin(); itr != lines.end() && !file.eof() ; itr++) {
-		streampos linePos = (*itr).first;
-		file.seekg(linePos);
-		line.clear();
-		getline(file, line);	
-		
-		if ((*itr).second.size() == 0)
-			cout << line;
-		else if ((*itr).second.size() == 1 && (*itr).second[0] == -1){
-			setColor(BLUE,true);
-			cout << "--";
-			resetColor();
-		}
-		else {
-			vector<int> indexes = (*itr).second;
-			int startPos = 0;
-
-			for (int i = 0; i < (int)indexes.size(); i++){
-				cout << line.substr(startPos,indexes[i]-startPos);
-				setColor(RED,true);
-				cout << line.substr(indexes[i], pattern.size());
-				resetColor();
-				if (i < (int)indexes.size() - 1)
-					startPos = indexes[i] + pattern.size();
-				else 
-					cout << line.substr(indexes[i] + pattern.size());	
-			}
-		}
-		if (itr != lines.end())
-			cout << "\n";
-	}
-	file.close();
-	lines.clear();
-}
-
 void readFile(const string& filePath, const string& pattern) {
 	string line, text;
 	streampos linePos;
-	queue<streampos> linesBefore;
+	queue<string> linesBefore;
 	vector<int> empty;
 	int lac = 0;
 
@@ -102,63 +62,67 @@ void readFile(const string& filePath, const string& pattern) {
 				continue;
 			#endif
 
-			// add lines after context
-			if (lac > 0 && afterContext > 0){
-				lines.insert(pair<streampos,vector<int> >(linePos, empty));
-				lac--;
-			}
-
 			// print the line
 			if (indexes.size() > 0 && !invertMatch) {	
-				auto it = lines.find(pair<int, vector<int> >(linePos, empty));
-				if (it != lines.end())
-					lines.erase(it);
-				lines.insert(pair<streampos,vector<int> >(linePos, indexes));
-
 				// reset lines after context
 				lac = afterContext;
 
 				if (beforeContext > 0 && linesBefore.size() > 1) {
-
 					// add context separation when the last line
 					// before context isn't the first line of the file
 					// and when there are other lines matching the pattern
-					streampos lbc = linesBefore.front();
+					string lbc = linesBefore.front();
 					linesBefore.pop();
 
-					if (matches != 0 && (beforeContext != 0) && lbc > 0){
-						lines.insert(pair<streampos,vector<int> >(lbc,vector<int>(1,-1)));
+					if (matches != 0 && (beforeContext != 0)){ //&& lbc.size() > 0){
+						setColor(BLUE,true);
+						cout << "--";
+						resetColor();
+						cout << "\n";
 					}
-
-					// add lines before context
+					
+					// print lines before context
 					while (!linesBefore.empty()) {
-						streampos lbc = linesBefore.front();
+						string lbc = linesBefore.front();
 						linesBefore.pop();
-						lines.insert(pair<streampos,vector<int> >(lbc, empty));
+						cout << lbc << "\n";
 					}					
 				}
-			}
-			else if (invertMatch && (indexes.size() == 0))
-				lines.insert(pair<streampos,vector<int> >(linePos,empty));
+				// print matching line
+				int startPos = 0;
 
+				for (int i = 0; i < (int)indexes.size(); i++){
+					cout << line.substr(startPos,indexes[i]-startPos);
+					setColor(RED,true);
+					cout << line.substr(indexes[i], pattern.size());
+					resetColor();
+					if (i < (int)indexes.size() - 1)
+						startPos = indexes[i] + pattern.size();
+					else 
+						cout << line.substr(indexes[i] + pattern.size()) << "\n";	
+				}
+			}
+			else if (invertMatch && (indexes.size() == 0)){
+				lines.insert(pair<streampos,vector<int> >(linePos,empty));
+			}
+			else {
+				// add lines after context
+				if (lac > 0 && afterContext > 0){
+					cout << line << "\n";
+					lac--;
+				}
+			}
 			// independently increment matches
 			if (indexes.size() > 0)
 				matches++;
-
-			if (lines.size() > beforeContext + 1)
-				result(filePath, pattern);
-			else { 
-				// don't allow the queue to surpass before lines number
+	
+			// don't allow the queue to surpass before lines number
 			if (linesBefore.size() >= beforeContext + 1)
 				linesBefore.pop();
-			linesBefore.push(linePos);
-
-			}
-			
+			linesBefore.push(line);
 		}
 	}
 	file.close();
-	result(filePath, pattern);
 }
 
 char* getCmdOption(char** begin, char** end, const string& option) {

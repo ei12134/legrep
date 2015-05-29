@@ -60,7 +60,6 @@ set<pair<streampos, vector<int> >,compare> lines;
 
 void setColor(const int fgColor, bool fgIntensity);
 void resetColor();
-void result(const string& filePath, const string& pattern);
 void readFile(const string& filePath, const string& pattern);
 char* getCmdOption(char** begin, char** end, const string& option);
 bool cmdOptionExists(char** begin, char** end, const string& option);
