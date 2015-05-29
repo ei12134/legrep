@@ -35,7 +35,7 @@ void readFile(const string& filePath, const string& pattern) {
 			vector<int> indexes;
 			text = line;
 
-			// grep the line
+			// ignore case flag
 			if (ignoreCase)
 				transform(text.begin(), text.end(), text.begin(), ::tolower);
 
@@ -56,6 +56,10 @@ void readFile(const string& filePath, const string& pattern) {
 			default:
 				break;
 			}
+			#if !defined(_WIN32) && !defined(_WIN64)
+			if (file.tellg() < ios::end)
+				continue;
+			#endif
 
 			// print the line
 			if (indexes.size() > 0 && !invertMatch) {	
