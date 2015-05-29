@@ -57,11 +57,6 @@ void readFile(const string& filePath, const string& pattern) {
 				break;
 			}
 
-			#if !defined(_WIN32) && !defined(_WIN64)
-			if (file.tellg() < ios::end)
-				continue;
-			#endif
-
 			// print the line
 			if (indexes.size() > 0 && !invertMatch) {	
 				// reset lines after context
@@ -98,12 +93,19 @@ void readFile(const string& filePath, const string& pattern) {
 					resetColor();
 					if (i < (int)indexes.size() - 1)
 						startPos = indexes[i] + pattern.size();
-					else 
-						cout << line.substr(indexes[i] + pattern.size()) << "\n";	
+					else {
+						#if defined(_WIN32) || defined(_WIN64)
+						cout << line.substr(indexes[i] + pattern.size());
+						if (file.tellg() > ios::end)
+							cout << "\n";
+						#else
+							cout << line.substr(indexes[i] + pattern.size()) << "\n";
+						#endif
+					}		
 				}
 			}
 			else if (invertMatch && (indexes.size() == 0)){
-				lines.insert(pair<streampos,vector<int> >(linePos,empty));
+				cout << line << "\n";
 			}
 			else {
 				// add lines after context
@@ -111,15 +113,16 @@ void readFile(const string& filePath, const string& pattern) {
 					cout << line << "\n";
 					lac--;
 				}
+				
+				// don't allow the queue to surpass before lines number
+				if (linesBefore.size() >= beforeContext + 1)
+					linesBefore.pop();
+				if (lac <= 0 || afterContext <= 0)
+					linesBefore.push(line);
 			}
 			// independently increment matches
 			if (indexes.size() > 0)
 				matches++;
-	
-			// don't allow the queue to surpass before lines number
-			if (linesBefore.size() >= beforeContext + 1)
-				linesBefore.pop();
-			linesBefore.push(line);
 		}
 	}
 	file.close();
