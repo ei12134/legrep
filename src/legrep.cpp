@@ -221,7 +221,7 @@ int main(int argc, char** argv) {
 			afterContext = beforeContext;
 		}
 
-		// Set string matching mode
+		// Set string matching mode algorithm
 		if (cmdOptionExists(argv, argv + argc, "-n") || cmdOptionExists(argv, argv + argc, "--naive-match")) {
 			matchMode = NAIVE;
 		}

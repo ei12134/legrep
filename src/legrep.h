@@ -38,18 +38,16 @@ WORD Attributes;
 #define GRAY BLUE | GREEN | RED
 #endif
 
-enum Modes { FINITE_AUTOMATA, NAIVE, KNUTH_MORRIS_PRATT };
+enum Modes { KNUTH_MORRIS_PRATT, FINITE_AUTOMATA, NAIVE };
+int matchMode = KNUTH_MORRIS_PRATT;
 
+int matches = 0;
+bool ignoreCase;
+bool invertMatch;
+int beforeContext = 0;
+int afterContext = 0;
 vector<int> pi;
 Table table;
-
-static int matchMode = KNUTH_MORRIS_PRATT;
-static int matches = 0;
-
-static bool ignoreCase;
-static bool invertMatch;
-static int beforeContext = 0;
-static int afterContext = 0;
 
 struct compare {
     bool operator() (const pair<int,vector<int> > p1, const pair<int, vector<int> > p2) const{
@@ -57,7 +55,7 @@ struct compare {
     }
 };
 
-static set<pair<int, vector<int> >,compare> lines;
+set<pair<int, vector<int> >,compare> lines;
 
 void setColor(const int fgColor, bool fgIntensity);
 void resetColor();
