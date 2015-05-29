@@ -19,18 +19,15 @@ void resetColor() {
 void result(const string& filePath, const string& pattern) {
 	fstream file;
 	string line;
-	int lineNumber = 1;
 	
 	file.open(filePath.c_str());
 
-	for (auto itr = lines.begin(); itr != lines.end() && !file.eof( ); itr++) {
-		int targetLine = (*itr).first;
-
-		for (int i = lineNumber; i <= targetLine && file.good(); i++, lineNumber++){
-			line.clear();
-			getline(file, line);	
-		}
-
+	for (auto itr = lines.begin(); itr != lines.end() && !file.eof(); itr++) {
+		streampos linePos = (*itr).first;
+		file.seekg(linePos);
+		line.clear();
+		getline(file, line);	
+		
 		if ((*itr).second.size() == 0)
 			cout << line;
 		else if ((*itr).second.size() == 1 && (*itr).second[0] == -1){
@@ -58,18 +55,22 @@ void result(const string& filePath, const string& pattern) {
 			cout << "\n";
 	}
 	file.close();
+	lines.clear();
 }
 
 void readFile(const string& filePath, const string& pattern) {
 	fstream file;
 	string line, text;
-	int lineNumber = 1;
+	streampos linePos;
+	queue<streampos> linesBefore;
 	vector<int> empty;
+	int lac = 0;
 
 	file.open(filePath.c_str());
 	if (file.is_open()) {
 		while (file.good()) {
 			// read a line
+			linePos = file.tellg();
 			line.clear();
 			text.clear();
 			getline(file, line);
@@ -99,36 +100,64 @@ void readFile(const string& filePath, const string& pattern) {
 				break;
 			}
 
+			if (file.tellg() < ios::end)
+				continue;
+
+			// add lines after context
+			if (lac > 0){
+				lines.insert(pair<streampos,vector<int> >(linePos, empty));
+				lac--;
+			}
+
 			// print the line
 			if (indexes.size() > 0 && !invertMatch) {	
-				auto it = lines.find(pair<int, vector<int> >(lineNumber, empty));
+				auto it = lines.find(pair<int, vector<int> >(linePos, empty));
 				if (it != lines.end())
 					lines.erase(it);
-				lines.insert(pair<int,vector<int> >(lineNumber,indexes));
+				lines.insert(pair<streampos,vector<int> >(linePos, indexes));
 
-				// add lines before context
-				int lbc = lineNumber - 1;
-				for (int i = 0; i < beforeContext && lbc > 0; i++, lbc--)
-					lines.insert(pair<int,vector<int> >(lbc,empty));
-				
-				if (matches != 0 && (beforeContext != 0) && lbc > 1)
-					lines.insert(pair<int,vector<int> >(lbc,vector<int>(1,-1)));
+				// reset lines after context
+				lac = afterContext;
 
-				// add lines after context
-				int lac = lineNumber + 1;
-				for (int i = 0; i < afterContext; i++, lac++)
-					lines.insert(pair<int,vector<int> >(lac, empty));
+				if (beforeContext > 0 && linesBefore.size() > 1) {
+
+					// add context separation when the last line
+					// before context isn't the first line of the file
+					// and when there are other lines matching the pattern
+					streampos lbc = linesBefore.front();
+					linesBefore.pop();
+
+					if (matches != 0 && (beforeContext != 0) && lbc > 0){
+						lines.insert(pair<streampos,vector<int> >(lbc,vector<int>(1,-1)));
+					}
+
+					// add lines before context
+					while (!linesBefore.empty()) {
+						streampos lbc = linesBefore.front();
+						linesBefore.pop();
+						lines.insert(pair<streampos,vector<int> >(lbc, empty));
+					}					
+				}
 			}
 			else if (invertMatch && (indexes.size() == 0))
-				lines.insert(pair<int,vector<int> >(lineNumber,empty));
+				lines.insert(pair<streampos,vector<int> >(linePos,empty));
 
 			// independently increment matches
 			if (indexes.size() > 0)
 				matches++;
-			lineNumber++;
+
+			if (lines.size() > beforeContext + 1)
+				result(filePath, pattern);
+			else { 
+				// don't allow the queue to surpass before lines number
+			if (linesBefore.size() >= beforeContext + 1)
+				linesBefore.pop();
+			linesBefore.push(linePos);
+
+			}
+			
 		}
 	}
-
 	file.close();
 	result(filePath, pattern);
 }

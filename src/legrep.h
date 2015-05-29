@@ -4,10 +4,11 @@
 #include <algorithm>
 #include <fstream>
 #include <iostream>
-#include <tuple>
+#include <queue>
+#include <set>
 #include <sstream>
 #include <string>
-#include <set>
+#include <tuple>
 
 #include "search.h"
 #include "table.h"
@@ -44,18 +45,18 @@ int matchMode = KNUTH_MORRIS_PRATT;
 int matches = 0;
 bool ignoreCase;
 bool invertMatch;
-int beforeContext = 0;
-int afterContext = 0;
+size_t beforeContext = 0;
+size_t afterContext = 0;
 vector<int> pi;
 Table table;
 
 struct compare {
-    bool operator() (const pair<int,vector<int> > p1, const pair<int, vector<int> > p2) const{
+    bool operator() (const pair<streampos, vector<int> > p1, const pair<streampos, vector<int> > p2) const{
         return p1.first < p2.first;
     }
 };
 
-set<pair<int, vector<int> >,compare> lines;
+set<pair<streampos, vector<int> >,compare> lines;
 
 void setColor(const int fgColor, bool fgIntensity);
 void resetColor();
