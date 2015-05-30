@@ -63,7 +63,7 @@ void readFile(const string& filePath, const string& pattern) {
 				if (indexes.size() > 0) {
 					if ((beforeContext > 0 || afterContext > 0)
 							&& separator >= (int) linesBefore.size()) {
-						setColor(BLUE, false);
+						setColor(CYAN, false);
 						cout << "--\n";
 						resetColor();
 						separator = -1;
@@ -188,7 +188,7 @@ void usage(bool status) {
 		cout
 				<< "  -A, --after-context=NUM   print NUM lines of trailing context\n";
 		cout
-				<< "  -C, --context=NUM         print NUM lines of output context\n\n";
+				<< "  -C, --context=NUM         print NUM lines of output context\n";
 	}
 }
 
@@ -200,15 +200,16 @@ int main(int argc, char** argv) {
 		GetConsoleScreenBufferInfo(hConsoleOutput, &Info);
 		Attributes = Info.wAttributes;
 #endif
-		std::ios_base::sync_with_stdio(false);
 		ignoreCase = false;
 		invertMatch = false;
 		string pattern = argv[argc - 2];
 		string file = argv[argc - 1];
 
+		// no extra arguments mode
 		if (argc == 3){
 			matchMode = KNUTH_MORRIS_PRATT;
 			pi = computePrefixFunction(pattern);
+			// start reading from file
 			readFileRaw(file,pattern);
 		}
 		else {
