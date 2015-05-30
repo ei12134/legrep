@@ -20,8 +20,10 @@ void readFile(const string& filePath, const string& pattern) {
 	string line, text;
 	streampos linePos;
 	queue<string> linesBefore;
+	linesBefore.push("");
 	vector<int> empty;
-	int lac = 0;
+	bool newContext = false;
+	size_t lac = 0;
 
 	ifstream file(filePath.c_str(), ios::binary);
 	if (file.is_open()) {
@@ -66,22 +68,23 @@ void readFile(const string& filePath, const string& pattern) {
 				// reset lines after context
 				lac = afterContext;
 
-				if (beforeContext > 0 && linesBefore.size() > 1) {
+				if (!linesBefore.empty()) {
 					// add context separation when the last line
 					// before context isn't the first line of the file
 					// and when there are other lines matching the pattern
 					string lbc = linesBefore.front();
 					linesBefore.pop();
 
-					if (matches != 0 && (beforeContext != 0)){ //&& lbc.size() > 0){
-						setColor(BLUE,true);
+					if (matches > 0 && newContext && linesBefore.size() > (0 + afterContext == beforeContext ? 1 : 0)) {
+						setColor(BLUE, false);
 						cout << "--";
 						resetColor();
 						cout << "\n";
+						newContext = false;
 					}
 					
 					// print lines before context
-					while (!linesBefore.empty()) {
+					while (!linesBefore.empty() && beforeContext > 0) {
 						string lbc = linesBefore.front();
 						linesBefore.pop();
 						cout << lbc << "\n";
@@ -92,7 +95,7 @@ void readFile(const string& filePath, const string& pattern) {
 
 				for (int i = 0; i < (int)indexes.size(); i++){
 					cout << line.substr(startPos,indexes[i]-startPos);
-					setColor(RED,true);
+					setColor(RED, true);
 					cout << line.substr(indexes[i], pattern.size());
 					resetColor();
 					if (i < (int)indexes.size() - 1)
@@ -108,20 +111,23 @@ void readFile(const string& filePath, const string& pattern) {
 					}		
 				}
 			}
-			else if (invertMatch && (indexes.size() == 0)){
+			else if (invertMatch && (indexes.size() == 0)) {
 				cout << line << "\n";
 			}
 			else {
 				// add lines after context
-				if (lac > 0 && afterContext > 0){
+				if (lac > 0 && afterContext > 0) {
 					cout << line << "\n";
 					lac--;
 				}
+				if (lac == 0) {
+					newContext = true;
+				}
 				
-				// don't allow the queue to surpass before lines number
-				if (linesBefore.size() >= beforeContext + 1)
+				// don't allow the queue to surpass before lines number + separator line
+				if (linesBefore.size() >= beforeContext + 1 + (beforeContext > 0 ? 0 : 1))
 					linesBefore.pop();
-				if (lac <= 0 || afterContext <= 0)
+				if (lac <= 0)
 					linesBefore.push(line);
 			}
 			// independently increment matches
