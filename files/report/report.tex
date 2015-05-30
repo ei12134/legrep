@@ -36,7 +36,7 @@
 \newpage
 
 \begin{abstract}
-No âmbito da unidade curricular de Concepção e Análise de Algoritmos, foi-nos proposto o desenvolvimento de uma aplicação que emulasse as funcionalidades do utilitário da linha de comandos \texttt{grep} (\textbf{g}lobally search a \textbf{r}egular \textbf{e}xpression and \textbf{p}rint), explorando o conhecimento acerca de algoritmos para pesquisa exacta de strings.
+No âmbito da unidade curricular de Concepção e Análise de Algoritmos, foi-nos proposto o desenvolvimento de uma aplicação que emulasse as funcionalidades do utilitário da linha de comandos \texttt{grep} (\textbf{g}lobally search a \textbf{r}egular \textbf{e}xpression and \textbf{p}rint), explorando o conhecimento acerca de algoritmos para pesquisa exacta de \emph{strings}.
 \end{abstract}
 
 \section{Formalização do problema}
@@ -97,9 +97,9 @@ Output =
 Os resultados esperados cuja cardinalidade $|O| > 1$ envolvem a conjunção dos casos atrás listados, desde que as opções adicionais pertençam a esse conjunto e sejam opções válidas para o programa.
 
 \section{Descrição da solução}
-É feita uma procura de correspondência de um padrão numa cadeia de caracteres ``string de texto'' a cada linha lida de um dado ficheiro de texto.
+É feita uma procura de correspondência de um padrão numa cadeia de caracteres \emph{string} de texto a cada linha lida de um dado ficheiro de texto.
 
-\subsection{Algoritmos de pesquisa exacta em strings}
+\subsection{Algoritmos de pesquisa exacta em \emph{strings}}
 
 Na pesquisa de uma correspondência exacta de um dado padrão $P$ num texto $T$, recorrem-se a três algoritmos diferentes, escolhidos de forma opcional pelo utilizador:
 
@@ -131,7 +131,7 @@ Cada carácter do texto é verificado apenas uma vez. A análise do texto é feita e
 
 \subsubsection{Complexidade empírica}
 
-Na análise da complexidade de forma empírica, fez-se uma pesquisa 5 vezes sobre a mesma string de texto e aumentou-se sucessivamente o tamanho do texto por um factor de 5.
+Na análise da complexidade de forma empírica, fez-se uma pesquisa 5 vezes sobre a mesma \emph{string} de texto e aumentou-se sucessivamente o tamanho do texto por um factor de 5.
 
 Tempo em segundos da execução do algoritmo \emph{naive}: \\
 

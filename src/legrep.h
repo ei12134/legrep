@@ -54,9 +54,10 @@ size_t afterContext = 0;
 vector<int> pi;
 Table table;
 
-void setColor(const int fgColor, bool fgIntensity);
-void resetColor();
+inline void setColor(const int fgColor, bool fgIntensity);
+inline void resetColor();
 void readFile(const string& filePath, const string& pattern);
+void readFileRaw(const string& filePath, const string& pattern);
 char* getCmdOption(char** begin, char** end, const string& option);
 bool cmdOptionExists(char** begin, char** end, const string& option);
 void usage(bool status);

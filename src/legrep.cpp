@@ -1,6 +1,6 @@
 #include "legrep.h"
 
-void setColor(const int fgColor, bool fgIntensity) {
+inline void setColor(const int fgColor, bool fgIntensity) {
 #if defined(_WIN32) || defined(_WIN64)
 	SetConsoleTextAttribute(hConsoleOutput, fgColor | (fgIntensity << 3));
 #else
@@ -8,7 +8,7 @@ void setColor(const int fgColor, bool fgIntensity) {
 #endif
 }
 
-void resetColor() {
+inline void resetColor() {
 #if defined(_WIN32) || defined(_WIN64)
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Attributes);
 #else
@@ -19,7 +19,6 @@ void resetColor() {
 void readFile(const string& filePath, const string& pattern) {
 	string line, text;
 	queue<string> linesBefore;
-	vector<int> empty;
 	int separator = -1;
 	size_t lac = 0;
 
@@ -118,6 +117,37 @@ void readFile(const string& filePath, const string& pattern) {
 	file.close();
 }
 
+void readFileRaw(const string& filePath, const string& pattern) {
+	string text;
+
+	ifstream file(filePath.c_str(), ios::binary);
+	if (file.is_open()) {
+		while (file.good()) {
+			// read a line
+			text.clear();
+			getline(file, text);
+			vector<int> indexes;
+			indexes = knuthMorrisPratt(text, pattern, pi);
+
+			// print matching line
+			int startPos = 0;
+			for (int i = 0; i < (int) indexes.size(); i++) {
+				cout << text.substr(startPos, indexes[i] - startPos);
+				setColor(RED, true);
+				cout << text.substr(indexes[i], pattern.size());
+				resetColor();
+				if (i < (int) indexes.size() - 1)
+					startPos = indexes[i] + pattern.size();
+				else {
+					cout << text.substr(indexes[i] + pattern.size())
+					<< "\n";
+				}
+			}
+		}
+	}
+	file.close();
+}
+
 char* getCmdOption(char** begin, char** end, const string& option) {
 	char ** itr = find(begin, end, option);
 	if (itr != end && ++itr != end) {
@@ -170,66 +200,72 @@ int main(int argc, char** argv) {
 		GetConsoleScreenBufferInfo(hConsoleOutput, &Info);
 		Attributes = Info.wAttributes;
 #endif
-
+		std::ios_base::sync_with_stdio(false);
 		ignoreCase = false;
 		invertMatch = false;
 		string pattern = argv[argc - 2];
 		string file = argv[argc - 1];
 
-		// Search for options
-		if (cmdOptionExists(argv, argv + argc, "-h")
-				|| cmdOptionExists(argv, argv + argc, "--help")) {
-			usage(true);
-			return 0;
-		}
-
-		if (cmdOptionExists(argv, argv + argc, "-i")
-				|| cmdOptionExists(argv, argv + argc, "--ignore-case")) {
-			ignoreCase = true;
-			transform(pattern.begin(), pattern.end(), pattern.begin(),
-					::tolower);
-		}
-
-		if (cmdOptionExists(argv, argv + argc, "-v")
-				|| cmdOptionExists(argv, argv + argc, "--invert-match")) {
-			invertMatch = true;
-		}
-
-		char * beforePtr = getCmdOption(argv, argv + argc, "-B");
-		if (beforePtr != nullptr) {
-			// read before match lines count
-			beforeContext = atoi(beforePtr);
-		}
-
-		char * afterPtr = getCmdOption(argv, argv + argc, "-A");
-		if (afterPtr != nullptr) {
-			// read after match lines
-			afterContext = atoi(afterPtr);
-		}
-
-		char * contextPtr = getCmdOption(argv, argv + argc, "-C");
-		if (contextPtr != nullptr) {
-			// read before and after match lines
-			beforeContext = atoi(contextPtr);
-			afterContext = beforeContext;
-		}
-
-		// Set string matching mode algorithm
-		if (cmdOptionExists(argv, argv + argc, "-n")
-				|| cmdOptionExists(argv, argv + argc, "--naive-match")) {
-			matchMode = NAIVE;
-		} else if (cmdOptionExists(argv, argv + argc, "-m")
-				|| cmdOptionExists(argv, argv + argc, "--finite-automata")) {
-			matchMode = FINITE_AUTOMATA;
-			table = computeStateTransitionTable(pattern);
-		} else {
+		if (argc == 3){
 			matchMode = KNUTH_MORRIS_PRATT;
 			pi = computePrefixFunction(pattern);
+			readFileRaw(file,pattern);
 		}
+		else {
+			// Search for options
+			if (cmdOptionExists(argv, argv + argc, "-h")
+					|| cmdOptionExists(argv, argv + argc, "--help")) {
+				usage(true);
+				return 0;
+			}
 
-		// start reading from file
-		readFile(file, pattern);
+			if (cmdOptionExists(argv, argv + argc, "-i")
+					|| cmdOptionExists(argv, argv + argc, "--ignore-case")) {
+				ignoreCase = true;
+				transform(pattern.begin(), pattern.end(), pattern.begin(),
+						::tolower);
+			}
 
+			if (cmdOptionExists(argv, argv + argc, "-v")
+					|| cmdOptionExists(argv, argv + argc, "--invert-match")) {
+				invertMatch = true;
+			}
+
+			char * beforePtr = getCmdOption(argv, argv + argc, "-B");
+			if (beforePtr != nullptr) {
+				// read before match lines count
+				beforeContext = atoi(beforePtr);
+			}
+
+			char * afterPtr = getCmdOption(argv, argv + argc, "-A");
+			if (afterPtr != nullptr) {
+				// read after match lines
+				afterContext = atoi(afterPtr);
+			}
+
+			char * contextPtr = getCmdOption(argv, argv + argc, "-C");
+			if (contextPtr != nullptr) {
+				// read before and after match lines
+				beforeContext = atoi(contextPtr);
+				afterContext = beforeContext;
+			}
+
+			// Set string matching mode algorithm
+			if (cmdOptionExists(argv, argv + argc, "-n")
+					|| cmdOptionExists(argv, argv + argc, "--naive-match")) {
+				matchMode = NAIVE;
+			} else if (cmdOptionExists(argv, argv + argc, "-m")
+					|| cmdOptionExists(argv, argv + argc, "--finite-automata")) {
+				matchMode = FINITE_AUTOMATA;
+				table = computeStateTransitionTable(pattern);
+			} else {
+				matchMode = KNUTH_MORRIS_PRATT;
+				pi = computePrefixFunction(pattern);
+			}
+
+			// start reading from file
+			readFile(file, pattern);
+		}
 	} else if (cmdOptionExists(argv, argv + argc, "-h")
 			|| cmdOptionExists(argv, argv + argc, "--help")) {
 		usage(true);
