@@ -52,40 +52,38 @@
 <a href="search_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef SEARCH_H_</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#define SEARCH_H_</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;iostream&gt;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;map&gt;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;utility&gt;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;table.h&quot;</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">using namespace </span><a class="code" href="namespacestd.html">std</a>;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;vector&lt;int&gt; <a class="code" href="search_8h.html#aa4e2586280650efca87d870acff4222c">naive</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; text, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; pattern);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keywordtype">string</span> <a class="code" href="search_8h.html#a847f9a2a3671413f99246a1e6b389cb7">getAlphabet</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; s);</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<a class="code" href="classTable.html">Table</a> <a class="code" href="search_8h.html#a92014e6a347073f87e4999e2a8fecbdd">computeStateTransitionTable</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; pattern);</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;vector&lt;int&gt; <a class="code" href="search_8h.html#a8557d38ec3dbbfa537d9a663f3deefdf">finiteAutomaton</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; text, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; pattern, <span class="keyword">const</span> <a class="code" href="classTable.html">Table</a>&amp; table);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;vector&lt;int&gt; <a class="code" href="search_8h.html#a64c1b227aa98a21065890c9e2afcabe4">computePrefixFunction</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; pattern);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;table.h&quot;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">using</span> std::string;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">using</span> std::vector;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;vector&lt;int&gt; <a class="code" href="search_8h.html#aa4e2586280650efca87d870acff4222c">naive</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; text, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; pattern);</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keywordtype">string</span> <a class="code" href="search_8h.html#a9d83e2faafb1606a477dfd5d6bab4b58">getAlphabet</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; pattern);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<a class="code" href="classTable.html">Table</a> <a class="code" href="search_8h.html#a92014e6a347073f87e4999e2a8fecbdd">computeStateTransitionTable</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; pattern);</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;vector&lt;int&gt; <a class="code" href="search_8h.html#a8557d38ec3dbbfa537d9a663f3deefdf">finiteAutomaton</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; text, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; pattern, <span class="keyword">const</span> <a class="code" href="classTable.html">Table</a>&amp; table);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;vector&lt;int&gt; <a class="code" href="search_8h.html#a64c1b227aa98a21065890c9e2afcabe4">computePrefixFunction</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; pattern);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;vector&lt;int&gt;  <a class="code" href="search_8h.html#a29d322f7abe797befcfebf1e185844c2">knuthMorrisPratt</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; text, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; pattern, <span class="keyword">const</span> vector&lt;int&gt;&amp; pi);</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor">#endif // SEARCH_H_</span></div>
+<div class="ttc" id="search_8h_html_a9d83e2faafb1606a477dfd5d6bab4b58"><div class="ttname"><a href="search_8h.html#a9d83e2faafb1606a477dfd5d6bab4b58">getAlphabet</a></div><div class="ttdeci">string getAlphabet(const string &amp;pattern)</div><div class="ttdef"><b>Definition:</b> search.cpp:17</div></div>
 <div class="ttc" id="search_8h_html_aa4e2586280650efca87d870acff4222c"><div class="ttname"><a href="search_8h.html#aa4e2586280650efca87d870acff4222c">naive</a></div><div class="ttdeci">vector&lt; int &gt; naive(const string &amp;text, const string &amp;pattern)</div><div class="ttdef"><b>Definition:</b> search.cpp:4</div></div>
-<div class="ttc" id="search_8h_html_a847f9a2a3671413f99246a1e6b389cb7"><div class="ttname"><a href="search_8h.html#a847f9a2a3671413f99246a1e6b389cb7">getAlphabet</a></div><div class="ttdeci">string getAlphabet(const string &amp;s)</div><div class="ttdef"><b>Definition:</b> search.cpp:17</div></div>
-<div class="ttc" id="namespacestd_html"><div class="ttname"><a href="namespacestd.html">std</a></div></div>
-<div class="ttc" id="search_8h_html_a92014e6a347073f87e4999e2a8fecbdd"><div class="ttname"><a href="search_8h.html#a92014e6a347073f87e4999e2a8fecbdd">computeStateTransitionTable</a></div><div class="ttdeci">Table computeStateTransitionTable(const string &amp;pattern)</div><div class="ttdef"><b>Definition:</b> search.cpp:26</div></div>
-<div class="ttc" id="search_8h_html_a8557d38ec3dbbfa537d9a663f3deefdf"><div class="ttname"><a href="search_8h.html#a8557d38ec3dbbfa537d9a663f3deefdf">finiteAutomaton</a></div><div class="ttdeci">vector&lt; int &gt; finiteAutomaton(const string &amp;text, const string &amp;pattern, const Table &amp;table)</div><div class="ttdef"><b>Definition:</b> search.cpp:49</div></div>
-<div class="ttc" id="search_8h_html_a29d322f7abe797befcfebf1e185844c2"><div class="ttname"><a href="search_8h.html#a29d322f7abe797befcfebf1e185844c2">knuthMorrisPratt</a></div><div class="ttdeci">vector&lt; int &gt; knuthMorrisPratt(const string &amp;text, const string &amp;pattern, const vector&lt; int &gt; &amp;pi)</div><div class="ttdef"><b>Definition:</b> search.cpp:83</div></div>
+<div class="ttc" id="search_8h_html_a92014e6a347073f87e4999e2a8fecbdd"><div class="ttname"><a href="search_8h.html#a92014e6a347073f87e4999e2a8fecbdd">computeStateTransitionTable</a></div><div class="ttdeci">Table computeStateTransitionTable(const string &amp;pattern)</div><div class="ttdef"><b>Definition:</b> search.cpp:30</div></div>
+<div class="ttc" id="search_8h_html_a8557d38ec3dbbfa537d9a663f3deefdf"><div class="ttname"><a href="search_8h.html#a8557d38ec3dbbfa537d9a663f3deefdf">finiteAutomaton</a></div><div class="ttdeci">vector&lt; int &gt; finiteAutomaton(const string &amp;text, const string &amp;pattern, const Table &amp;table)</div><div class="ttdef"><b>Definition:</b> search.cpp:53</div></div>
+<div class="ttc" id="search_8h_html_a29d322f7abe797befcfebf1e185844c2"><div class="ttname"><a href="search_8h.html#a29d322f7abe797befcfebf1e185844c2">knuthMorrisPratt</a></div><div class="ttdeci">vector&lt; int &gt; knuthMorrisPratt(const string &amp;text, const string &amp;pattern, const vector&lt; int &gt; &amp;pi)</div><div class="ttdef"><b>Definition:</b> search.cpp:88</div></div>
 <div class="ttc" id="classTable_html"><div class="ttname"><a href="classTable.html">Table</a></div><div class="ttdef"><b>Definition:</b> table.h:44</div></div>
-<div class="ttc" id="search_8h_html_a64c1b227aa98a21065890c9e2afcabe4"><div class="ttname"><a href="search_8h.html#a64c1b227aa98a21065890c9e2afcabe4">computePrefixFunction</a></div><div class="ttdeci">vector&lt; int &gt; computePrefixFunction(const string &amp;pattern)</div><div class="ttdef"><b>Definition:</b> search.cpp:68</div></div>
+<div class="ttc" id="search_8h_html_a64c1b227aa98a21065890c9e2afcabe4"><div class="ttname"><a href="search_8h.html#a64c1b227aa98a21065890c9e2afcabe4">computePrefixFunction</a></div><div class="ttdeci">vector&lt; int &gt; computePrefixFunction(const string &amp;pattern)</div><div class="ttdef"><b>Definition:</b> search.cpp:72</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon May 25 2015 08:00:49 for legrep by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat May 30 2015 13:52:14 for legrep by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.8
 </small></address>

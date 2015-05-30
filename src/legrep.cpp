@@ -218,6 +218,7 @@ int main(int argc, char** argv) {
 			// read after match lines
 			afterContext = atoi(afterPtr);
 		}
+
 		char * contextPtr = getCmdOption(argv, argv + argc, "-C");
 		if (contextPtr != nullptr)
 		{
@@ -230,18 +231,18 @@ int main(int argc, char** argv) {
 		if (cmdOptionExists(argv, argv + argc, "-n") || cmdOptionExists(argv, argv + argc, "--naive-match")) {
 			matchMode = NAIVE;
 		}
-
 		else if (cmdOptionExists(argv, argv + argc, "-m") || cmdOptionExists(argv, argv + argc, "--finite-automata")) {
 			matchMode = FINITE_AUTOMATA;
 			table = computeStateTransitionTable(pattern);
 		}
-
 		else {
 			matchMode = KNUTH_MORRIS_PRATT;
 			pi = computePrefixFunction(pattern);
 		}
-
+		
+		// start reading from file
 		readFile(file, pattern);
+
 	} else if (cmdOptionExists(argv, argv + argc, "-h") || cmdOptionExists(argv, argv + argc, "--help")) {
 		usage(true);
 		return 0;

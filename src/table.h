@@ -1,8 +1,8 @@
 #ifndef TABLE_H_
 #define TABLE_H_
 
-#include <string>
 #include <vector>
+#include <string>
 
 /**
  * Entry Class
@@ -52,8 +52,8 @@ public:
 	 */
 	Table();
 
-	/*
-	 * Allocates minimum amount of space needed to store transitions
+	/**
+	 * Allocates the minimum amount of space needed to store state transitions
 	 * @param alphabetSize size of the alphabet
 	 * @param patternSize size of the pattern
 	 */

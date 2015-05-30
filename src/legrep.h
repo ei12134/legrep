@@ -5,14 +5,18 @@
 #include <fstream>
 #include <iostream>
 #include <queue>
-#include <set>
-#include <sstream>
 #include <string>
-#include <tuple>
 
 #include "search.h"
 #include "table.h"
-using namespace std;
+
+using std::cout;
+using std::ifstream;
+using std::ios;
+using std::queue;
+using std::streampos;
+using std::string;
+using std::vector;
 
 #if defined(_WIN32) || defined(_WIN64)
 #include <windows.h>
@@ -49,14 +53,6 @@ size_t beforeContext = 0;
 size_t afterContext = 0;
 vector<int> pi;
 Table table;
-
-struct compare {
-    bool operator() (const pair<streampos, vector<int> > p1, const pair<streampos, vector<int> > p2) const{
-        return p1.first < p2.first;
-    }
-};
-
-set<pair<streampos, vector<int> >,compare> lines;
 
 void setColor(const int fgColor, bool fgIntensity);
 void resetColor();

@@ -6,7 +6,7 @@ vector<int> naive(const string& text, const string& pattern) {
 	int ts = text.size(); // |T|
 	int ps = pattern.size(); // |P|
 
-	// Time complexity O(|T||P|)
+	// O(|T||P|)
 	for (int i = 0; i < ts; i++) {
 		if (text.substr(i, ps) == pattern) // hidden for loop
 			indexes.push_back(i);
@@ -14,12 +14,16 @@ vector<int> naive(const string& text, const string& pattern) {
 	return indexes;
 }
 
-string getAlphabet(const string& s) {
+string getAlphabet(const string& pattern) {
 	string alphabet;
-	for (int i = 0; i < (int) s.size(); i++) {
-		if (alphabet.find(s[i]) >= string::npos)
-			alphabet += s[i];
+	int ps = pattern.size();
+
+	// O(|P|)
+	for (int i = 0; i < ps; i++) {
+		if (alphabet.find(pattern[i]) >= string::npos)
+			alphabet += pattern[i];
 	}
+
 	return alphabet;
 }
 
@@ -30,7 +34,7 @@ Table computeStateTransitionTable(const string& pattern) {
 	Table table(alphabet.size(), pattern.size());
 	vector<int> pi = computePrefixFunction(pattern);
 
-	// Time complexity O(|P|.|E|)
+	// O(|P|.|E|)
 	for (int state = 0; state < ps; state++) {
 		for (int i = 0; i < as; i++) {
 			int k;
@@ -53,7 +57,7 @@ vector<int> finiteAutomaton(const string& text, const string& pattern,
 	int ps = pattern.size();
 	int state = 0;
 
-	// Time complexity O(|T|)
+	// O(|T|)
 	for (int i = 0; i < ts; i++) {
 		state = table.find(state, text[i]);
 		if (state == ps) {
@@ -70,6 +74,7 @@ vector<int> computePrefixFunction(const string& pattern) {
 	int ps = pattern.size();
 	vector<int> pi(pattern.size(), -1);
 
+	// O(|P|)
 	for (int q = 1; q < ps; q++) {
 		while (k > -1 && pattern[k + 1] != pattern[q])
 			k = pi[k];
@@ -86,6 +91,7 @@ vector<int> knuthMorrisPratt(const string& text, const string& pattern,
 	int ts = text.size();
 	int k = -1;
 
+	// O(|T|)
 	for (int q = 0; q < ts; q++) {
 		while (k > -1 && pattern[k + 1] != text[q])
 			k = pi[k];

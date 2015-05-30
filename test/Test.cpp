@@ -1,9 +1,12 @@
 #include <string>
+#include <iostream>
 #include "../src/search.h"
 #include "../src/table.h"
 #include "cute.h"
 #include "ide_listener.h"
 #include "cute_runner.h"
+using std::cout;
+using std::endl;
 
 void naiveAlpha() {
 	string text = "The quick brown fox jumps over the lazy dog";
@@ -140,7 +143,7 @@ void naiveTime() {
 		double timeInSeconds = clockTicksTaken / (double) CLOCKS_PER_SEC;
 		cout << "String matching for text size = " << text.size() << "     \t"
 				<< "Total time in seconds = " << timeInSeconds << "     \t"
-				<< "Average time per search in seconds= "
+				<< "Average time per search in seconds = "
 				<< timeInSeconds / repetitionsPerSize << endl;
 	}
 }
@@ -298,7 +301,7 @@ void finiteAutomatonTime() {
 		double timeInSeconds = clockTicksTaken / (double) CLOCKS_PER_SEC;
 		cout << "String matching for text size = " << text.size() << "     \t"
 				<< "Total time in seconds = " << timeInSeconds << "     \t"
-				<< "Average time per search in seconds= "
+				<< "Average time per search in seconds = "
 				<< timeInSeconds / repetitionsPerSize << endl;
 	}
 }
@@ -456,7 +459,7 @@ void knuthMorrisPrattTime() {
 		double timeInSeconds = clockTicksTaken / (double) CLOCKS_PER_SEC;
 		cout << "String matching for text size = " << text.size() << "     \t"
 				<< "Total time in seconds = " << timeInSeconds << "     \t"
-				<< "Average time per search in seconds= "
+				<< "Average time per search in seconds = "
 				<< timeInSeconds / repetitionsPerSize << endl;
 	}
 }
