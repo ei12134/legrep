@@ -7,6 +7,20 @@
 \usepackage[pdftex]{hyperref}
 \usepackage{hyphenat}
 \usepackage{latexsym}
+\usepackage{amssymb,amsmath}
+\usepackage{varwidth}
+\usepackage{verbatim}
+
+\newenvironment{centerverbatim}{%
+  \par
+  \centering
+  \varwidth{\linewidth}%
+  \verbatim
+}{%
+  \endverbatim
+  \endvarwidth
+  \par
+}
 
 \begin{document}
 
@@ -30,74 +44,185 @@ No âmbito da unidade curricular de Concepção e Análise de Algoritmos, foi-nos pr
 \subsection{Dados de entrada}
 
 \begin{itemize}
-\item $P$ - padrão a procurar
-\item $FilePath$ - caminho do ficheiro onde se pretende procurar o padrão
-\item $T$ - cada linha de texto lida do ficheiro
+\item $O = \{o_i,\,...\,,\,o_k\}$ - Conjunto de comandos opcionais para o cálculo e mostra de resultados.
+\item $P$ - Padrão a procurar.
+\item $F$ - Ficheiro onde se pretende procurar o padrão.
 \end{itemize}
 
-\subsubsection*{Comandos opcionais de entrada}
+\subsubsection*{Lista com os comandos opcionais de entrada}
 \begin{itemize}
-
-\item $-n$, uso do algoritmo $``naive'$ na pesquisa exacta
-\item $-m$, uso do algoritmo baseado em autómato finito
-\item $-k$, uso do algoritmo de Knuth-Morris-Pratt (pré-definido)
-\item $-i$, ignorar diferenças de capitalização entre caracteres
-\item $-v$, mostrar linhas sem correspondências
-\item $-h$, mostrar manual de ajuda
-\item $-B N$, imprimir $N$ linhas de contexto anterior
-\item $-A N$, imprimir $N$ linhas de contexto posterior
-\item $-C N$, imprimir $N$ linhas de contexto anterior e $N$ linhas de contexto posterior
-
+\item[] $-n$, uso do algoritmo \emph{naive} na pesquisa exacta
+\item[] $-m$, uso do algoritmo baseado em autómato finito
+\item[] $-k$, uso do algoritmo de Knuth-Morris-Pratt (pré-definido)
+\item[] $-i$, ignorar diferenças de capitalização entre caracteres
+\item[] $-v$, mostrar linhas sem correspondências
+\item[] $-h$, mostrar manual de ajuda
+\item[] $-B N$, imprimir $N$ linhas de contexto anterior
+\item[] $-A N$, imprimir $N$ linhas de contexto posterior
+\item[] $-C N$, imprimir $N$ linhas de contexto anterior e $N$ linhas de contexto posterior
 \end{itemize}
 
 \subsection{Limites de aplicação}
 
-\subsection{Situações de contorno}
+Na procura de um dado padrão, os dados de entrada têm de ser introduzidos obrigatoriamente com a seguinte ordem:\\
 
+\begin{centerverbatim}
+[./]legrep[.exe] [Opções] Padrão Ficheiro
+\end{centerverbatim}
+
+\newpage
 \subsection{Resultados esperados}
 
+Os dados de saída variam consoante o padrão, ficheiro e opções seleccionadas pelo utilizador.
 
+\begin{itemize}
+\item[] $L_i$, linha de texto
+\item[] $l_i$, linha de texto com todos os caracteres em minúsculas
+\item[] $p$, padrão com todos os caracteres em minúsculas
+\end{itemize}
 
-$Output = B + T + A$
+\begin{equation*}
+Output =
+\begin{cases}
+\{L_i,\,...\,,\,L_k\},\,L_i \in F \land P \subseteq L_i & \text{if } O = \emptyset ,\\ \\
+\{L_i,\,...\,,\,L_k\},\,L_i \in F \land P \not\subset L_i & \text{if } \text{``-v''} \subseteq O,\\ \\
+\{l_i,\,...\,,\,l_k\},\,l_i \in F \land p \subseteq l_i & \text{if } \text{``-i''} \subseteq O, \\ \\
+\{L_i,\,...\,,\,L_k\},\,(L_i \in F \land P \subseteq l_i) \;\; \lor \\ \lor \; (L_j \in F \land j < i \land j \geq i-N) & \text{if } \text{``-B N''} \subseteq O, \\ \\
+\{L_i,\,...\,,\,L_k\},\,(L_i \in F \land P \subseteq l_i) \;\; \lor \\ \lor \; (L_j \in F \land j \leq i+N \land j > i) & \text{if } \text{``-A N''} \subseteq O, \\ \\
+\{L_i,\,...\,,\,L_k\},\,(L_i \in F \land P \subseteq l_i) \;\; \lor \\ \lor \; (L_j \in F \land j < i \land j \geq i-N) \;\; \lor \\ \lor \; (L_j \in F \land j \leq i+N \land j > i) & \text{if } \text{``-C N''} \subseteq O.
+
+\end{cases}
+\end{equation*}
+
+Os resultados esperados cuja cardinalidade $|O| > 1$ envolvem a conjunção dos casos atrás listados, desde que as opções adicionais pertençam a esse conjunto e sejam opções válidas para o programa.
 
 \section{Descrição da solução}
-É feita uma procura de correspondência de um padrão numa cadeia de caracteres ´´string de texto' a cada linha lida de um dado ficheiro de texto.
+É feita uma procura de correspondência de um padrão numa cadeia de caracteres ``string de texto'' a cada linha lida de um dado ficheiro de texto.
 
 \subsection{Algoritmos de pesquisa exacta em strings}
 
-Na pesquisa de uma correspondência exacta de um dado padrão $P$ num texto $T$, recorre-se a três algoritmos diferentes, escolhidos de forma opcional pelo utilizador:
+Na pesquisa de uma correspondência exacta de um dado padrão $P$ num texto $T$, recorrem-se a três algoritmos diferentes, escolhidos de forma opcional pelo utilizador:
 
 \subsubsection{Naive}
-Para um padrão de tamanho $m$ e texto de tamanho $n$, encontra todos os deslocamentos $s$ válidos, verificando desde o início do padrão a condição $P[1 .. m] = T[s + 1 .. m]$ para cada um dos $n - m + 1$ valores possíveis de $s$. Este procedimento implica, no pior dos casos, uma complexidade temporal de $\Theta((n-m+1)m)$. Torna-se bastante ineficiente para padrões com tamanho grande, uma vez que se faz uma verificação de equivalência do tamanho do padrão a cada novo deslocamento.
+Para um padrão de tamanho $m$ ou $|P|$ e texto de tamanho $n$ ou $|T|$, encontra todos os deslocamentos $s$ válidos, verificando desde o início do padrão a condição $P[1 .. m] = T[s + 1 .. m]$ para cada um dos $n - m + 1$ valores possíveis de $s$, quando $|P| > 0$ . Este procedimento implica, no pior dos casos, uma complexidade de $O(|P|.|T|)$. Torna-se bastante ineficiente para padrões com tamanho grande, uma vez que se faz uma verificação de equivalência para o tamanho total do padrão a cada novo deslocamento.
 
 \subsubsection{Baseado em autómato finito}
-Cada carácter do texto é verificado apenas uma vez. A análise ao texto é feita em tempo constante $|T|$, porque se recorre à modelação de um autómato finito com um conjunto de estados $Q$ de tamanho $|P|$. A função de transição $\delta$ possibilita a atribuição de novos estados $q$ a cada novo carácter $a$ lido do texto.
+Cada carácter do texto é verificado apenas uma vez. A análise do texto é feita em tempo constante $|T|$, porque se recorre à modelação de um autómato finito com um conjunto de estados $Q$ de tamanho $|P|$. A função de transição $\delta$ possibilita a atribuição de novos estados $q$ a cada novo carácter $a$ lido do texto.
 
 \begin{equation}
 \delta(q,a) = \sigma(P_qa)
 \end{equation}
 
- No ciclo principal verifica-se a cada novo carácter lido do texto se se atingiu o estado de aceitação e por conseguinte, uma correspondência exacta do padrão no texto.
 
- A construção do autómato é uma primeira fase de processamento e envolve a determinação do alfabeto $\Sigma$ do padrão. Na determinação da função de transição recorre-se a uma função auxiliar para o sufixo $\sigma(x)$ que retorna, para um dado conjunto de caracteres do alfabeto, $\Sigma^*$ o maior comprimento (estado) que seja prefixo do padrão.
+No ciclo principal verifica-se a cada novo carácter lido do texto se se atingiu o estado de aceitação e por conseguinte, uma correspondência exacta do padrão no texto.
+
+A construção do autómato é feito numa primeira fase de pré-processamento e envolve a determinação do alfabeto $\Sigma$ do padrão. Na determinação da função de transição recorre-se a uma função auxiliar para o sufixo $\sigma(x)$ que retorna, para um dado conjunto de caracteres do alfabeto, $\Sigma^*$ o maior comprimento (estado) que seja prefixo do padrão.
 
 \begin{equation}
 \sigma(x) = max\{k : P_k \sqsupset x\}
 \end{equation}
 
 \subsubsection{Knuth-Morris-Pratt}
+Cada carácter do texto é verificado apenas uma vez. A análise do texto é feita em tempo constante $|T|$, recorrendo à função auxiliar $\pi$, vector calculado numa fase de pré-processamento. O vector $\pi$ contém informação acerca dos deslocamentos do padrão, evitando a comparação de todos os caracteres em todas as situações. $P_q$ é o comprimento do maior prefixo de $P$ que é também sufixo de $P_q$:
+
+\begin{equation}
+\pi[q] = max\{k\::\:k < q \land P_k \sqsupset P_q\}
+\end{equation} 
 
 \subsubsection{Complexidade empírica}
+
+Na análise da complexidade de forma empírica, fez-se uma pesquisa 5 vezes sobre a mesma string de texto e aumentou-se sucessivamente o tamanho do texto por um factor de 5.
+
+Tempo em segundos da execução do algoritmo \emph{naive}: \\
+
+\begin{tabular}[center]{|c|c|c|}
+\hline
+Tamanho do texto & Tempo total & Média do tempo por iteração \\
+\hline
+568 & 0.000446 & 8.92e-05 \\
+\hline
+2840 & 0.002769 & 0.0005538 \\
+\hline
+14200 & 0.01356 & 0.002712 \\
+\hline
+71000 & 0.06682 & 0.013364 \\
+\hline
+355000 & 0.342743 & 0.0685486 \\
+\hline
+1775000 & 1.71114 & 0.342227 \\
+\hline
+8875000 & 8.31921 & 1.66384 \\
+\hline
+\end{tabular}
+
+\vspace{0.5cm}
+Tempo em segundos da execução do algoritmo baseado num autómato finito: \\
+
+\begin{tabular}[center]{|c|c|c|}
+\hline
+Tamanho do texto & Tempo total & Média do tempo por iteração \\
+\hline
+568 & 0.000173 & 3.46e-05 \\
+\hline
+2840 & 0.001024 & 0.0002048 \\
+\hline
+14200 & 0.004816 & 0.0009632 \\
+\hline
+71000 & 0.02306 & 0.004612 \\
+\hline
+355000 & 0.117364 & 0.0234728 \\
+\hline
+1775000 & 0.573843 & 0.114769 \\
+\hline
+8875000 & 2.82262 & 0.564524 \\
+\hline
+\end{tabular}
+
+\vspace{0.5cm}
+Tempo em segundos da execução do algoritmo Knuth-Morris-Pratt: \\
+
+\begin{tabular}[center]{|c|c|c|}
+\hline
+Tamanho do texto & Tempo total & Média do tempo por iteração \\
+\hline
+568 & 0.000103 & 2.06e-05 \\
+\hline
+2840 & 0.000595 & 0.000119 \\
+\hline
+14200 & 0.002732 & 0.0005464 \\
+\hline
+71000 & 0.012749 & 0.0025498 \\
+\hline
+355000 & 0.066263 & 0.0132526 \\
+\hline
+1775000 & 0.32453 & 0.064906 \\
+\hline
+8875000 & 1.56998 & 0.313995 \\
+\hline
+\end{tabular}
+
+\vspace{0.5cm}
+Pela análise das tabelas chega-se à conclusão expectável de que o algoritmo menos eficiente é o \emph{naive} e que a fase de pré-processamento do algoritmo baseado num autómato finito, com maior complexidade temporal e espacial, é suficiente para se traduzir em tempos mais lentos de execução comparativamente ao algoritmo de Knuth-Morris-Pratt.
 
 \section{Lista de casos de utilização}
 
 \begin{itemize}
 
+\item Pesquisa das linhas de um dado ficheiro onde há pelo menos uma ocorrência do padrão.
+\item Pesquisa inversa das linhas de um dado ficheiro onde há pelo menos uma ocorrência do padrão.
+\item Mostra do contexto com linhas que antecedem e/ou precedem as linhas onde ocorrem as correspondências.
+\item Modo de correspondência que despreza a capitalização dos caracteres.
+\item Selecção do algoritmo usado na procura de correspondências exactas.
+\item Mostra de texto de ajuda na utilização do programa com lista de comandos opcionais.
 \item Multi-plataforma, testado em sistemas Linux e Windows.
 
 \end{itemize}
 
 \section{Relato das principais dificuldades encontradas no desenvolvimento do trabalho}
+
+Sentiram-se dificuldades, em casos específicos, na detecção e mostra correcta da mudança de contexto, como acontece no \texttt{grep}. A sinalização da mudança do contexto, implica a selecção de pelo menos uma das opções de mostra de linhas de contexto (anterior ou posterior).
+
+Houve também dificuldades na criação da tabela com as transições de estados, mais precisamente na escolha de uma estrutura de dados que permitisse guardar uma transição, a partir de um dado estado e de um carácter do alfabeto, possibilitando também tempo constante de acesso. Embora inicialmente se tenha optado por guardar estes dados numa tabela de dispersão, mesmo experimentando com diferentes funções de dispersão, a performance era bastante pior, pelo que se acabou por recorrer a um vector para guardar os dados. O tempo de acesso a este vector foi optimizado para ser no pior dos casos o tamanho do alfabeto $|\Sigma|$.
 
 \section{Indicação do esforço dedicado por cada elemento do grupo}
 

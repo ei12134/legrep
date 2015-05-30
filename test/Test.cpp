@@ -141,10 +141,8 @@ void naiveTime() {
 		clock_t endTime = clock();
 		clock_t clockTicksTaken = endTime - startTime;
 		double timeInSeconds = clockTicksTaken / (double) CLOCKS_PER_SEC;
-		cout << "String matching for text size = " << text.size() << "     \t"
-				<< "Total time in seconds = " << timeInSeconds << "     \t"
-				<< "Average time per search in seconds = "
-				<< timeInSeconds / repetitionsPerSize << endl;
+		cout << text.size() << " & " << timeInSeconds << " & "
+				<< timeInSeconds / repetitionsPerSize << " \\\\\n";
 	}
 }
 
@@ -299,10 +297,8 @@ void finiteAutomatonTime() {
 		clock_t endTime = clock();
 		clock_t clockTicksTaken = endTime - startTime;
 		double timeInSeconds = clockTicksTaken / (double) CLOCKS_PER_SEC;
-		cout << "String matching for text size = " << text.size() << "     \t"
-				<< "Total time in seconds = " << timeInSeconds << "     \t"
-				<< "Average time per search in seconds = "
-				<< timeInSeconds / repetitionsPerSize << endl;
+		cout << text.size() << " & " << timeInSeconds << " & "
+				<< timeInSeconds / repetitionsPerSize << " \\\\\n";
 	}
 }
 
@@ -457,10 +453,8 @@ void knuthMorrisPrattTime() {
 		clock_t endTime = clock();
 		clock_t clockTicksTaken = endTime - startTime;
 		double timeInSeconds = clockTicksTaken / (double) CLOCKS_PER_SEC;
-		cout << "String matching for text size = " << text.size() << "     \t"
-				<< "Total time in seconds = " << timeInSeconds << "     \t"
-				<< "Average time per search in seconds = "
-				<< timeInSeconds / repetitionsPerSize << endl;
+		cout << text.size() << " & " << timeInSeconds << " & "
+						<< timeInSeconds / repetitionsPerSize << " \\\\\n";
 	}
 }
 

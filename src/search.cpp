@@ -5,9 +5,10 @@ vector<int> naive(const string& text, const string& pattern) {
 	vector<int> indexes;
 	int ts = text.size(); // |T|
 	int ps = pattern.size(); // |P|
+	int limit = (ps == 0 ? ts - ps : ts - ps + 1);
 
 	// O(|T||P|)
-	for (int i = 0; i < ts; i++) {
+	for (int i = 0; i < limit; i++) {
 		if (text.substr(i, ps) == pattern) // hidden for loop
 			indexes.push_back(i);
 	}
